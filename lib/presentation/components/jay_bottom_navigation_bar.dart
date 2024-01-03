@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class JayBottomNavigationBar extends StatelessWidget {
   final int currentPageIndex;
@@ -8,23 +9,22 @@ class JayBottomNavigationBar extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) {
-    // TODO: implement build
     return BottomNavigationBar(
       backgroundColor: Colors.black,
       currentIndex: currentPageIndex,
       onTap: onTap,
-      items: const [
+      items: [
         BottomNavigationBarItem(
-          icon: Icon(Icons.event),
-          label: 'Event',
+          icon: const Icon(Icons.event),
+          label: AppLocalizations.of(context)!.event,
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.people),
-          label: 'Participants',
+          icon: const Icon(Icons.people),
+          label: AppLocalizations.of(context)!.participants,
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.map),
-          label: 'Map',
+          icon: const Icon(Icons.map),
+          label: AppLocalizations.of(context)!.map,
         ),
       ],
     );

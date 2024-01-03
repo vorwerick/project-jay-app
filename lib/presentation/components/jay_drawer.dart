@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 //TODO(vojjta): implement params for drawer
 class JayDrawer extends StatelessWidget {
@@ -19,14 +20,14 @@ class JayDrawer extends StatelessWidget {
                 child: Center(child: Text('Drawer Header')),
               ),
               ListTile(
-                title: const Text('Nastaveni'),
+                title: Text(AppLocalizations.of(context)!.settings),
                 onTap: () {
                   // Update the state of the app.
                   // ...
                 },
               ),
               ListTile(
-                title: const Text('Odhlasit'),
+                title: Text(AppLocalizations.of(context)!.logout),
                 onTap: () {
                   // Update the state of the app.
                   // ...
