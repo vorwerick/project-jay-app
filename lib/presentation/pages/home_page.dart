@@ -1,5 +1,8 @@
 import 'package:app/presentation/components/jay_bottom_navigation_bar.dart';
 import 'package:app/presentation/components/jay_drawer.dart';
+import 'package:app/presentation/pages/screens/event_details_screen.dart';
+import 'package:app/presentation/pages/screens/map_screen.dart';
+import 'package:app/presentation/pages/screens/participants_screen.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -15,7 +18,6 @@ class _HomePageState extends State<HomePage> {
   int _currentPageIndex = 0;
   final PageController _pageController = PageController(
     initialPage: 0,
-    keepPage: true,
   );
 
   @override
@@ -26,9 +28,9 @@ class _HomePageState extends State<HomePage> {
         controller: _pageController,
         physics: const NeverScrollableScrollPhysics(),
         children: const [
-          Center(child: Text('Event Details Screen')),
-          Center(child: Text('Participants Screen')),
-          Center(child: Text('Map Screen')),
+          EventDetailsScreen(),
+          ParticipantsScreen(),
+          MapScreen(),
         ],
       ),
       bottomNavigationBar: JayBottomNavigationBar(
