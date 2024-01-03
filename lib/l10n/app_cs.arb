@@ -1,0 +1,11 @@
+{
+  "helloWorld": "Ahoj světe",
+  "email": "Email",
+  "password": "Heslo",
+  "login": "Přihlásit",
+  "event": "Událost",
+  "participants": "Učastníci",
+  "map": "Mapa",
+  "settings": "Nastavení",
+  "logout": "Odhlásit"
+}

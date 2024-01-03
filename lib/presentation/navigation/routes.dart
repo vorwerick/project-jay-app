@@ -17,7 +17,7 @@ final class Routes {
 
   static GoRouter create() {
     return GoRouter(
-      initialLocation: AppRoutes.login.path,
+      initialLocation: AppRoutes.home.path,
       routes: [
         GoRoute(
           path: AppRoutes.login.path,
