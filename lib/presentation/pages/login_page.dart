@@ -1,3 +1,4 @@
+import 'package:app/presentation/components/jay_text_form_field.dart';
 import 'package:app/presentation/navigation/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -7,7 +8,6 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) {
-    // TODO: implement build
     return SafeArea(
       child: Center(
           child: Padding(
@@ -15,35 +15,21 @@ class LoginPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            TextFormField(
-              decoration: InputDecoration(
-                filled: true,
-                fillColor: Colors.white,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                labelText: 'Username',
-              ),
+            const JayTextFormField(
+              labelText: 'Email',
             ),
             const SizedBox(
               height: 10,
             ),
-            TextFormField(
-              decoration: InputDecoration(
-                  filled: true,
-                  fillColor: Colors.white,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  labelText: 'Password',
-                  label: null),
+            const JayTextFormField(
+              labelText: 'Password',
             ),
             const SizedBox(
               height: 30,
             ),
             ElevatedButton(
               onPressed: () => {context.go(AppRoutes.home.path)},
-              child: const Text('Log in'),
+              child: const Text('Login'),
             )
           ],
         ),

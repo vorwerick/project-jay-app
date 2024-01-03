@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
           primary: Color(0xFFC02222),
           inversePrimary: Color(0xFFA83434),
           onPrimary: Colors.blue,
-          secondary: Colors.orange,
+          secondary: Colors.white,
           background: Color(0xFF4b4a4a),
           onBackground: Colors.white,
           tertiary: Colors.deepPurple,
