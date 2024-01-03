@@ -27,10 +27,10 @@ class _HomePageState extends State<HomePage> {
       body: PageView(
         controller: _pageController,
         physics: const NeverScrollableScrollPhysics(),
-        children: const [
+        children: [
           EventDetailsScreen(),
-          ParticipantsScreen(),
-          MapScreen(),
+          const ParticipantsScreen(),
+          const MapScreen(),
         ],
       ),
       bottomNavigationBar: JayBottomNavigationBar(
