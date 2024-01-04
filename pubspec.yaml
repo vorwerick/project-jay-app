@@ -25,6 +25,9 @@ dependencies:
   # Icons
   cupertino_icons: ^1.0.2
 
+  # Utils
+  url_launcher: ^6.2.2
+
   # Localizations
   flutter_localizations:
     sdk: flutter
