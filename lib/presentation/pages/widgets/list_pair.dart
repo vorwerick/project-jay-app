@@ -2,10 +2,10 @@ import 'package:app/presentation/common/jay_colors.dart';
 import 'package:flutter/material.dart';
 
 class ListPair extends StatelessWidget {
-  final String name;
+  final String title;
   final String? value;
 
-  const ListPair({super.key, required this.name, this.value});
+  const ListPair({super.key, required this.title, this.value});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class ListPair extends StatelessWidget {
               Expanded(
                 flex: 1,
                 child: Text(
-                  name,
+                  title,
                   style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
               ),
