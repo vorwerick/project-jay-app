@@ -1,5 +1,5 @@
 import 'package:app/presentation/common/jay_colors.dart';
-import 'package:app/presentation/pages/screens/widgets/list_pariticipant_pair.dart';
+import 'package:app/presentation/pages/widgets/list_pariticipant_pair.dart';
 import 'package:flutter/material.dart';
 
 class ParticipantsScreen extends StatelessWidget {
