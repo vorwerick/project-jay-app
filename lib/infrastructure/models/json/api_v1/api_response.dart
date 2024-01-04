@@ -10,4 +10,8 @@ class ApiResponse {
   final String description;
 
   ApiResponse(this.errorCode, this.description);
+
+  factory ApiResponse.fromJson(Map<String, dynamic> json) => _$ApiResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ApiResponseToJson(this);
 }
