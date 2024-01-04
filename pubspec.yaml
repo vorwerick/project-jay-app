@@ -27,6 +27,9 @@ dependencies:
   # Navigation
   go_router: ^13.0.0
 
+  # UI
+  fluttertoast: ^8.2.4
+
   # Icons
   cupertino_icons: ^1.0.2
 
