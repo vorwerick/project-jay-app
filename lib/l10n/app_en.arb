@@ -1,0 +1,11 @@
+{
+  "helloWorld": "Hello World",
+  "email": "Email",
+  "password": "Password",
+  "login": "Log in",
+  "event": "Event",
+  "participants": "Participants",
+  "map": "Map",
+  "settings": "Settings",
+  "logout": "Log out"
+}

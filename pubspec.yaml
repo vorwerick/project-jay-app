@@ -21,12 +21,19 @@ dependencies:
   retrofit: '>=4.0.0 <5.0.0'
   json_annotation: ^4.8.1
 
+  # Maps
+  google_maps_flutter: ^2.5.0
 
   # Navigation
   go_router: ^13.0.0
 
   # Icons
   cupertino_icons: ^1.0.2
+
+  # Localizations
+  flutter_localizations:
+    sdk: flutter
+  intl: any
 
 dev_dependencies:
   flutter_test:
@@ -43,6 +50,7 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+  generate: true
 
   # To add assets to your application, add an assets section, like this:
   # assets:

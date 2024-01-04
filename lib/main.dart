@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'presentation/navigation/routes.dart';
 
@@ -9,7 +11,7 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
+  //TODO(Vojjta): create proper theme
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
@@ -25,8 +27,8 @@ class MyApp extends StatelessWidget {
         colorScheme: const ColorScheme.dark(
           primary: Color(0xFFC02222),
           inversePrimary: Color(0xFFA83434),
-          onPrimary: Colors.blue,
-          secondary: Colors.orange,
+          onPrimary: Colors.white,
+          secondary: Colors.white,
           background: Color(0xFF4b4a4a),
           onBackground: Colors.white,
           tertiary: Colors.deepPurple,
@@ -36,6 +38,16 @@ class MyApp extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('en'),
+        Locale('cs'),
+      ],
       builder: (context, child) {
         return Material(
           child: child,
