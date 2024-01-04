@@ -29,7 +29,7 @@ class ListPair extends StatelessWidget {
             ],
           ),
         ),
-        const Divider(color: JayColors.dividerColor),
+        const Divider(color: JayColors.divider),
       ],
     );
   }
