@@ -7,5 +7,6 @@
   "participants": "Participants",
   "map": "Map",
   "settings": "Settings",
-  "logout": "Log out"
+  "logout": "Log out",
+  "eventHistory": "Event History"
 }
