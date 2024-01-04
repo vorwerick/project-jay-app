@@ -29,7 +29,7 @@ class _HomePageState extends State<HomePage> {
         physics: const NeverScrollableScrollPhysics(),
         children: [
           EventDetailsScreen(),
-          const ParticipantsScreen(),
+          ParticipantsScreen(),
           const MapScreen(),
         ],
       ),
