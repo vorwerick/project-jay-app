@@ -36,10 +36,16 @@ dependencies:
   # Utils
   url_launcher: ^6.2.2
 
+  # Firebase
+  firebase_core: ^2.24.2
+  firebase_messaging: ^14.7.10
+
+
   # Localizations
   flutter_localizations:
     sdk: flutter
   intl: any
+
 
 dev_dependencies:
   flutter_test:
