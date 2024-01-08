@@ -1,9 +1,10 @@
-import 'dart:ui';
+import 'dart:developer';
 
 import 'package:app/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import 'package:flutter/material.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 
 final class FirebaseUtils {
   FirebaseUtils._();
@@ -23,5 +24,27 @@ final class FirebaseUtils {
       FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
       return true;
     };
+  }
+
+  /// Permission to display notifications are necessary for iOS
+  static Future<void> requestNotificationPermission() async {
+    NotificationSettings settings = await FirebaseMessaging.instance.requestPermission(
+      alert: true,
+      announcement: false,
+      badge: true,
+      carPlay: false,
+      criticalAlert: false,
+      provisional: false,
+      sound: true,
+    );
+
+    log('User granted permission: ${settings.authorizationStatus}');
+  }
+
+  static Future<void> showTokenToLog() async {
+    if (kDebugMode) {
+      final String? fcmToken = await FirebaseMessaging.instance.getToken();
+      log('Firebase cloud messaging token: ${fcmToken ?? 'null'}');
+    }
   }
 }
