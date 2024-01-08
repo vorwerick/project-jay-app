@@ -1,3 +1,5 @@
+import 'package:app/presentation/common/map_utils.dart';
+import 'package:app/presentation/components/jay_floating_action_button.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -29,14 +31,23 @@ class _MapScreenState extends State<MapScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          setState(() {
-            _currentMapType = (_currentMapType == MapType.normal) ? MapType.satellite : MapType.normal;
-          });
-        },
-        shape: const CircleBorder(),
-        child: const Icon(Icons.layers),
+      floatingActionButton: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          JayFloatingActionButton(
+              onPressed: () {
+                MapUtils.openMap(_center.latitude, _center.longitude);
+              },
+              iconData: Icons.navigation),
+          const SizedBox(height: 10),
+          JayFloatingActionButton(
+              onPressed: () {
+                setState(() {
+                  _currentMapType = (_currentMapType == MapType.normal) ? MapType.satellite : MapType.normal;
+                });
+              },
+              iconData: Icons.layers),
+        ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
       body: GoogleMap(
@@ -47,6 +58,7 @@ class _MapScreenState extends State<MapScreen> {
         ),
         mapType: _currentMapType,
         markers: {_marker},
+        mapToolbarEnabled: false,
       ),
     );
   }
