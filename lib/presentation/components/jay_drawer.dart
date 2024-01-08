@@ -1,5 +1,7 @@
+import 'package:app/presentation/navigation/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:go_router/go_router.dart';
 
 //TODO(vojjta): implement params for drawer
 class JayDrawer extends StatelessWidget {
@@ -18,6 +20,12 @@ class JayDrawer extends StatelessWidget {
                   color: Colors.red,
                 ),
                 child: Center(child: Text('Drawer Header')),
+              ),
+              ListTile(
+                title: Text(AppLocalizations.of(context)!.eventHistory),
+                onTap: () {
+                  context.goNamed(AppRoutes.eventHistory.name);
+                },
               ),
               ListTile(
                 title: Text(AppLocalizations.of(context)!.settings),

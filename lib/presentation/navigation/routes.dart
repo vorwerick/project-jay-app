@@ -1,15 +1,18 @@
+import 'package:app/presentation/pages/event_history_page.dart';
 import 'package:app/presentation/pages/home_page.dart';
 import 'package:app/presentation/pages/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 enum AppRoutes {
-  login("/login"),
-  home("/home");
+  login('login'),
+  home('home'),
+  eventHistory('event-history');
 
-  final String path;
+  final String name;
+  String get path => '/$name';
 
-  const AppRoutes(this.path);
+  const AppRoutes(this.name);
 }
 
 final class Routes {
@@ -24,9 +27,16 @@ final class Routes {
           builder: (context, state) => const LoginPage(),
         ),
         GoRoute(
-          path: AppRoutes.home.path,
-          pageBuilder: (context, state) => _createTransition(state.pageKey, const HomePage()),
-        ),
+            name: AppRoutes.home.name,
+            path: AppRoutes.home.path,
+            pageBuilder: (context, state) => _createTransition(state.pageKey, const HomePage()),
+            routes: [
+              GoRoute(
+                name: AppRoutes.eventHistory.name,
+                path: AppRoutes.eventHistory.name,
+                pageBuilder: (context, state) => _createTransition(state.pageKey, const EventHistoryPage()),
+              )
+            ]),
       ],
     );
   }

@@ -1,4 +1,5 @@
-import 'package:app/presentation/pages/screens/widgets/list_pair.dart';
+import 'package:app/presentation/components/jay_container.dart';
+import 'package:app/presentation/pages/widgets/list_pair.dart';
 import 'package:flutter/material.dart';
 
 class EventDetailsScreen extends StatelessWidget {
@@ -22,27 +23,17 @@ class EventDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 10),
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.all(
-            Radius.circular(10),
-          ),
-        ),
-        child: ListView.builder(
-            itemCount: _mockedContent.length,
-            itemBuilder: (context, index) {
-              final String name = _mockedContent.keys.elementAt(index);
-              final String? value = _mockedContent[name];
-              return ListPair(
-                name: name,
-                value: value,
-              );
-            }),
-      ),
+    return JayContainer(
+      child: ListView.builder(
+          itemCount: _mockedContent.length,
+          itemBuilder: (context, index) {
+            final String name = _mockedContent.keys.elementAt(index);
+            final String? value = _mockedContent[name];
+            return ListPair(
+              title: name,
+              value: value,
+            );
+          }),
     );
   }
 }
