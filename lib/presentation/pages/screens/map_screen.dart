@@ -1,5 +1,5 @@
-import 'package:app/presentation/common/map_utils.dart';
 import 'package:app/presentation/components/jay_floating_action_button.dart';
+import 'package:app/presentation/utils/map_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 

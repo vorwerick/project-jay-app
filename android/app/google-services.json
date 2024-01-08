@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1037700643762",
+    "project_id": "jay-app-dev",
+    "storage_bucket": "jay-app-dev.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1037700643762:android:7256660236b0d82f0fc2ab",
+        "android_client_info": {
+          "package_name": "cz.appwizards.jay.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCRMtLuvAdiwsQGq7Dz6CfT1KaDSRT1Uv0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
