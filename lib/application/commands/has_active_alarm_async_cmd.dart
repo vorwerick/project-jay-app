@@ -10,7 +10,7 @@ final class HasActiveAlarmAsyncCommand implements AsyncCommand<bool> {
   Future<bool> execute() async {
     final result = await _alarmRepository.hasActiveAlarm();
 
-    if (result.isSuccess) {
+    if (result.isSuccess && result.success) {
       return result.success;
     }
 
