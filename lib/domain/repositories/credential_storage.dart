@@ -1,5 +1,5 @@
 import 'package:app/domain/entities/credentials.dart';
-import 'package:app/domain/primitives/either.dart';
+import 'package:app/domain/primitives/result.dart';
 
 abstract interface class CredentialsStorage {
   Future<void> store(Credentials credentials);
@@ -8,7 +8,7 @@ abstract interface class CredentialsStorage {
 
   Future<void> update(Credentials credentials);
 
-  Future<Either<CredentialsErrors, Credentials>> get();
+  Future<Result<CredentialsErrors, Credentials>> get();
 }
 
 sealed class CredentialsErrors {}

@@ -8,14 +8,12 @@ class BasicBadge extends StatelessWidget {
   const BasicBadge({super.key, this.badgeColor = JayColors.badgeWarning, this.diameter = 42});
 
   @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: diameter,
-      height: diameter,
-      decoration: BoxDecoration(
-        color: badgeColor,
-        shape: BoxShape.circle,
-      ),
-    );
-  }
+  Widget build(BuildContext context) => Container(
+        width: diameter,
+        height: diameter,
+        decoration: BoxDecoration(
+          color: badgeColor,
+          shape: BoxShape.circle,
+        ),
+      );
 }

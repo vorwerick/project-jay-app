@@ -5,6 +5,8 @@ class JayColors {
 
   static const Color darGrey = Color(0xFF4B4A4A);
 
+  static const Color lightGrey = Colors.grey;
+
   static const Color green = Color(0XFF218A25);
 
   static const Color orange = Color(0XFFC79516);

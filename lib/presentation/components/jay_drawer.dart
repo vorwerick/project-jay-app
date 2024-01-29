@@ -1,5 +1,11 @@
-import 'package:app/presentation/navigation/routes.dart';
+import 'package:app/application/bloc/alarms/alert_bloc.dart';
+import 'package:app/application/bloc/settings/version/app_version_bloc.dart';
+import 'package:app/application/bloc/user/user_bloc.dart';
+import 'package:app/presentation/common/jay_colors.dart';
+import 'package:app/presentation/navigation/app_routes.dart';
+import 'package:app/presentation/pages/widgets/drawer_unit_item.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 
@@ -8,43 +14,99 @@ class JayDrawer extends StatelessWidget {
   const JayDrawer({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return SafeArea(
-      child: Drawer(
-        child: Container(
-          color: Colors.white,
-          child: ListView(
-            children: [
-              const DrawerHeader(
-                decoration: BoxDecoration(
-                  color: Colors.red,
-                ),
-                child: Center(child: Text('Drawer Header')),
+  Widget build(BuildContext context) => MultiBlocProvider(
+        providers: [
+          BlocProvider<AppVersionBloc>(create: (context) => AppVersionBloc()..add(GetAppVersionEvent())),
+          BlocProvider<AlertBloc>(create: (context) => AlertBloc()..add(GetAlertsEvent())),
+          BlocProvider<UserBloc>(create: (context) => UserBloc()..add(GetCurrentUserEvent())),
+        ],
+        child: SafeArea(
+          child: Drawer(
+            child: Container(
+              color: Colors.white,
+              child: Column(
+                children: [
+                  DrawerHeader(
+                    decoration: const BoxDecoration(
+                      color: JayColors.blue,
+                    ),
+                    child: BlocBuilder<UserBloc, UserState>(
+                      builder: (context, state) {
+                        if (state is CurrentUserState) {
+                          return Center(
+                            child: Text(
+                              state.fullName,
+                              style: Theme.of(context).textTheme.labelLarge!.copyWith(color: Colors.white),
+                            ),
+                          );
+                        }
+                        return const SizedBox.expand();
+                      },
+                    ),
+                  ),
+                  BlocBuilder<AlertBloc, AlertState>(
+                    builder: (context, state) {
+                      if (state is CurrentAlertsState) {
+                        return Expanded(
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: state.alerts.length,
+                            itemBuilder: (context, index) => DrawerUnitItem(
+                              unitName: state.alerts[index].unitName,
+                              hasAlert: state.alerts[index].hasActiveAlarm,
+                              role: state.alerts[index].role,
+                            ),
+                          ),
+                        );
+                      }
+                      return const Spacer();
+                    },
+                  ),
+                  ListTile(
+                    title: Text(AppLocalizations.of(context)!.eventHistory),
+                    onTap: () {
+                      // close the drawer
+                      context.pop();
+                      context.push(AppRoutes.eventHistory.path);
+                    },
+                  ),
+                  const Divider(color: Colors.black),
+                  ListTile(
+                    title: Text(AppLocalizations.of(context)!.settings),
+                    onTap: () {
+                      // Update the state of the app.
+                      // ...
+                    },
+                  ),
+                  ListTile(
+                    title: Text(AppLocalizations.of(context)!.logout),
+                    onTap: () {
+                      // Update the state of the app.
+                      // ...
+                    },
+                  ),
+                  BlocBuilder<AppVersionBloc, AppVersionState>(
+                    builder: (context, state) {
+                      if (state is LoadedAppVersionState) {
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 5.0, left: 5.0, right: 5.0),
+                          child: Row(
+                            children: [
+                              Text(
+                                'App version: ${state.appVersion}',
+                                style: Theme.of(context).textTheme.labelSmall,
+                              ),
+                            ],
+                          ),
+                        );
+                      }
+                      return const SizedBox.shrink();
+                    },
+                  ),
+                ],
               ),
-              ListTile(
-                title: Text(AppLocalizations.of(context)!.eventHistory),
-                onTap: () {
-                  context.goNamed(AppRoutes.eventHistory.name);
-                },
-              ),
-              ListTile(
-                title: Text(AppLocalizations.of(context)!.settings),
-                onTap: () {
-                  // Update the state of the app.
-                  // ...
-                },
-              ),
-              ListTile(
-                title: Text(AppLocalizations.of(context)!.logout),
-                onTap: () {
-                  // Update the state of the app.
-                  // ...
-                },
-              ),
-            ],
+            ),
           ),
         ),
-      ),
-    );
-  }
+      );
 }
