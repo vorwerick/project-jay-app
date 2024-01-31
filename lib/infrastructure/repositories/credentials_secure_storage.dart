@@ -1,5 +1,5 @@
 import 'package:app/domain/entities/credentials.dart';
-import 'package:app/domain/primitives/either.dart';
+import 'package:app/domain/primitives/result.dart';
 import 'package:app/domain/repositories/credential_storage.dart';
 
 // TODO(Vojjta): implement https://pub.dev/packages/flutter_secure_storage
@@ -11,7 +11,7 @@ final class CredentialsSecureStorage implements CredentialsStorage {
   }
 
   @override
-  Future<Either<CredentialsErrors, Credentials>> get() {
+  Future<Result<CredentialsErrors, Credentials>> get() {
     // TODO: implement get
     throw UnimplementedError();
   }

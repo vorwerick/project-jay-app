@@ -1,12 +1,12 @@
 import 'package:app/domain/entities/event.dart';
-import 'package:app/domain/primitives/either.dart';
+import 'package:app/domain/primitives/result.dart';
 
 abstract interface class EventsStorageRepository {
-  Future<Either<EventsStorageRepositoryErrors, List<Event>>> getAllEvents();
+  Future<Result<EventsStorageRepositoryErrors, List<Event>>> getAllEvents();
 
-  Future<Either<EventsStorageRepositoryErrors, Event>> getEventById(String id);
+  Future<Result<EventsStorageRepositoryErrors, Event>> getEventById(String id);
 
-  Future<Either<EventsStorageRepositoryErrors, Event>> getLastEvent();
+  Future<Result<EventsStorageRepositoryErrors, Event>> getLastEvent();
 
   Future<void> addNewEvent(Event event);
 
