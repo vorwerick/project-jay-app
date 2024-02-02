@@ -24,5 +24,15 @@
   "lastUpdate": "Last Update",
   "otherTechnique": "Other Technique",
   "notifier": "Notifier",
-  "alert": "Alert!"
+  "alert": "Alert!",
+  "readyToGo": "Ready to go",
+  "willArriveAtPlace": "I will arrive at the place",
+  "iAmOnStandby": "I am on Standby",
+  "changeSomeOne": "I can change some one",
+  "takeAed": "I take an AED",
+  "back": "Back",
+  "accept": "Accept",
+  "accepted": "Accepted",
+  "delayed": "Delayed",
+  "rejected": "Rejected"
 }
