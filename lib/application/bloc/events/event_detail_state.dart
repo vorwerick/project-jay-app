@@ -23,6 +23,8 @@ final class LoadedDetailState extends EventDetailState {
   final String otherTechnique;
   final String notifier;
 
+  final String notifierNumber;
+
   LoadedDetailState({
     required this.unit,
     required this.eventType,
@@ -37,6 +39,7 @@ final class LoadedDetailState extends EventDetailState {
     required this.lastUpdate,
     required this.otherTechnique,
     required this.notifier,
+    required this.notifierNumber,
   });
 
   @override
