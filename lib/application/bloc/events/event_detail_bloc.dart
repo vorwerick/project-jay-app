@@ -20,7 +20,8 @@ final LoadedDetailState mockedDetailState = LoadedDetailState(
   explanation: 'Další vysvětlení',
   lastUpdate: '12.12.2021 11:44',
   otherTechnique: 'CAS 121212',
-  notifier: 'Todo',
+  notifier: 'John Doe',
+  notifierNumber: '+420 123 456 789',
 );
 
 class EventDetailBloc extends Bloc<EventDetailEvent, EventDetailState> {
