@@ -24,5 +24,15 @@
   "lastUpdate": "Poslední aktualizace",
   "otherTechnique": "Ostatní technika",
   "notifier": "Oznamovatel",
-  "alert": "Poplach!"
+  "alert": "Poplach!",
+  "readyToGo": "Připraveni k výjezdu",
+  "willArriveAtPlace": "Dojedu na místo",
+  "iAmOnStandby": "Držím pohotovost",
+  "changeSomeOne": "Mohu střídat",
+  "takeAed": "Beru AED",
+  "back": "Zpět",
+  "accept": "Potvrdit",
+  "accepted": "Přijato",
+  "delayed": "Zpožděno",
+  "rejected": "Odmítnuto"
 }
