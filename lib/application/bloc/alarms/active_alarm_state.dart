@@ -1,18 +1,10 @@
 part of 'active_alarm_bloc.dart';
 
 @immutable
-abstract class ActiveAlarmState extends Equatable {}
+abstract class ActiveAlarmState {}
 
-class ActiveAlarmInitial extends ActiveAlarmState {
-  @override
-  List<Object?> get props => [this];
-}
+class ActiveAlarmInitial extends ActiveAlarmState {}
 
-final class HasActiveAlarmState extends ActiveAlarmState {
-  final int id;
+final class ActiveAlarmFailure extends ActiveAlarmState {}
 
-  HasActiveAlarmState(this.id);
-
-  @override
-  List<Object?> get props => [id];
-}
+final class ActiveAlarmSuccess extends ActiveAlarmState {}

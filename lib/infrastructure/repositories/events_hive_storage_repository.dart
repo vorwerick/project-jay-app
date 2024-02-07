@@ -1,6 +1,6 @@
-import 'package:app/domain/entities/event.dart';
+import 'package:app/domain/event/entity/event.dart';
+import 'package:app/domain/event/repository/events_storage_repository.dart';
 import 'package:app/domain/primitives/result.dart';
-import 'package:app/domain/repositories/events_storage_repository.dart';
 
 final class EventsHiveStorageRepository implements EventsStorageRepository {
   @override
@@ -16,19 +16,19 @@ final class EventsHiveStorageRepository implements EventsStorageRepository {
   }
 
   @override
-  Future<Result<EventsStorageRepositoryErrors, List<Event>>> getAllEvents() {
+  Future<Result<EventsStorageRepositoryFailure, List<Event>>> getAllEvents() {
     // TODO: implement getAllEvents
     throw UnimplementedError();
   }
 
   @override
-  Future<Result<EventsStorageRepositoryErrors, Event>> getEventById(String id) {
+  Future<Result<EventsStorageRepositoryFailure, Event>> getEventById(String id) {
     // TODO: implement getEventById
     throw UnimplementedError();
   }
 
   @override
-  Future<Result<EventsStorageRepositoryErrors, Event>> getLastEvent() {
+  Future<Result<EventsStorageRepositoryFailure, Event>> getLastEvent() {
     // TODO: implement getLastEvent
     throw UnimplementedError();
   }

@@ -56,6 +56,7 @@ Future<void> main() async {
 
   await _initFirebase();
   final routerConfig = await RoutesConfig.create();
+
   runApp(App(
     routerConfig: routerConfig,
   ));

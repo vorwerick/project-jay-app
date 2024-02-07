@@ -9,8 +9,11 @@
   "map": "Map",
   "settings": "Settings",
   "logout": "Log out",
+  "history": "History",
   "eventHistory": "Event History",
+  "noActiveAlarms": "No active Alarm",
   "noActiveAlarmHeader": "There is no declared alarm for your unit",
+  "meantimeYouCanEvents": "In the meantime you cal look at the latest events",
   "loading": "Loading...",
   "unit": "Unit",
   "eventType": "Event Type",
@@ -34,5 +37,6 @@
   "accept": "Accept",
   "accepted": "Accepted",
   "delayed": "Delayed",
-  "rejected": "Rejected"
+  "rejected": "Rejected",
+  "canNotOpenFile": "Can not open file"
 }

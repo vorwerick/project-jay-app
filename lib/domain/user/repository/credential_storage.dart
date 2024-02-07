@@ -1,5 +1,5 @@
-import 'package:app/domain/entities/credentials.dart';
 import 'package:app/domain/primitives/result.dart';
+import 'package:app/domain/user/entity/credentials.dart';
 
 abstract interface class CredentialsStorage {
   Future<void> store(Credentials credentials);

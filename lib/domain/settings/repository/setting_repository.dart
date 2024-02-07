@@ -1,5 +1,5 @@
-import 'package:app/domain/entities/settings.dart';
 import 'package:app/domain/primitives/result.dart';
+import 'package:app/domain/settings/entity/settings.dart';
 
 abstract interface class SettingRepository {
   Future<Result<SettingRepositoryState, Setting>> getSetting();

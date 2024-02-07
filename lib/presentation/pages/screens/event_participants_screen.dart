@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 
 // This screen is used when the device is in portrait mode
 class EventParticipantScreen extends StatelessWidget {
-  final LoadedDetailState detail;
+  final EventDetailLoadSuccess detail;
 
   const EventParticipantScreen({super.key, required this.detail});
 

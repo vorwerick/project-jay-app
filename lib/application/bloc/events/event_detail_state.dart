@@ -1,14 +1,11 @@
 part of 'event_detail_bloc.dart';
 
 @immutable
-abstract class EventDetailState extends Equatable {}
+abstract class EventDetailState {}
 
-class EventDetailInitial extends EventDetailState {
-  @override
-  List<Object?> get props => [this];
-}
+class EventDetailInitial extends EventDetailState {}
 
-final class LoadedDetailState extends EventDetailState {
+final class EventDetailLoadSuccess extends EventDetailState with EquatableMixin {
   final String unit;
   final String eventType;
   final String event;
@@ -25,7 +22,9 @@ final class LoadedDetailState extends EventDetailState {
 
   final String notifierNumber;
 
-  LoadedDetailState({
+  final List<FilePairDto> files;
+
+  EventDetailLoadSuccess({
     required this.unit,
     required this.eventType,
     required this.event,
@@ -40,6 +39,7 @@ final class LoadedDetailState extends EventDetailState {
     required this.otherTechnique,
     required this.notifier,
     required this.notifierNumber,
+    required this.files,
   });
 
   @override
@@ -57,5 +57,9 @@ final class LoadedDetailState extends EventDetailState {
         lastUpdate,
         otherTechnique,
         notifier,
+        List.of(files),
       ];
+
+  @override
+  bool? get stringify => true;
 }

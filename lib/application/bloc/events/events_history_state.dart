@@ -1,14 +1,11 @@
 part of 'events_history_bloc.dart';
 
 @immutable
-abstract class EventsHistoryState extends Equatable {}
+abstract class EventsHistoryState {}
 
-class EventsHistoryInitial extends EventsHistoryState {
-  @override
-  List<Object?> get props => [this];
-}
+class EventsHistoryInitial extends EventsHistoryState {}
 
-final class LoadedEventsHistory extends EventsHistoryState {
+final class LoadedEventsHistory extends EventsHistoryState with EquatableMixin {
   final List<EventDto> events;
 
   LoadedEventsHistory(this.events);

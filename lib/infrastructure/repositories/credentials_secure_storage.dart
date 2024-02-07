@@ -1,6 +1,6 @@
-import 'package:app/domain/entities/credentials.dart';
 import 'package:app/domain/primitives/result.dart';
-import 'package:app/domain/repositories/credential_storage.dart';
+import 'package:app/domain/user/entity/credentials.dart';
+import 'package:app/domain/user/repository/credential_storage.dart';
 
 // TODO(Vojjta): implement https://pub.dev/packages/flutter_secure_storage
 final class CredentialsSecureStorage implements CredentialsStorage {
