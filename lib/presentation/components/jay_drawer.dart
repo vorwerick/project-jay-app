@@ -3,22 +3,22 @@ import 'package:app/application/bloc/settings/version/app_version_bloc.dart';
 import 'package:app/application/bloc/user/user_bloc.dart';
 import 'package:app/presentation/common/jay_colors.dart';
 import 'package:app/presentation/navigation/app_routes.dart';
-import 'package:app/presentation/pages/widgets/drawer_unit_item.dart';
+import 'package:app/presentation/pages/widgets/list/drawer_unit_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 
-//TODO(vojjta): implement params for drawer
+// TODO(vojjta): implement params for drawer
 class JayDrawer extends StatelessWidget {
   const JayDrawer({super.key});
 
   @override
-  Widget build(BuildContext context) => MultiBlocProvider(
+  Widget build(final BuildContext context) => MultiBlocProvider(
         providers: [
-          BlocProvider<AppVersionBloc>(create: (context) => AppVersionBloc()..add(GetAppVersionEvent())),
-          BlocProvider<AlertBloc>(create: (context) => AlertBloc()..add(GetAlertsEvent())),
-          BlocProvider<UserBloc>(create: (context) => UserBloc()..add(GetCurrentUserEvent())),
+          BlocProvider<AppVersionBloc>(create: (final context) => AppVersionBloc()..add(AppVersionStarted())),
+          BlocProvider<AlertBloc>(create: (final context) => AlertBloc()..add(AlertStarted())),
+          BlocProvider<UserBloc>(create: (final context) => UserBloc()..add(UserStarted())),
         ],
         child: SafeArea(
           child: Drawer(
@@ -31,7 +31,7 @@ class JayDrawer extends StatelessWidget {
                       color: JayColors.blue,
                     ),
                     child: BlocBuilder<UserBloc, UserState>(
-                      builder: (context, state) {
+                      builder: (final context, final state) {
                         if (state is CurrentUserState) {
                           return Center(
                             child: Text(
@@ -45,13 +45,13 @@ class JayDrawer extends StatelessWidget {
                     ),
                   ),
                   BlocBuilder<AlertBloc, AlertState>(
-                    builder: (context, state) {
+                    builder: (final context, final state) {
                       if (state is CurrentAlertsState) {
                         return Expanded(
                           child: ListView.builder(
                             shrinkWrap: true,
                             itemCount: state.alerts.length,
-                            itemBuilder: (context, index) => DrawerUnitItem(
+                            itemBuilder: (final context, final index) => DrawerUnitItem(
                               unitName: state.alerts[index].unitName,
                               hasAlert: state.alerts[index].hasActiveAlarm,
                               role: state.alerts[index].role,
@@ -81,12 +81,13 @@ class JayDrawer extends StatelessWidget {
                   ListTile(
                     title: Text(AppLocalizations.of(context)!.logout),
                     onTap: () {
-                      // Update the state of the app.
-                      // ...
+                      // TODO(Vojjta): Update the state of the app.
+                      context.pop();
+                      context.go(AppRoutes.login.path);
                     },
                   ),
                   BlocBuilder<AppVersionBloc, AppVersionState>(
-                    builder: (context, state) {
+                    builder: (final context, final state) {
                       if (state is LoadedAppVersionState) {
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 5.0, left: 5.0, right: 5.0),

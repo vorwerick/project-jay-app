@@ -1,9 +1,11 @@
 import 'package:app/application/commands/has_active_alarm_async_cmd.dart';
-import 'package:app/domain/repositories/alarm_repository.dart';
+import 'package:app/domain/alarm/repository/alarm_repository.dart';
 import 'package:app/presentation/pages/event_detail_page.dart';
 import 'package:app/presentation/pages/event_history_page.dart';
+import 'package:app/presentation/pages/home_inactive_page.dart';
 import 'package:app/presentation/pages/home_page.dart';
 import 'package:app/presentation/pages/login_page.dart';
+import 'package:app/presentation/pages/pdf_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
@@ -21,7 +23,7 @@ final class RoutesConfig {
     if (hasActiveAlarm) {
       return AppRoutes.home.path;
     }
-    return AppRoutes.eventHistory.path;
+    return AppRoutes.homeInactive.path;
   }
 
   static Future<GoRouter> create() async => GoRouter(
@@ -29,22 +31,27 @@ final class RoutesConfig {
         routes: [
           GoRoute(
             path: AppRoutes.login.path,
-            builder: (context, state) => const LoginPage(),
+            builder: (final context, final state) => const LoginPage(),
           ),
           GoRoute(
             name: AppRoutes.home.name,
             path: AppRoutes.home.path,
-            pageBuilder: (context, state) => _createTransition(state.pageKey, const HomePage()),
+            pageBuilder: (final context, final state) => _createTransition(state.pageKey, const HomePage()),
+          ),
+          GoRoute(
+            name: AppRoutes.homeInactive.name,
+            path: AppRoutes.homeInactive.path,
+            pageBuilder: (final context, final state) => _createTransition(state.pageKey, const HomeInactivePage()),
           ),
           GoRoute(
             name: AppRoutes.eventHistory.name,
             path: AppRoutes.eventHistory.path,
-            pageBuilder: (context, state) => _createTransition(state.pageKey, const EventHistoryPage()),
+            pageBuilder: (final context, final state) => _createTransition(state.pageKey, const EventHistoryPage()),
             routes: [
               GoRoute(
                 name: AppRoutes.eventDetail.name,
                 path: '${AppRoutes.eventDetail.name}/:eventId',
-                pageBuilder: (context, state) => _createTransition(
+                pageBuilder: (final context, final state) => _createTransition(
                   state.pageKey,
                   EventDetailPage(
                     eventId: int.parse(state.pathParameters['eventId']!),
@@ -53,15 +60,27 @@ final class RoutesConfig {
               ),
             ],
           ),
+          GoRoute(
+            name: AppRoutes.pdf.name,
+            path: '${AppRoutes.pdf.path}/:filePath',
+            pageBuilder: (final context, final state) => _createTransition(
+              state.pageKey,
+              PdfPage(
+                path: state.pathParameters['filePath']!,
+              ),
+            ),
+          ),
         ],
       );
 
   static CustomTransitionPage _createTransition(final LocalKey? key, final Widget page) => CustomTransitionPage(
         key: key,
         child: page,
-        transitionsBuilder: (context, animation, secondaryAnimation, child) => FadeTransition(
+        transitionsBuilder: (final context, final animation, final secondaryAnimation, final child) => FadeTransition(
           opacity: CurveTween(curve: Curves.easeInOutCirc).animate(animation),
           child: child,
         ),
       );
 }
+
+class test extends RouteObserver {}

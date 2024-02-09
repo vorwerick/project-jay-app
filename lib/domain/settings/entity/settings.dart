@@ -1,5 +1,5 @@
 import 'package:app/domain/primitives/entity.dart';
-import 'package:app/domain/values/app_version.dart';
+import 'package:app/domain/settings/values/app_version.dart';
 
 final class Setting extends Entity {
   final AppVersion appVersion;

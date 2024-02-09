@@ -1,6 +1,6 @@
 import 'package:app/domain/primitives/entity.dart';
-import 'package:app/domain/values/academic_title.dart';
-import 'package:app/domain/values/name.dart';
+import 'package:app/domain/user/values/academic_title.dart';
+import 'package:app/domain/user/values/name.dart';
 
 final class User extends Entity {
   final Name name;

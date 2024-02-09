@@ -8,6 +8,7 @@ import 'package:app/presentation/pages/screens/event_details_screen.dart';
 import 'package:app/presentation/pages/screens/event_participants_screen.dart';
 import 'package:app/presentation/pages/screens/map_screen.dart';
 import 'package:app/presentation/pages/screens/participants_screen.dart';
+import 'package:app/presentation/pages/widgets/app_bar_alarm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -24,13 +25,22 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(final BuildContext context) => OrientationBuilder(
-        builder: (context, orientation) => BlocProvider(
-          create: (context) => EventDetailBloc()..add(LoadActiveEvent()),
+        builder: (final context, final orientation) => BlocProvider(
+          create: (final context) => EventDetailBloc()..add(EventDetailActiveRequested()),
           child: Scaffold(
-            appBar: AppBar(),
+            appBar: AppBar(
+              title: BlocBuilder<EventDetailBloc, EventDetailState>(
+                builder: (final context, final state) {
+                  if (state is EventDetailLoadSuccess) {
+                    return AppBarAlarm(eventDetail: state);
+                  }
+                  return SizedBox.shrink();
+                },
+              ),
+            ),
             body: BlocBuilder<EventDetailBloc, EventDetailState>(
-              builder: (context, state) {
-                if (state is LoadedDetailState) {
+              builder: (final context, final state) {
+                if (state is EventDetailLoadSuccess) {
                   return PageView(
                     controller: _pageController,
                     physics: const NeverScrollableScrollPhysics(),
@@ -41,8 +51,8 @@ class _HomePageState extends State<HomePage> {
               },
             ),
             bottomNavigationBar: BlocBuilder<EventDetailBloc, EventDetailState>(
-              builder: (context, state) {
-                if (state is LoadedDetailState) {
+              builder: (final context, final state) {
+                if (state is EventDetailLoadSuccess) {
                   return _getBottomNavigationBar(orientation);
                 }
                 return const SizedBox.shrink();
@@ -74,7 +84,7 @@ class _HomePageState extends State<HomePage> {
           onTap: _onPageTap,
         );
 
-  List<Widget> _getScreens(final Orientation orientation, final LoadedDetailState detail) =>
+  List<Widget> _getScreens(final Orientation orientation, final EventDetailLoadSuccess detail) =>
       orientation == Orientation.portrait
           ? [
               EventDetailsScreen(detail: detail),

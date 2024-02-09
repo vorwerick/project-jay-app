@@ -1,5 +1,5 @@
 import 'package:app/presentation/common/jay_colors.dart';
-import 'package:app/presentation/pages/widgets/basic_badge.dart';
+import 'package:app/presentation/pages/widgets/badges/badge_basic.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -13,7 +13,7 @@ class DrawerUnitItem extends StatelessWidget {
   const DrawerUnitItem({super.key, required this.unitName, required this.hasAlert, required this.role});
 
   @override
-  Widget build(BuildContext context) => Padding(
+  Widget build(final BuildContext context) => Padding(
         padding: const EdgeInsets.all(3.0),
         child: Column(
           children: [
@@ -22,7 +22,7 @@ class DrawerUnitItem extends StatelessWidget {
               color: JayColors.lightGrey,
               child: Row(
                 children: [
-                  const BasicBadge(
+                  const BadgeBasic(
                     badgeColor: JayColors.blue,
                     diameter: 20,
                   ),

@@ -16,7 +16,7 @@ class ListPair extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) => Column(
+  Widget build(final BuildContext context) => Column(
         children: [
           Padding(
             padding: padding ?? const EdgeInsets.all(5),

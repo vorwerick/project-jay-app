@@ -10,7 +10,7 @@ part 'alert_state.dart';
 
 class AlertBloc extends Bloc<AlertEvent, AlertState> {
   AlertBloc() : super(AlertInitial()) {
-    on<GetAlertsEvent>((event, emit) {
+    on<AlertStarted>((event, emit) {
       log('Loading alerts', name: 'AlertBloc');
 
       // TODO(Vojjta): implement this use case

@@ -1,5 +1,5 @@
-import 'package:app/domain/entities/user.dart';
 import 'package:app/domain/primitives/result.dart';
+import 'package:app/domain/user/entity/user.dart';
 
 abstract interface class UserRepository {
   Future<Result<UserRepositoryState, User>> getUser();

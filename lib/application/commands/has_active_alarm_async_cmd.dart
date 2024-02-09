@@ -1,5 +1,5 @@
 import 'package:app/application/commands/command.dart';
-import 'package:app/domain/repositories/alarm_repository.dart';
+import 'package:app/domain/alarm/repository/alarm_repository.dart';
 
 final class HasActiveAlarmAsyncCommand implements AsyncCommand<bool> {
   final AlarmRepository _alarmRepository;

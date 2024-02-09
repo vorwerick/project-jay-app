@@ -3,10 +3,10 @@ part of 'event_detail_bloc.dart';
 @immutable
 abstract class EventDetailEvent {}
 
-final class LoadDetailEvent extends EventDetailEvent {
+final class EventDetailIdPressed extends EventDetailEvent {
   final int eventId;
 
-  LoadDetailEvent(this.eventId);
+  EventDetailIdPressed(this.eventId);
 }
 
-final class LoadActiveEvent extends EventDetailEvent {}
+final class EventDetailActiveRequested extends EventDetailEvent {}
