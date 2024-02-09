@@ -6,6 +6,7 @@ import 'package:app/presentation/pages/home_inactive_page.dart';
 import 'package:app/presentation/pages/home_page.dart';
 import 'package:app/presentation/pages/login_page.dart';
 import 'package:app/presentation/pages/pdf_page.dart';
+import 'package:app/presentation/pages/settings_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
@@ -68,6 +69,14 @@ final class RoutesConfig {
               PdfPage(
                 path: state.pathParameters['filePath']!,
               ),
+            ),
+          ),
+          GoRoute(
+            name: AppRoutes.settings.name,
+            path: AppRoutes.settings.path,
+            pageBuilder: (final context, final state) => _createTransition(
+              state.pageKey,
+              const SettingsPage(),
             ),
           ),
         ],

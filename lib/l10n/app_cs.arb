@@ -38,5 +38,6 @@
   "accepted": "Přijato",
   "delayed": "Zpožděno",
   "rejected": "Odmítnuto",
-  "canNotOpenFile": "Nelze otevřít soubor"
+  "canNotOpenFile": "Nelze otevřít soubor",
+  "textToSpeech": "Text to Speech"
 }

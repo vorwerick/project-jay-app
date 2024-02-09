@@ -25,10 +25,4 @@ class ActiveAlarmBloc extends Bloc<ActiveAlarmEvent, ActiveAlarmState> {
       }
     });
   }
-
-  @override
-  Future<void> close() {
-    // TODO: implement close
-    return super.close();
-  }
 }

@@ -38,5 +38,6 @@
   "accepted": "Accepted",
   "delayed": "Delayed",
   "rejected": "Rejected",
-  "canNotOpenFile": "Can not open file"
+  "canNotOpenFile": "Can not open file",
+  "textToSpeech": "Text to Speech"
 }
