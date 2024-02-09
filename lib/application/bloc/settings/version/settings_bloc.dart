@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:app/domain/settings/entity/settings.dart';
 import 'package:app/domain/settings/repository/setting_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -21,7 +20,12 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       final settingResult = await repository.getSetting();
 
       if (settingResult.isSuccess) {
-        emit(SettingsLoadSuccess.fromEntity(settingResult.success));
+        emit(
+          SettingsLoadSuccess(
+            settingResult.success.appVersion.currentVersion,
+            settingResult.success.isTTSEnabled,
+          ),
+        );
       }
     });
 

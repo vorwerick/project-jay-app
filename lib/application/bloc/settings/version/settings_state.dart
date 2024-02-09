@@ -12,13 +12,7 @@ class SettingsLoadSuccess extends SettingsState with EquatableMixin {
 
   final bool isTttEnabled;
 
-  SettingsLoadSuccess._(this.version, this.isTttEnabled);
-
-  SettingsLoadSuccess.fromEntity(final Setting setting)
-      : this._(
-          setting.appVersion.currentVersion,
-          setting.isTTSEnabled,
-        );
+  SettingsLoadSuccess(this.version, this.isTttEnabled);
 
   @override
   List<Object?> get props => [version, isTttEnabled];
