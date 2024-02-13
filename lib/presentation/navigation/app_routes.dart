@@ -4,7 +4,8 @@ enum AppRoutes {
   homeInactive('home-inactive'),
   eventHistory('event-history'),
   eventDetail('event-detail'),
-  pdf('pdf');
+  pdf('pdf'),
+  settings('settings');
 
   final String name;
 

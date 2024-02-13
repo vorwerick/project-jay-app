@@ -74,8 +74,8 @@ class JayDrawer extends StatelessWidget {
                   ListTile(
                     title: Text(AppLocalizations.of(context)!.settings),
                     onTap: () {
-                      // Update the state of the app.
-                      // ...
+                      context.pop();
+                      context.pushNamed(AppRoutes.settings.name);
                     },
                   ),
                   ListTile(
