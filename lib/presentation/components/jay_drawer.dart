@@ -2,6 +2,7 @@ import 'package:app/application/bloc/alarms/alert_bloc.dart';
 import 'package:app/application/bloc/settings/version/app_version_bloc.dart';
 import 'package:app/application/bloc/user/user_bloc.dart';
 import 'package:app/presentation/common/jay_colors.dart';
+import 'package:app/presentation/components/jay_progress_indicator.dart';
 import 'package:app/presentation/navigation/app_routes.dart';
 import 'package:app/presentation/pages/widgets/list/drawer_unit_item.dart';
 import 'package:flutter/material.dart';
@@ -32,7 +33,7 @@ class JayDrawer extends StatelessWidget {
                     ),
                     child: BlocBuilder<UserBloc, UserState>(
                       builder: (final context, final state) {
-                        if (state is CurrentUserState) {
+                        if (state is UserLoadSuccess) {
                           return Center(
                             child: Text(
                               state.fullName,
@@ -40,6 +41,10 @@ class JayDrawer extends StatelessWidget {
                             ),
                           );
                         }
+                        if (state is UserLoadInProgress) {
+                          return const JayProgressIndicator();
+                        }
+
                         return const SizedBox.expand();
                       },
                     ),
@@ -88,7 +93,7 @@ class JayDrawer extends StatelessWidget {
                   ),
                   BlocBuilder<AppVersionBloc, AppVersionState>(
                     builder: (final context, final state) {
-                      if (state is LoadedAppVersionState) {
+                      if (state is AppVersionLoadSuccess) {
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 5.0, left: 5.0, right: 5.0),
                           child: Row(

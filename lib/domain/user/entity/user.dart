@@ -21,5 +21,18 @@ final class User extends Entity {
         AcademicTitle.fromString(academicTitle),
       );
 
+  factory User.create({
+    required final int id,
+    required final String name,
+    required final String surname,
+    required final String academicTitle,
+  }) =>
+      User._(
+        id,
+        Name.fromString(name),
+        Name.fromString(surname),
+        AcademicTitle.fromString(academicTitle),
+      );
+
   String get fullNameWithTitle => '$academicTitle. ${name.name} ${surname.name}';
 }

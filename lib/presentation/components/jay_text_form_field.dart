@@ -3,10 +3,13 @@ import 'package:flutter/material.dart';
 class JayTextFormField extends StatelessWidget {
   final String? labelText;
 
-  const JayTextFormField({super.key, this.labelText});
+  final TextEditingController? controller;
+
+  const JayTextFormField({super.key, this.labelText, this.controller});
 
   @override
-  Widget build(BuildContext context) => TextFormField(
+  Widget build(final BuildContext context) => TextFormField(
+        controller: controller,
         decoration: InputDecoration(
           filled: true,
           fillColor: Colors.white,

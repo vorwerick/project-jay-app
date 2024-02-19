@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:app/domain/settings/repository/setting_repository.dart';
+import 'package:app/application/shared/device_information.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:get_it/get_it.dart';
@@ -13,15 +13,11 @@ class AppVersionBloc extends Bloc<AppVersionEvent, AppVersionState> {
   AppVersionBloc() : super(AppVersionInitial()) {
     on<AppVersionStarted>((final event, final emit) async {
       log('Getting app version', name: 'AppVersionBloc');
-      final settingRepository = GetIt.I.get<SettingRepository>();
+      final deviceInformation = await GetIt.I.getAsync<DeviceInformation>();
 
-      final result = await settingRepository.getSetting();
+      final version = deviceInformation.version;
 
-      if (result.isSuccess) {
-        emit(LoadedAppVersionState(result.success.appVersion.currentVersion));
-      } else {
-        emit(AppVersionInitial());
-      }
+      emit(AppVersionLoadSuccess(version));
     });
   }
 }

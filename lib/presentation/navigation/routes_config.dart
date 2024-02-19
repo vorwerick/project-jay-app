@@ -1,11 +1,12 @@
-import 'package:app/application/commands/has_active_alarm_async_cmd.dart';
-import 'package:app/domain/alarm/repository/alarm_repository.dart';
+import 'package:app/application/commands/is_registered_async_cmd.dart';
+import 'package:app/domain/settings/repository/setting_repository.dart';
 import 'package:app/presentation/pages/event_detail_page.dart';
 import 'package:app/presentation/pages/event_history_page.dart';
 import 'package:app/presentation/pages/home_inactive_page.dart';
 import 'package:app/presentation/pages/home_page.dart';
 import 'package:app/presentation/pages/login_page.dart';
 import 'package:app/presentation/pages/pdf_page.dart';
+import 'package:app/presentation/pages/register_device_page.dart';
 import 'package:app/presentation/pages/settings_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -17,19 +18,23 @@ final class RoutesConfig {
   RoutesConfig._();
 
   static Future<String> _getInitialRoute() async {
-    final repository = GetIt.I.get<AlarmRepository>();
+    final repository = GetIt.I.get<SettingRepository>();
 
-    final hasActiveAlarm = await HasActiveAlarmAsyncCommand(repository).execute();
+    final isRegistered = await IsRegisteredAsync(repository).execute();
 
-    if (hasActiveAlarm) {
+    if (isRegistered) {
       return AppRoutes.home.path;
     }
-    return AppRoutes.homeInactive.path;
+    return AppRoutes.deviceRegistration.path;
   }
 
   static Future<GoRouter> create() async => GoRouter(
         initialLocation: await _getInitialRoute(),
         routes: [
+          GoRoute(
+            path: AppRoutes.deviceRegistration.path,
+            builder: (final context, final state) => const RegisterDevicePage(),
+          ),
           GoRoute(
             path: AppRoutes.login.path,
             builder: (final context, final state) => const LoginPage(),

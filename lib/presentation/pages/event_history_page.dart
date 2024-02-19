@@ -1,4 +1,4 @@
-import 'package:app/application/bloc/events/events_history_bloc.dart';
+import 'package:app/application/bloc/alarms/alarm_history_bloc.dart';
 import 'package:app/presentation/components/jay_container.dart';
 import 'package:app/presentation/components/jay_progress_indicator.dart';
 import 'package:app/presentation/components/jay_white_text.dart';
@@ -13,8 +13,8 @@ class EventHistoryPage extends StatelessWidget {
   const EventHistoryPage({super.key});
 
   @override
-  Widget build(final BuildContext context) => BlocProvider<EventsHistoryBloc>(
-        create: (final BuildContext context) => EventsHistoryBloc()..add(LoadHistoryEvent()),
+  Widget build(final BuildContext context) => BlocProvider<AlarmHistoryBloc>(
+        create: (final BuildContext context) => AlarmHistoryBloc()..add(AlarmHistoryStarted()),
         child: Scaffold(
           appBar: AppBar(
             title: JayWhiteText(AppLocalizations.of(context)!.eventHistory),
@@ -22,9 +22,9 @@ class EventHistoryPage extends StatelessWidget {
           body: JayContainer(
             child: Column(
               children: [
-                BlocBuilder<EventsHistoryBloc, EventsHistoryState>(
+                BlocBuilder<AlarmHistoryBloc, AlarmHistoryState>(
                   builder: (final context, final state) {
-                    if (state is LoadedEventsHistory) {
+                    if (state is AlarmHistoryLoadSuccess && state.events.isNotEmpty) {
                       return Flexible(
                         child: ListView.builder(
                           itemCount: state.events.length,
@@ -43,7 +43,12 @@ class EventHistoryPage extends StatelessWidget {
                         ),
                       );
                     }
-                    return const JayProgressIndicator();
+                    if (state is AlarmHistoryLoadInProgress) {
+                      return const Center(child: JayProgressIndicator());
+                    }
+                    return Center(
+                      child: Text(AppLocalizations.of(context)!.eventEmpty),
+                    );
                   },
                 ),
               ],

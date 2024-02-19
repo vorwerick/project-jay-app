@@ -1,18 +1,18 @@
 part of 'app_version_bloc.dart';
 
 @immutable
-abstract class AppVersionState extends Equatable {}
+abstract class AppVersionState {}
 
-class AppVersionInitial extends AppVersionState {
-  @override
-  List<Object?> get props => [this];
-}
+class AppVersionInitial extends AppVersionState {}
 
-final class LoadedAppVersionState extends AppVersionState {
+final class AppVersionLoadSuccess extends AppVersionState with EquatableMixin {
   final String appVersion;
 
-  LoadedAppVersionState(this.appVersion);
+  AppVersionLoadSuccess(this.appVersion);
 
   @override
   List<Object?> get props => [appVersion];
+
+  @override
+  bool? get stringify => true;
 }

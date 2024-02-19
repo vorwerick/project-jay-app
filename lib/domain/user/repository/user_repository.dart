@@ -12,3 +12,12 @@ final class UserRepositoryError extends UserRepositoryState {
 
   UserRepositoryError(this.exception);
 }
+
+final class UserRepositoryBadResponse<T> extends UserRepositoryState {
+  final T value;
+
+  UserRepositoryBadResponse(this.value);
+
+  @override
+  String toString() => '$value';
+}

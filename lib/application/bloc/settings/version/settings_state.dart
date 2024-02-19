@@ -8,14 +8,12 @@ class SettingsInitial extends SettingsState {}
 class SettingsLoadInProgress extends SettingsState {}
 
 class SettingsLoadSuccess extends SettingsState with EquatableMixin {
-  final String version;
-
   final bool isTttEnabled;
 
-  SettingsLoadSuccess(this.version, this.isTttEnabled);
+  SettingsLoadSuccess(this.isTttEnabled);
 
   @override
-  List<Object?> get props => [version, isTttEnabled];
+  List<Object?> get props => [isTttEnabled];
 
   @override
   bool? get stringify => true;

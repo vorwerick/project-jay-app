@@ -5,7 +5,8 @@ enum AppRoutes {
   eventHistory('event-history'),
   eventDetail('event-detail'),
   pdf('pdf'),
-  settings('settings');
+  settings('settings'),
+  deviceRegistration('deviceRegistration');
 
   final String name;
 
