@@ -1,6 +1,7 @@
 import 'package:app/domain/alarm/values/alarm_state.dart';
 import 'package:app/domain/alarm/values/count.dart';
 import 'package:app/domain/primitives/entity.dart';
+import 'package:latlong2/latlong.dart';
 
 final class Alarm extends Entity {
   final Count confirmedCount;
@@ -37,6 +38,8 @@ final class Alarm extends Entity {
 
   final String technique;
 
+  final LatLng location;
+
   Alarm._(
     super.id, {
     required this.confirmedCount,
@@ -57,6 +60,7 @@ final class Alarm extends Entity {
     required this.object,
     required this.explanation,
     required this.technique,
+    required this.location,
   });
 
   factory Alarm.create(
@@ -79,6 +83,8 @@ final class Alarm extends Entity {
     required final String object,
     required final String explanation,
     required final String technique,
+    required final double latitude,
+    required final double longitude,
   }) =>
       Alarm._(
         id,
@@ -100,6 +106,7 @@ final class Alarm extends Entity {
         object: object,
         explanation: explanation,
         technique: technique,
+        location: LatLng(latitude, longitude),
       );
 
   @override

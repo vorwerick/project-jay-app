@@ -26,5 +26,7 @@ final class AlarmJsonMapper {
         object: alarm.orderObject,
         explanation: alarm.whatHappened,
         technique: alarm.technic,
+        latitude: alarm.gps.x,
+        longitude: alarm.gps.y,
       );
 }

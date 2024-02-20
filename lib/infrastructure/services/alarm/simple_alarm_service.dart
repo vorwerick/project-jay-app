@@ -47,8 +47,6 @@ final class SimpleAlarmService with RepositoryStreamer<Alarm> implements AlarmSe
   }
 
   void _onPoolingTime(final int period) async {
-    log('Polling event count ${period / 5}', name: 'SimpleEventService');
-
     final template = AlarmFetchTemplate.byId(_eventId, _alarmRepository);
 
     log('Selected fetch template ${template.runtimeType}', name: 'SimpleAlarmService');

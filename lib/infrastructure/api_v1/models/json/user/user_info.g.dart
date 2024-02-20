@@ -7,10 +7,14 @@ part of 'user_info.dart';
 // **************************************************************************
 
 UserData _$UserDataFromJson(Map<String, dynamic> json) => UserData(
+      json['ErrorCode'] as int,
+      json['Description'] as String?,
       userData: UserInfo.fromJson(json['Data'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$UserDataToJson(UserData instance) => <String, dynamic>{
+      'ErrorCode': instance.errorCode,
+      'Description': instance.description,
       'Data': instance.userData,
     };
 

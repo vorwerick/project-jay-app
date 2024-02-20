@@ -1,13 +1,14 @@
+import 'package:app/infrastructure/api_v1/models/json/api_response.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'user_info.g.dart';
 
 @JsonSerializable()
-final class UserData {
+final class UserData extends ApiResponse {
   @JsonKey(name: 'Data')
   final UserInfo userData;
 
-  UserData({required this.userData});
+  UserData(super.errorCode, super.description, {required this.userData});
 
   factory UserData.fromJson(final Map<String, dynamic> json) => _$UserDataFromJson(json);
 

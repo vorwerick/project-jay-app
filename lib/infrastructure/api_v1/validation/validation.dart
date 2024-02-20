@@ -3,5 +3,7 @@ abstract class Validation<T> {
 
   Validation(this.data);
 
-  bool isValid();
+  bool get isValid;
+
+  bool get isNotValid => !isValid;
 }

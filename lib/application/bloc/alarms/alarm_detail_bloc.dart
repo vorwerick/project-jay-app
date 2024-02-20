@@ -66,7 +66,7 @@ class AlarmDetailBloc extends Bloc<AlarmDetailEvent, AlarmDetailState> {
   }
 
   void _onActiveEventUpdate(final Alarm alarm) {
-    log('Active alarm updated $alarm', name: 'AlarmDetailBloc');
+    log('Active alarm updated, id: ${alarm.id}', name: 'AlarmDetailBloc');
     if (!isClosed) {
       add(AlarmDetailRefreshed(alarm));
     } else {

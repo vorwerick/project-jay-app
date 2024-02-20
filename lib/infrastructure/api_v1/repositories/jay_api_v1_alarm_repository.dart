@@ -5,6 +5,7 @@ import 'package:app/domain/alarm/repository/alarm_repository.dart';
 import 'package:app/domain/primitives/result.dart';
 import 'package:app/infrastructure/api_v1/common/dio_api_v1.dart';
 import 'package:app/infrastructure/api_v1/mappers/alarm_mapper.dart';
+import 'package:app/infrastructure/api_v1/validation/api_response_validation.dart';
 
 final class JayApiV1AlarmRepository with DioApiV1 implements AlarmRepository {
   @override
@@ -14,7 +15,7 @@ final class JayApiV1AlarmRepository with DioApiV1 implements AlarmRepository {
     try {
       final result = await client.getAlarmList();
 
-      if (result.response.statusCode != 200) {
+      if (ApiResponseValidation(result).isNotValid) {
         return Result.failure(AlarmRepositoryFailure());
       }
 
@@ -33,7 +34,7 @@ final class JayApiV1AlarmRepository with DioApiV1 implements AlarmRepository {
     try {
       final result = await client.getAlarmList();
 
-      if (result.response.statusCode != 200) {
+      if (ApiResponseValidation(result).isNotValid) {
         return Result.failure(AlarmRepositoryFailure());
       }
 
@@ -50,7 +51,7 @@ final class JayApiV1AlarmRepository with DioApiV1 implements AlarmRepository {
     try {
       final result = await client.getAlarmsById(id);
 
-      if (result.response.statusCode != 200 || (result.data.alarm == null)) {
+      if (ApiResponseValidation(result).isNotValid || (result.data.alarm == null)) {
         return Result.failure(AlarmRepositoryFailure());
       }
 
@@ -68,7 +69,7 @@ final class JayApiV1AlarmRepository with DioApiV1 implements AlarmRepository {
     try {
       final result = await client.getAlarmList();
 
-      if (result.response.statusCode != 200) {
+      if (ApiResponseValidation(result).isNotValid) {
         return Result.failure(AlarmRepositoryFailure());
       }
 

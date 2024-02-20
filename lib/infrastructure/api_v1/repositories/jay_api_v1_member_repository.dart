@@ -13,7 +13,7 @@ final class JayApiV1MemberRepository with DioApiV1 implements MemberRepository {
     try {
       final result = await client.getAlarmConfirmationById(id);
 
-      if (ApiResponseValidation(result).isValid()) {
+      if (ApiResponseValidation(result).isValid) {
         final members = result.data.alarmConfirmation!.alarmMembers
             .map(
               (final m) => AlarmMemberJsonMapper(m).toMember(),
