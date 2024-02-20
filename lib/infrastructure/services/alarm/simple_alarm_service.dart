@@ -8,14 +8,13 @@ import 'package:app/domain/event/entity/event.dart';
 import 'package:app/domain/event/repository/events_storage_repository.dart';
 import 'package:app/infrastructure/services/alarm/alarm_fetch_strategy.dart';
 import 'package:app/infrastructure/utils/repository_streamer.dart';
+import 'package:app/infrastructure/utils/service_pooling.dart';
 
-final class SimpleAlarmService with RepositoryStreamer<Alarm> implements AlarmService {
+final class SimpleAlarmService with RepositoryStreamer<Alarm>, ServicePooling implements AlarmService {
   int? _eventId;
 
   final AlarmRepository _alarmRepository;
   final EventsStorageRepository _eventRepository;
-
-  StreamSubscription<int>? _timerSubscription;
 
   StreamSubscription<Event>? _eventStorageSubscription;
 
@@ -26,27 +25,21 @@ final class SimpleAlarmService with RepositoryStreamer<Alarm> implements AlarmSe
 
   @override
   void startPolling() {
-    log('Starting polling', name: 'SimpleEventService');
-
-    if (_timerSubscription != null) {
-      log('Polling already running', name: 'SimpleEventService');
-      return;
-    }
-
-    _timerSubscription = Stream<int>.periodic(
-      const Duration(seconds: 5),
-      (final computationCount) => (computationCount + 5),
-    ).listen(_onPoolingTime);
+    start(_onPoolingTime);
   }
 
   @override
   void stopPolling() {
-    log('Stopping polling', name: 'SimpleEventService');
-    _timerSubscription?.cancel();
-    _timerSubscription = null;
+    stop();
   }
 
-  void _onPoolingTime(final int period) async {
+  @override
+  void dispose() {
+    stop();
+    _eventStorageSubscription?.cancel();
+  }
+
+  void _onPoolingTime() async {
     final template = AlarmFetchTemplate.byId(_eventId, _alarmRepository);
 
     log('Selected fetch template ${template.runtimeType}', name: 'SimpleAlarmService');
@@ -67,11 +60,5 @@ final class SimpleAlarmService with RepositoryStreamer<Alarm> implements AlarmSe
     if (result.isSuccess) {
       _eventId = result.success.id;
     }
-  }
-
-  @override
-  void dispose() {
-    stopPolling();
-    _eventStorageSubscription?.cancel();
   }
 }

@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:app/application/services/alarm_service.dart';
+import 'package:app/application/services/event_service.dart';
 import 'package:app/application/services/tts_service.dart';
 import 'package:app/application/shared/device_information.dart';
 import 'package:app/application/shared/device_information_factory.dart';
@@ -19,8 +20,10 @@ import 'package:app/infrastructure/repositories/credentials_secure_storage.dart'
 import 'package:app/infrastructure/repositories/shared_event_repository.dart';
 import 'package:app/infrastructure/repositories/shared_setting_repository.dart';
 import 'package:app/infrastructure/services/alarm/simple_alarm_service.dart';
+import 'package:app/infrastructure/services/simple_event_service.dart';
 import 'package:app/infrastructure/services/text_to_speech_service.dart';
 import 'package:app/infrastructure/shared/info_plus_device_information_factory.dart';
+import 'package:app/presentation/navigation/routes_config.dart';
 import 'package:get_it/get_it.dart';
 
 // official package: https://pub.dev/packages/get_it
@@ -54,11 +57,21 @@ final class AppDependencyConfiguration {
         getIt.get<EventsStorageRepository>(),
       ),
     );
+    getIt.registerSingleton<EventService>(
+      SimpleEventService(
+        getIt<EventsStorageRepository>(),
+        getIt<AlarmRepository>(),
+      ),
+    );
 
     getIt.registerSingleton<TTSService>(
       TextToSpeechService(
         getIt.get<SettingRepository>(),
       ),
     );
+
+    // Routing
+
+    getIt.registerSingleton(RoutesConfig(getIt<EventService>()));
   }
 }

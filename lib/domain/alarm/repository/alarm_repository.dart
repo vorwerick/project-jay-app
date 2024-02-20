@@ -4,6 +4,8 @@ import 'package:app/domain/primitives/result.dart';
 abstract interface class AlarmRepository {
   Future<Result<AlarmRepositoryState, bool>> hasActiveAlarm();
 
+  Future<Result<AlarmRepositoryState, Alarm>> getActiveAlarm();
+
   Future<Result<AlarmRepositoryState, List<Alarm>>> getAll();
 
   Future<Result<AlarmRepositoryState, Alarm>> getLast();
@@ -13,7 +15,16 @@ abstract interface class AlarmRepository {
 
 sealed class AlarmRepositoryState {}
 
-final class AlarmRepositoryFailure extends AlarmRepositoryState {}
+final class AlarmRepositoryFailure extends AlarmRepositoryState {
+  final String message;
+
+  AlarmRepositoryFailure({this.message = 'Unknown error'});
+
+  @override
+  String toString() => 'AlarmRepositoryFailure: $message';
+}
+
+final class AlarmNotFound extends AlarmRepositoryState {}
 
 final class AlarRepositoryError extends AlarmRepositoryState {
   final Exception exception;

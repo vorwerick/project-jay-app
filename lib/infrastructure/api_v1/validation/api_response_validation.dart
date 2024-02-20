@@ -11,7 +11,6 @@ final class ApiResponseValidation extends Validation<HttpResponse<ApiResponse>> 
   bool get isValid => _isValid();
 
   bool _isValid() {
-    log('Validation of ApiResponse', name: 'ApiResponseValidation');
     if (data.response.statusCode != 200) {
       log(
         'Response status code is not 200 but: ${data.response.statusCode}, ${data.data}',
@@ -19,7 +18,6 @@ final class ApiResponseValidation extends Validation<HttpResponse<ApiResponse>> 
       );
       return false;
     }
-    log('${data.response}', name: 'ApiResponseValidation');
 
     if (data.data.errorCode != 0) {
       log('Response contains error code: ${data.data.errorCode}', name: 'ApiResponseValidation');
