@@ -2,31 +2,29 @@ import 'package:app/domain/event/entity/event.dart';
 import 'package:app/domain/primitives/result.dart';
 
 abstract interface class EventsStorageRepository {
-  Future<Result<EventsStorageRepositoryFailure, List<Event>>> getAllEvents();
+  Stream<Event> get stream;
 
-  Future<Result<EventsStorageRepositoryFailure, Event>> getEventById(final String id);
+  Future<Result<EventsStorageRepositoryStatus, Event>> getEvent();
 
-  Future<Result<EventsStorageRepositoryFailure, Event>> getLastEvent();
+  Future<Result<EventsStorageRepositoryStatus, void>> addNewEvent(final Event event);
 
-  Future<void> addNewEvent(final Event event);
+  Future<Result<EventsStorageRepositoryStatus, void>> updateEvent(final Event event);
 
-  Future<void> updateEvent(final Event event);
-
-  Future<void> deleteEvent(final String id);
+  Future<Result<EventsStorageRepositoryStatus, void>> deleteEvent(final String id);
 }
 
-sealed class EventsStorageRepositoryFailure {
-  const EventsStorageRepositoryFailure();
+sealed class EventsStorageRepositoryStatus {
+  const EventsStorageRepositoryStatus();
 
-  factory EventsStorageRepositoryFailure.fromException(final Exception exception) =>
+  factory EventsStorageRepositoryStatus.fromException(final Exception exception) =>
       EventsStorageRepositoryError(exception);
 
-  factory EventsStorageRepositoryFailure.eventNotFound() => EventNotFound();
+  factory EventsStorageRepositoryStatus.eventNotFound() => EventNotFound();
 }
 
-final class EventNotFound extends EventsStorageRepositoryFailure {}
+final class EventNotFound extends EventsStorageRepositoryStatus {}
 
-final class EventsStorageRepositoryError extends EventsStorageRepositoryFailure {
+final class EventsStorageRepositoryError extends EventsStorageRepositoryStatus {
   final Exception exception;
 
   EventsStorageRepositoryError(this.exception);

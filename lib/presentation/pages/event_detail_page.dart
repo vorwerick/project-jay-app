@@ -1,4 +1,4 @@
-import 'package:app/application/bloc/events/event_detail_bloc.dart';
+import 'package:app/application/bloc/alarms/alarm_detail_bloc.dart';
 import 'package:app/presentation/components/jay_progress_indicator.dart';
 import 'package:app/presentation/components/jay_white_text.dart';
 import 'package:app/presentation/pages/screens/event_details_screen.dart';
@@ -13,13 +13,13 @@ class EventDetailPage extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) => BlocProvider(
-        create: (final context) => EventDetailBloc()..add(EventDetailIdPressed(eventId)),
+        create: (final context) => AlarmDetailBloc()..add(AlarmDetailIdPressed(eventId)),
         child: Scaffold(
           appBar: AppBar(title: JayWhiteText(AppLocalizations.of(context)!.eventDetail)),
           body: SizedBox.expand(
-            child: BlocBuilder<EventDetailBloc, EventDetailState>(
+            child: BlocBuilder<AlarmDetailBloc, AlarmDetailState>(
               builder: (final context, final state) {
-                if (state is EventDetailLoadSuccess) {
+                if (state is AlarmDetailLoadSuccess) {
                   return EventDetailsScreen(detail: state);
                 }
                 return const JayProgressIndicator();

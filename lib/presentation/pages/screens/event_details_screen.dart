@@ -1,4 +1,4 @@
-import 'package:app/application/bloc/events/event_detail_bloc.dart';
+import 'package:app/application/bloc/alarms/alarm_detail_bloc.dart';
 import 'package:app/application/cubit/file/file_cubit.dart';
 import 'package:app/application/cubit/phone/dial_number_cubit.dart';
 import 'package:app/presentation/components/jay_container.dart';
@@ -13,7 +13,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 
 class EventDetailsScreen extends StatelessWidget {
-  final EventDetailLoadSuccess detail;
+  final AlarmDetailLoadSuccess detail;
 
   final Widget _divider = const Divider(
     color: Colors.black,

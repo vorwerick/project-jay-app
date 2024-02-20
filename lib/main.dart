@@ -9,21 +9,21 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 @pragma('vm:entry-point')
-Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+Future<void> _firebaseMessagingBackgroundHandler(final RemoteMessage message) async {
   log('Got a message whilst in the background!');
-  log("Message data: ${message.data}");
+  log('Message data: ${message.data}');
 }
 
-Future<void> _firebaseOnMessageHandler(RemoteMessage message) async {
+Future<void> _firebaseOnMessageHandler(final RemoteMessage message) async {
   log('Got a message whilst in the foreground!');
   log('Message data: ${message.data}');
-  Fluttertoast.showToast(msg: "Message data: ${message.data}", gravity: ToastGravity.CENTER);
+  Fluttertoast.showToast(msg: 'Message data: ${message.data}', gravity: ToastGravity.CENTER);
 }
 
-Future<void> _firebaseMessageHandler(RemoteMessage message) async {
+Future<void> _firebaseMessageHandler(final RemoteMessage message) async {
   log('A new was published!');
   log('Message data: ${message.data}');
-  Fluttertoast.showToast(msg: "Message data: ${message.data}", gravity: ToastGravity.CENTER);
+  Fluttertoast.showToast(msg: 'Message data: ${message.data}', gravity: ToastGravity.CENTER);
 }
 
 Future<void> _initFirebase() async {

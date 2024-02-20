@@ -1,23 +1,22 @@
 import 'package:app/domain/primitives/entity.dart';
-import 'package:app/domain/settings/values/app_version.dart';
 
 final class Setting extends Entity {
-  final AppVersion appVersion;
+  // final AppVersion appVersion;
 
   final bool isTTSEnabled;
 
-  Setting._(super.id, this.appVersion, this.isTTSEnabled);
+  final bool isRegistered;
+
+  Setting._(super.id, this.isTTSEnabled, this.isRegistered);
 
   // TODO(Vojjta): make id random
   factory Setting.createNew(
-    final String appVersion,
     final bool isTTSEnabled,
+    final bool isRegistered,
   ) =>
       Setting._(
         1,
-        AppVersion.fromString(
-          appVersion,
-        ),
         isTTSEnabled,
+        isRegistered,
       );
 }

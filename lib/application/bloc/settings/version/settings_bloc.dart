@@ -22,7 +22,6 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       if (settingResult.isSuccess) {
         emit(
           SettingsLoadSuccess(
-            settingResult.success.appVersion.currentVersion,
             settingResult.success.isTTSEnabled,
           ),
         );

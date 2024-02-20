@@ -1,4 +1,4 @@
-import 'package:app/domain/primitives/unexpected_value_exception.dart';
+import 'package:app/domain/primitives/invalid_value_exception.dart';
 
 final class Name {
   final String name;
@@ -7,7 +7,7 @@ final class Name {
 
   factory Name.fromString(String name) {
     if (name.length < 3) {
-      throw UnexpectedValueException('Name $name is too short');
+      throw InvalidValueException('Name $name is too short');
     }
     return Name._(name);
   }

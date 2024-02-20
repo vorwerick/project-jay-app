@@ -1,18 +1,19 @@
 part of 'user_bloc.dart';
 
 @immutable
-abstract class UserState extends Equatable {}
+abstract class UserState {}
 
-class UserInitial extends UserState {
-  @override
-  List<Object?> get props => [this];
-}
+class UserInitial extends UserState {}
 
-final class CurrentUserState extends UserState {
+final class UserLoadSuccess extends UserState with EquatableMixin {
   final String fullName;
 
-  CurrentUserState(this.fullName);
+  UserLoadSuccess(this.fullName);
 
   @override
   List<Object?> get props => [fullName];
 }
+
+final class UserLoadInProgress extends UserState {}
+
+final class UserLoadFailure extends UserState {}

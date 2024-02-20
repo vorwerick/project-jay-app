@@ -11,17 +11,19 @@ part 'user_state.dart';
 
 class UserBloc extends Bloc<UserEvent, UserState> {
   UserBloc() : super(UserInitial()) {
-    on<UserStarted>((event, emit) async {
+    on<UserStarted>((final event, final emit) async {
       log('Getting current user', name: 'UserBloc');
+      emit(UserLoadInProgress());
 
       final repository = GetIt.I.get<UserRepository>();
 
       final result = await repository.getUser();
 
       if (result.isSuccess) {
-        emit(CurrentUserState(result.success.fullNameWithTitle));
+        emit(UserLoadSuccess(result.success.fullNameWithTitle));
       } else {
-        emit(UserInitial());
+        log('Getting user failure', name: 'UserBloc');
+        emit(UserLoadFailure());
       }
     });
   }

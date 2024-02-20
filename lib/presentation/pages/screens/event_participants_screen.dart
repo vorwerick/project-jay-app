@@ -1,11 +1,11 @@
-import 'package:app/application/bloc/events/event_detail_bloc.dart';
+import 'package:app/application/bloc/alarms/alarm_detail_bloc.dart';
 import 'package:app/presentation/pages/screens/event_details_screen.dart';
 import 'package:app/presentation/pages/screens/participants_screen.dart';
 import 'package:flutter/cupertino.dart';
 
 // This screen is used when the device is in portrait mode
 class EventParticipantScreen extends StatelessWidget {
-  final EventDetailLoadSuccess detail;
+  final AlarmDetailLoadSuccess detail;
 
   const EventParticipantScreen({super.key, required this.detail});
 

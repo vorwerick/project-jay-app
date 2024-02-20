@@ -1,4 +1,4 @@
-import 'package:app/application/bloc/events/event_detail_bloc.dart';
+import 'package:app/application/bloc/alarms/alarm_detail_bloc.dart';
 import 'package:app/presentation/components/jay_bottom_navigation_bar.dart';
 import 'package:app/presentation/components/jay_bottom_navigation_bar_landscape.dart';
 import 'package:app/presentation/components/jay_drawer.dart';
@@ -26,21 +26,21 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(final BuildContext context) => OrientationBuilder(
         builder: (final context, final orientation) => BlocProvider(
-          create: (final context) => EventDetailBloc()..add(EventDetailActiveRequested()),
+          create: (final context) => AlarmDetailBloc()..add(AlarmDetailActiveRequested()),
           child: Scaffold(
             appBar: AppBar(
-              title: BlocBuilder<EventDetailBloc, EventDetailState>(
+              title: BlocBuilder<AlarmDetailBloc, AlarmDetailState>(
                 builder: (final context, final state) {
-                  if (state is EventDetailLoadSuccess) {
+                  if (state is AlarmDetailLoadSuccess) {
                     return AppBarAlarm(eventDetail: state);
                   }
                   return SizedBox.shrink();
                 },
               ),
             ),
-            body: BlocBuilder<EventDetailBloc, EventDetailState>(
+            body: BlocBuilder<AlarmDetailBloc, AlarmDetailState>(
               builder: (final context, final state) {
-                if (state is EventDetailLoadSuccess) {
+                if (state is AlarmDetailLoadSuccess) {
                   return PageView(
                     controller: _pageController,
                     physics: const NeverScrollableScrollPhysics(),
@@ -50,9 +50,9 @@ class _HomePageState extends State<HomePage> {
                 return const JayProgressIndicator();
               },
             ),
-            bottomNavigationBar: BlocBuilder<EventDetailBloc, EventDetailState>(
+            bottomNavigationBar: BlocBuilder<AlarmDetailBloc, AlarmDetailState>(
               builder: (final context, final state) {
-                if (state is EventDetailLoadSuccess) {
+                if (state is AlarmDetailLoadSuccess) {
                   return _getBottomNavigationBar(orientation);
                 }
                 return const SizedBox.shrink();
@@ -84,7 +84,7 @@ class _HomePageState extends State<HomePage> {
           onTap: _onPageTap,
         );
 
-  List<Widget> _getScreens(final Orientation orientation, final EventDetailLoadSuccess detail) =>
+  List<Widget> _getScreens(final Orientation orientation, final AlarmDetailLoadSuccess detail) =>
       orientation == Orientation.portrait
           ? [
               EventDetailsScreen(detail: detail),

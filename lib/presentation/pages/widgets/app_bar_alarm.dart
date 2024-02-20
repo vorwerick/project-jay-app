@@ -1,9 +1,9 @@
-import 'package:app/application/bloc/events/event_detail_bloc.dart';
+import 'package:app/application/bloc/alarms/alarm_detail_bloc.dart';
 import 'package:app/presentation/components/jay_white_text.dart';
 import 'package:flutter/material.dart';
 
 class AppBarAlarm extends StatelessWidget {
-  final EventDetailLoadSuccess eventDetail;
+  final AlarmDetailLoadSuccess eventDetail;
 
   const AppBarAlarm({super.key, required this.eventDetail});
 

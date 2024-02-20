@@ -1,24 +1,30 @@
 import 'dart:developer';
 
-import 'package:app/application/services/event_service.dart';
+import 'package:app/application/services/alarm_service.dart';
 import 'package:app/application/services/tts_service.dart';
+import 'package:app/application/shared/device_information.dart';
+import 'package:app/application/shared/device_information_factory.dart';
 import 'package:app/domain/alarm/repository/alarm_repository.dart';
-import 'package:app/domain/event/repository/events_remote_repository.dart';
 import 'package:app/domain/event/repository/events_storage_repository.dart';
+import 'package:app/domain/member/repository/member_repository.dart';
+import 'package:app/domain/registration/repository/device_registration_repository.dart';
 import 'package:app/domain/settings/repository/setting_repository.dart';
 import 'package:app/domain/user/repository/credential_storage.dart';
 import 'package:app/domain/user/repository/user_repository.dart';
+import 'package:app/infrastructure/api_v1/repositories/jay_api_v1_alarm_repository.dart';
+import 'package:app/infrastructure/api_v1/repositories/jay_api_v1_member_repository.dart';
+import 'package:app/infrastructure/api_v1/repositories/jay_api_v1_registration_repository.dart';
+import 'package:app/infrastructure/api_v1/repositories/jay_api_v1_user_repository.dart';
 import 'package:app/infrastructure/repositories/credentials_secure_storage.dart';
-import 'package:app/infrastructure/repositories/mocked_alarm_repository.dart';
-import 'package:app/infrastructure/repositories/mocked_events_remote_repository.dart';
-import 'package:app/infrastructure/repositories/mocked_events_storage_repository.dart';
-import 'package:app/infrastructure/repositories/mocked_setting_repository.dart';
-import 'package:app/infrastructure/repositories/mocked_user_repository.dart';
-import 'package:app/infrastructure/services/simple_event_service.dart';
+import 'package:app/infrastructure/repositories/shared_event_repository.dart';
+import 'package:app/infrastructure/repositories/shared_setting_repository.dart';
+import 'package:app/infrastructure/services/alarm/simple_alarm_service.dart';
 import 'package:app/infrastructure/services/text_to_speech_service.dart';
+import 'package:app/infrastructure/shared/info_plus_device_information_factory.dart';
 import 'package:get_it/get_it.dart';
 
 // official package: https://pub.dev/packages/get_it
+/// Before running init, please ensure call of WidgetsFlutterBinding.ensureInitialized();
 final class AppDependencyConfiguration {
   AppDependencyConfiguration._();
 
@@ -26,18 +32,25 @@ final class AppDependencyConfiguration {
     log('Starting app dependency configuration', name: 'AppDependencyConfiguration');
     final GetIt getIt = GetIt.instance;
 
+    // Factories
+    getIt.registerSingleton<DeviceInformationFactory>(InfoPlusDeviceInformationFactory());
+    getIt.registerFactoryAsync<DeviceInformation>(
+      () => getIt.get<DeviceInformationFactory>().createDeviceInformation(),
+    );
+
     // Repositories
-    getIt.registerSingleton<UserRepository>(MockedUserRepository());
-    getIt.registerSingleton<SettingRepository>(MockedSettingRepository());
-    getIt.registerSingleton<AlarmRepository>(MockedAlarmRepository());
+    getIt.registerSingleton<UserRepository>(JayApiV1UserRepository());
+    getIt.registerSingleton<SettingRepository>(SharedSettingRepository());
+    getIt.registerSingleton<AlarmRepository>(JayApiV1AlarmRepository());
     getIt.registerSingleton<CredentialsStorage>(CredentialsSecureStorage());
-    getIt.registerSingleton<EventsStorageRepository>(MockedEventsStorageRepository());
-    getIt.registerSingleton<EventsRemoteRepository>(MockedEventsRemoteRepository());
+    getIt.registerSingleton<EventsStorageRepository>(SharedEventRepository());
+    getIt.registerSingleton<DeviceRegistrationRepository>(JayApiV1RegistrationRepository());
+    getIt.registerSingleton<MemberRepository>(JayApiV1MemberRepository());
 
     // Services
-    getIt.registerSingleton<EventService>(
-      SimpleEventService(
-        getIt.get<EventsRemoteRepository>(),
+    getIt.registerSingleton<AlarmService>(
+      SimpleAlarmService(
+        getIt.get<AlarmRepository>(),
         getIt.get<EventsStorageRepository>(),
       ),
     );
