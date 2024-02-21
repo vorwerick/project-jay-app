@@ -1,7 +1,6 @@
 enum AppRoutes {
   login('login'),
   home('home'),
-  homeInactive('home-inactive'),
   eventHistory('event-history'),
   eventDetail('event-detail'),
   pdf('pdf'),

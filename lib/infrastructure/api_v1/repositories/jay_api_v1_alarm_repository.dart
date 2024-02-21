@@ -5,6 +5,7 @@ import 'package:app/domain/alarm/repository/alarm_repository.dart';
 import 'package:app/domain/primitives/result.dart';
 import 'package:app/infrastructure/api_v1/common/dio_api_v1.dart';
 import 'package:app/infrastructure/api_v1/mappers/alarm_mapper.dart';
+import 'package:app/infrastructure/api_v1/validation/active_alarm_validation.dart';
 import 'package:app/infrastructure/api_v1/validation/api_response_validation.dart';
 
 final class JayApiV1AlarmRepository with DioApiV1 implements AlarmRepository {
@@ -85,6 +86,32 @@ final class JayApiV1AlarmRepository with DioApiV1 implements AlarmRepository {
 
       return Result.success(lastAlarm);
     } on Exception catch (e) {
+      return Result.failure(AlarRepositoryError(e));
+    }
+  }
+
+  @override
+  Future<Result<AlarmRepositoryState, Alarm>> getActiveAlarm() async {
+    final client = await createClient();
+
+    try {
+      final result = await client.getAlarmList();
+
+      if (ApiResponseValidation(result).isNotValid) {
+        return Result.failure(AlarmRepositoryFailure(message: 'Server response is invalid'));
+      }
+
+      if (result.data.alarms?.isNotEmpty == true) {
+        for (final alarm in result.data.alarms!) {
+          if (ActiveAlarmValidation(alarm).isValid) {
+            return Result.success(AlarmJsonMapper(alarm).toEntity());
+          }
+        }
+      }
+
+      return Result.failure(AlarmNotFound());
+    } on Exception catch (e) {
+      log('Can not load active alarm', error: e, name: 'JayApiV1AlarmRepository');
       return Result.failure(AlarRepositoryError(e));
     }
   }

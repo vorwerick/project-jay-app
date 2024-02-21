@@ -10,7 +10,7 @@ abstract interface class EventsStorageRepository {
 
   Future<Result<EventsStorageRepositoryStatus, void>> updateEvent(final Event event);
 
-  Future<Result<EventsStorageRepositoryStatus, void>> deleteEvent(final String id);
+  Future<Result<EventsStorageRepositoryStatus, void>> deleteEvent();
 }
 
 sealed class EventsStorageRepositoryStatus {

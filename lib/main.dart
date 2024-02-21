@@ -1,12 +1,14 @@
 import 'dart:developer';
 
 import 'package:app/app.dart';
+import 'package:app/application/services/event_service.dart';
 import 'package:app/presentation/di/app_dependency_configuration.dart';
 import 'package:app/presentation/navigation/routes_config.dart';
 import 'package:app/presentation/utils/firebase_utils.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get_it/get_it.dart';
 
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(final RemoteMessage message) async {
@@ -55,9 +57,13 @@ Future<void> main() async {
   AppDependencyConfiguration.init();
 
   await _initFirebase();
-  final routerConfig = await RoutesConfig.create();
+  await GetIt.I<EventService>().startPolling();
 
-  runApp(App(
-    routerConfig: routerConfig,
-  ));
+  final routerConfig = await GetIt.I<RoutesConfig>().create();
+
+  runApp(
+    App(
+      routerConfig: routerConfig,
+    ),
+  );
 }
