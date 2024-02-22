@@ -1,4 +1,4 @@
-import 'package:app/application/bloc/alarms/alarm_detail_bloc.dart';
+import 'package:app/application/dto/alarm_dto.dart';
 import 'package:app/application/dto/file_pair_dto.dart';
 import 'package:app/domain/alarm/entity/alarm.dart';
 import 'package:intl/intl.dart';
@@ -14,7 +14,7 @@ final class AlarmMapper {
 
   AlarmMapper(this.alarm);
 
-  AlarmDetailLoadSuccess toAlarmDetail() => AlarmDetailLoadSuccess(
+  AlarmDto toAlarmDetail() => AlarmDto(
         unit: alarm.unitName,
         eventType: alarm.eventType,
         event: alarm.title,

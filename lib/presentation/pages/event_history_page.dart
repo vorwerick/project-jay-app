@@ -19,40 +19,42 @@ class EventHistoryPage extends StatelessWidget {
           appBar: AppBar(
             title: JayWhiteText(AppLocalizations.of(context)!.eventHistory),
           ),
-          body: JayContainer(
-            child: Column(
-              children: [
-                BlocBuilder<AlarmHistoryBloc, AlarmHistoryState>(
-                  builder: (final context, final state) {
-                    if (state is AlarmHistoryLoadSuccess && state.events.isNotEmpty) {
-                      return Flexible(
-                        child: ListView.builder(
-                          itemCount: state.events.length,
-                          itemBuilder: (final context, final index) => InkWell(
-                            child: ListEventPair(
-                              date: state.events[index].date,
-                              name: state.events[index].name,
-                            ),
-                            onTap: () {
-                              context.pushNamed(
-                                AppRoutes.eventDetail.name,
-                                pathParameters: {'eventId': state.events[index].eventId},
-                              );
-                            },
-                          ),
-                        ),
-                      );
-                    }
-                    if (state is AlarmHistoryLoadInProgress) {
-                      return const Center(child: JayProgressIndicator());
-                    }
-                    return Center(
-                      child: Text(AppLocalizations.of(context)!.eventEmpty),
-                    );
-                  },
-                ),
-              ],
-            ),
+          body: BlocBuilder<AlarmHistoryBloc, AlarmHistoryState>(
+            builder: (final context, final state) {
+              if (state is AlarmHistoryLoadSuccess && state.events.isNotEmpty) {
+                return JayContainer(
+                  child: ListView.builder(
+                    itemCount: state.events.length,
+                    itemBuilder: (final context, final index) => InkWell(
+                      child: ListEventPair(
+                        date: state.events[index].date,
+                        name: state.events[index].name,
+                      ),
+                      onTap: () {
+                        context.pushNamed(
+                          AppRoutes.eventDetail.name,
+                          pathParameters: {'eventId': state.events[index].eventId},
+                        );
+                      },
+                    ),
+                  ),
+                );
+              }
+              if (state is AlarmHistoryLoadSuccess && state.events.isEmpty) {
+                return Center(
+                  child: Text(AppLocalizations.of(context)!.eventEmpty),
+                );
+              }
+              if (state is AlarmHistoryLoadInProgress) {
+                return const Center(child: JayProgressIndicator());
+              }
+              if (state is AlarmHistoryLoadFailure) {
+                return Center(
+                  child: JayWhiteText(AppLocalizations.of(context)!.checkConnection, fontSize: 20),
+                );
+              }
+              return const SizedBox.shrink();
+            },
           ),
         ),
       );

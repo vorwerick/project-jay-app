@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:app/domain/alarm/entity/alarm.dart';
 import 'package:app/domain/alarm/repository/alarm_repository.dart';
 import 'package:app/domain/primitives/result.dart';
@@ -7,8 +5,12 @@ import 'package:app/infrastructure/api_v1/common/dio_api_v1.dart';
 import 'package:app/infrastructure/api_v1/mappers/alarm_mapper.dart';
 import 'package:app/infrastructure/api_v1/validation/active_alarm_validation.dart';
 import 'package:app/infrastructure/api_v1/validation/api_response_validation.dart';
+import 'package:get_it/get_it.dart';
+import 'package:logger/logger.dart';
 
 final class JayApiV1AlarmRepository with DioApiV1 implements AlarmRepository {
+  final l = GetIt.I<Logger>();
+
   @override
   Future<Result<AlarmRepositoryState, List<Alarm>>> getAll() async {
     final client = await createClient();
@@ -24,6 +26,7 @@ final class JayApiV1AlarmRepository with DioApiV1 implements AlarmRepository {
 
       return Result.success(alarms ?? []);
     } on Exception catch (e) {
+      l.e('Can not get all alarms', error: e);
       return Result.failure(AlarRepositoryError(e));
     }
   }
@@ -58,7 +61,7 @@ final class JayApiV1AlarmRepository with DioApiV1 implements AlarmRepository {
 
       return Result.success(AlarmJsonMapper(result.data.alarm!).toEntity());
     } on Exception catch (e) {
-      log('Can not load alarm by id: $id', error: e, name: 'JayApiV1AlarmRepository');
+      l.e('Can not load alarm by id: $id', error: e);
       return Result.failure(AlarRepositoryError(e));
     }
   }
@@ -86,6 +89,7 @@ final class JayApiV1AlarmRepository with DioApiV1 implements AlarmRepository {
 
       return Result.success(lastAlarm);
     } on Exception catch (e) {
+      l.e('Can not load last alarm', error: e);
       return Result.failure(AlarRepositoryError(e));
     }
   }
@@ -98,6 +102,7 @@ final class JayApiV1AlarmRepository with DioApiV1 implements AlarmRepository {
       final result = await client.getAlarmList();
 
       if (ApiResponseValidation(result).isNotValid) {
+        l.w('Server response is invalid');
         return Result.failure(AlarmRepositoryFailure(message: 'Server response is invalid'));
       }
 
@@ -111,7 +116,7 @@ final class JayApiV1AlarmRepository with DioApiV1 implements AlarmRepository {
 
       return Result.failure(AlarmNotFound());
     } on Exception catch (e) {
-      log('Can not load active alarm', error: e, name: 'JayApiV1AlarmRepository');
+      l.e('Can not load active alarm', error: e);
       return Result.failure(AlarRepositoryError(e));
     }
   }

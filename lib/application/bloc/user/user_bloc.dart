@@ -1,5 +1,4 @@
-import 'dart:developer';
-
+import 'package:app/application/extensions/l.dart';
 import 'package:app/domain/user/repository/user_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -9,10 +8,10 @@ import 'package:meta/meta.dart';
 part 'user_event.dart';
 part 'user_state.dart';
 
-class UserBloc extends Bloc<UserEvent, UserState> {
+class UserBloc extends Bloc<UserEvent, UserState> with L {
   UserBloc() : super(UserInitial()) {
     on<UserStarted>((final event, final emit) async {
-      log('Getting current user', name: 'UserBloc');
+      l.i('Getting current user');
       emit(UserLoadInProgress());
 
       final repository = GetIt.I.get<UserRepository>();
@@ -22,7 +21,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       if (result.isSuccess) {
         emit(UserLoadSuccess(result.success.fullNameWithTitle));
       } else {
-        log('Getting user failure', name: 'UserBloc');
+        l.e('Getting user failure');
         emit(UserLoadFailure());
       }
     });

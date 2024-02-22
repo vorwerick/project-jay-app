@@ -25,15 +25,25 @@ import 'package:app/infrastructure/services/text_to_speech_service.dart';
 import 'package:app/infrastructure/shared/info_plus_device_information_factory.dart';
 import 'package:app/presentation/navigation/routes_config.dart';
 import 'package:get_it/get_it.dart';
+import 'package:logger/logger.dart';
 
 // official package: https://pub.dev/packages/get_it
 /// Before running init, please ensure call of WidgetsFlutterBinding.ensureInitialized();
+
 final class AppDependencyConfiguration {
   AppDependencyConfiguration._();
 
   static Future<void> init() async {
     log('Starting app dependency configuration', name: 'AppDependencyConfiguration');
     final GetIt getIt = GetIt.instance;
+
+    Logger logger = Logger(
+      printer: PrettyPrinter(
+        printTime: true,
+      ),
+    );
+
+    getIt.registerSingleton<Logger>(logger);
 
     // Factories
     getIt.registerSingleton<DeviceInformationFactory>(InfoPlusDeviceInformationFactory());

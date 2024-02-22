@@ -1,6 +1,6 @@
-import 'package:app/application/bloc/alarms/alarm_detail_bloc.dart';
 import 'package:app/application/cubit/file/file_cubit.dart';
 import 'package:app/application/cubit/phone/dial_number_cubit.dart';
+import 'package:app/application/dto/alarm_dto.dart';
 import 'package:app/presentation/components/jay_container.dart';
 import 'package:app/presentation/navigation/app_routes.dart';
 import 'package:app/presentation/pages/widgets/announcer.dart';
@@ -13,7 +13,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 
 class EventDetailsScreen extends StatelessWidget {
-  final AlarmDetailLoadSuccess detail;
+  final AlarmDto detail;
 
   final Widget _divider = const Divider(
     color: Colors.black,
