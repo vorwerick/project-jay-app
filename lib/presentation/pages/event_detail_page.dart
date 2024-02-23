@@ -20,7 +20,7 @@ class EventDetailPage extends StatelessWidget {
             child: BlocBuilder<AlarmDetailBloc, AlarmDetailState>(
               builder: (final context, final state) {
                 if (state is AlarmDetailLoadSuccess) {
-                  return EventDetailsScreen(detail: state);
+                  return EventDetailsScreen(detail: state.alarm);
                 }
                 return const JayProgressIndicator();
               },

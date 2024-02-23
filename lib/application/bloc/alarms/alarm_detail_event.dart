@@ -8,11 +8,3 @@ final class AlarmDetailIdPressed extends AlarmDetailEvent {
 
   AlarmDetailIdPressed(this.eventId);
 }
-
-final class AlarmDetailActiveRequested extends AlarmDetailEvent {}
-
-final class AlarmDetailRefreshed extends AlarmDetailEvent {
-  final Alarm alarm;
-
-  AlarmDetailRefreshed(this.alarm);
-}

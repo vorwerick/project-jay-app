@@ -1,5 +1,4 @@
-import 'dart:developer';
-
+import 'package:app/application/extensions/l.dart';
 import 'package:app/domain/settings/repository/setting_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -9,10 +8,10 @@ import 'package:meta/meta.dart';
 part 'settings_event.dart';
 part 'settings_state.dart';
 
-class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
+class SettingsBloc extends Bloc<SettingsEvent, SettingsState> with L {
   SettingsBloc() : super(SettingsInitial()) {
     on<SettingsStarted>((final event, final emit) async {
-      log('Settings started', name: 'SettingsBloc');
+      l.i('Settings started');
       emit(SettingsLoadInProgress());
 
       final repository = GetIt.I<SettingRepository>();
@@ -29,7 +28,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     });
 
     on<SettingsEnableTTSPressed>((final event, final emit) async {
-      log('Settings enable tts pressed', name: 'SettingsBloc');
+      l.i('Settings enable tts pressed');
 
       final repository = GetIt.I<SettingRepository>();
 

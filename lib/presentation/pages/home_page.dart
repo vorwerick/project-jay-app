@@ -1,9 +1,11 @@
-import 'package:app/application/bloc/alarms/alarm_detail_bloc.dart';
+import 'package:app/application/bloc/alarms/active_alarm_bloc.dart';
+import 'package:app/application/dto/alarm_dto.dart';
 import 'package:app/presentation/components/jay_bottom_navigation_bar.dart';
 import 'package:app/presentation/components/jay_bottom_navigation_bar_landscape.dart';
 import 'package:app/presentation/components/jay_drawer.dart';
 import 'package:app/presentation/components/jay_fab.dart';
 import 'package:app/presentation/components/jay_progress_indicator.dart';
+import 'package:app/presentation/components/jay_white_text.dart';
 import 'package:app/presentation/pages/screens/event_details_screen.dart';
 import 'package:app/presentation/pages/screens/event_participants_screen.dart';
 import 'package:app/presentation/pages/screens/map_screen.dart';
@@ -11,6 +13,7 @@ import 'package:app/presentation/pages/screens/participants_screen.dart';
 import 'package:app/presentation/pages/widgets/app_bar_alarm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -26,33 +29,49 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(final BuildContext context) => OrientationBuilder(
         builder: (final context, final orientation) => BlocProvider(
-          create: (final context) => AlarmDetailBloc()..add(AlarmDetailActiveRequested()),
+          create: (final context) => ActiveAlarmBloc()
+            ..add(
+              ActiveAlarmStarted(
+                enableLiveUpdate: true,
+              ),
+            ),
           child: Scaffold(
             appBar: AppBar(
-              title: BlocBuilder<AlarmDetailBloc, AlarmDetailState>(
+              title: BlocBuilder<ActiveAlarmBloc, ActiveAlarmState>(
                 builder: (final context, final state) {
-                  if (state is AlarmDetailLoadSuccess) {
-                    return AppBarAlarm(eventDetail: state);
+                  if (state is ActiveAlarmLoadSuccess) {
+                    return AppBarAlarm(eventDetail: state.alarm);
                   }
-                  return SizedBox.shrink();
+                  return const SizedBox.shrink();
                 },
               ),
             ),
-            body: BlocBuilder<AlarmDetailBloc, AlarmDetailState>(
+            body: BlocBuilder<ActiveAlarmBloc, ActiveAlarmState>(
               builder: (final context, final state) {
-                if (state is AlarmDetailLoadSuccess) {
+                if (state is ActiveAlarmLoadSuccess) {
                   return PageView(
                     controller: _pageController,
                     physics: const NeverScrollableScrollPhysics(),
-                    children: _getScreens(orientation, state),
+                    children: _getScreens(orientation, state.alarm),
                   );
                 }
-                return const JayProgressIndicator();
+                if (state is ActiveAlarmLoadInProgress) {
+                  return const JayProgressIndicator();
+                }
+                if (state is ActiveAlarmFailure) {
+                  return Center(
+                    child: JayWhiteText(
+                      AppLocalizations.of(context)!.checkConnection,
+                      fontSize: 24,
+                    ),
+                  );
+                }
+                return const SizedBox.shrink();
               },
             ),
-            bottomNavigationBar: BlocBuilder<AlarmDetailBloc, AlarmDetailState>(
+            bottomNavigationBar: BlocBuilder<ActiveAlarmBloc, ActiveAlarmState>(
               builder: (final context, final state) {
-                if (state is AlarmDetailLoadSuccess) {
+                if (state is ActiveAlarmLoadSuccess) {
                   return _getBottomNavigationBar(orientation);
                 }
                 return const SizedBox.shrink();
@@ -84,15 +103,14 @@ class _HomePageState extends State<HomePage> {
           onTap: _onPageTap,
         );
 
-  List<Widget> _getScreens(final Orientation orientation, final AlarmDetailLoadSuccess detail) =>
-      orientation == Orientation.portrait
-          ? [
-              EventDetailsScreen(detail: detail),
-              ParticipantsScreen(),
-              const MapScreen(),
-            ]
-          : [
-              EventParticipantScreen(detail: detail),
-              const MapScreen(),
-            ];
+  List<Widget> _getScreens(final Orientation orientation, final AlarmDto detail) => orientation == Orientation.portrait
+      ? [
+          EventDetailsScreen(detail: detail),
+          ParticipantsScreen(),
+          const MapScreen(),
+        ]
+      : [
+          EventParticipantScreen(detail: detail),
+          const MapScreen(),
+        ];
 }

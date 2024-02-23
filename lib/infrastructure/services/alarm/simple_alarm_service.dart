@@ -1,6 +1,6 @@
 import 'dart:async';
-import 'dart:developer';
 
+import 'package:app/application/extensions/l.dart';
 import 'package:app/application/services/alarm_service.dart';
 import 'package:app/domain/alarm/entity/alarm.dart';
 import 'package:app/domain/alarm/repository/alarm_repository.dart';
@@ -10,7 +10,7 @@ import 'package:app/infrastructure/services/alarm/alarm_fetch_strategy.dart';
 import 'package:app/infrastructure/utils/repository_streamer.dart';
 import 'package:app/infrastructure/utils/service_pooling.dart';
 
-final class SimpleAlarmService with RepositoryStreamer<Alarm>, ServicePooling implements AlarmService {
+final class SimpleAlarmService with RepositoryStreamer<Alarm>, ServicePooling, L implements AlarmService {
   int? _eventId;
 
   final AlarmRepository _alarmRepository;
@@ -42,7 +42,7 @@ final class SimpleAlarmService with RepositoryStreamer<Alarm>, ServicePooling im
   void _onPoolingTime() async {
     final template = AlarmFetchTemplate.byId(_eventId, _alarmRepository);
 
-    log('Selected fetch template ${template.runtimeType}', name: 'SimpleAlarmService');
+    l.d('Selected fetch template ${template.runtimeType}');
 
     final alarm = await template.fetchAlarm();
 

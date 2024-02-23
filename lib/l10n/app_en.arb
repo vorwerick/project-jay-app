@@ -1,4 +1,6 @@
 {
+  "checkConnection": "Check your internet connection",
+  "jayApp": "Jay",
   "helloWorld": "Hello World",
   "email": "Email",
   "password": "Password",

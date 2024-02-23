@@ -2,7 +2,7 @@ import 'package:app/application/bloc/alarms/alert_bloc.dart';
 import 'package:app/application/bloc/settings/version/app_version_bloc.dart';
 import 'package:app/application/bloc/user/user_bloc.dart';
 import 'package:app/presentation/common/jay_colors.dart';
-import 'package:app/presentation/components/jay_progress_indicator.dart';
+import 'package:app/presentation/components/jay_white_text.dart';
 import 'package:app/presentation/navigation/app_routes.dart';
 import 'package:app/presentation/pages/widgets/list/drawer_unit_item.dart';
 import 'package:flutter/material.dart';
@@ -35,14 +35,17 @@ class JayDrawer extends StatelessWidget {
                       builder: (final context, final state) {
                         if (state is UserLoadSuccess) {
                           return Center(
-                            child: Text(
+                            child: JayWhiteText(
                               state.fullName,
-                              style: Theme.of(context).textTheme.labelLarge!.copyWith(color: Colors.white),
                             ),
                           );
                         }
-                        if (state is UserLoadInProgress) {
-                          return const JayProgressIndicator();
+                        if (state is UserLoadFailure) {
+                          return Center(
+                            child: JayWhiteText(
+                              AppLocalizations.of(context)!.checkConnection,
+                            ),
+                          );
                         }
 
                         return const SizedBox.expand();

@@ -1,7 +1,6 @@
-import 'dart:developer';
-
 import 'package:app/application/commands/has_active_event_async_cmd.dart';
 import 'package:app/application/commands/is_registered_async_cmd.dart';
+import 'package:app/application/extensions/l.dart';
 import 'package:app/application/services/event_service.dart';
 import 'package:app/domain/event/repository/events_storage_repository.dart';
 import 'package:app/domain/settings/repository/setting_repository.dart';
@@ -19,7 +18,7 @@ import 'package:go_router/go_router.dart';
 
 import 'app_routes.dart';
 
-final class RoutesConfig {
+final class RoutesConfig with L {
   ValueNotifier<RoutingConfig>? _myRoutingConfig;
 
   final EventService _eventService;
@@ -40,7 +39,7 @@ final class RoutesConfig {
   }
 
   void _onEventChange(final bool isActive) {
-    log('Event is active: $isActive', name: 'RoutesConfig');
+    l.d('Event change received: $isActive');
     updateRouteConfig();
   }
 

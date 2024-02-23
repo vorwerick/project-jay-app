@@ -8,7 +8,7 @@ final class ActiveAlarmValidation extends Validation<Alarm> {
   bool get isValid => _isValid();
 
   bool _isValid() {
-    final beforeTime = DateTime.now().add(const Duration(minutes: -30));
+    final beforeTime = DateTime.now().add(const Duration(days: -2, minutes: -30));
 
     if (data.orderSent.isBefore(beforeTime)) {
       return false;

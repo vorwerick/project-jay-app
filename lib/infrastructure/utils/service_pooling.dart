@@ -1,17 +1,20 @@
 import 'dart:async';
-import 'dart:developer';
+
+import 'package:get_it/get_it.dart';
+import 'package:logger/logger.dart';
 
 mixin ServicePooling {
+  final l = GetIt.I<Logger>();
   Timer? _timer;
 
   void start(
     final void Function() onPoolingTime, {
     final Duration period = const Duration(seconds: 5),
   }) {
-    log('Starting timer', name: 'ServicePooling');
+    l.i('Starting timer');
 
     if (_timer != null) {
-      log('Timer already running', name: 'ServicePooling');
+      l.w('Timer already running');
       return;
     }
 
@@ -21,7 +24,7 @@ mixin ServicePooling {
   }
 
   void stop() {
-    log('Stopping timer', name: 'ServicePooling');
+    l.d('Stopping timer');
     _timer?.cancel();
     _timer = null;
   }

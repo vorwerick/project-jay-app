@@ -5,11 +5,11 @@ class JayProgressIndicator extends StatelessWidget {
   const JayProgressIndicator({super.key});
 
   @override
-  Widget build(BuildContext context) => Center(
+  Widget build(final BuildContext context) => Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const CircularProgressIndicator(),
+            const CircularProgressIndicator(strokeWidth: 3),
             Padding(
               padding: const EdgeInsets.only(top: 10),
               child: Text(AppLocalizations.of(context)!.loading),

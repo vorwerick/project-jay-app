@@ -3,7 +3,6 @@ import 'package:app/domain/event/repository/events_storage_repository.dart';
 import 'package:app/domain/primitives/result.dart';
 import 'package:app/infrastructure/utils/repository_streamer.dart';
 import 'package:app/infrastructure/utils/shared_prefs.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 final class SharedEventRepository with RepositoryStreamer<Event>, SharedPrefs implements EventsStorageRepository {
   static const String _eventIdKey = 'eventId';

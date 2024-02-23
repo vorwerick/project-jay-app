@@ -1,5 +1,4 @@
-import 'dart:developer';
-
+import 'package:app/application/extensions/l.dart';
 import 'package:app/application/shared/device_information.dart';
 import 'package:app/application/shared/device_information_factory.dart';
 import 'package:app/infrastructure/shared/info_plus_device_information.dart';
@@ -7,13 +6,13 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
-final class InfoPlusDeviceInformationFactory implements DeviceInformationFactory {
+final class InfoPlusDeviceInformationFactory with L implements DeviceInformationFactory {
   DeviceInformation? _deviceInformation;
 
   @override
   Future<DeviceInformation> createDeviceInformation() async {
     if (_deviceInformation != null) {
-      log('Returning cached device information.', name: 'InfoPlusDeviceInformationFactory');
+      l.d('Returning cached device information.');
       return _deviceInformation!;
     }
 
@@ -32,7 +31,7 @@ final class InfoPlusDeviceInformationFactory implements DeviceInformationFactory
       buildNumber: int.parse(packageInfo.buildNumber),
       firebaseToken: token ?? '',
     );
-    log('Created new device information.', name: 'InfoPlusDeviceInformationFactory');
+    l.d('Created new device information.');
     return _deviceInformation!;
   }
 }

@@ -1,4 +1,6 @@
 {
+  "jayApp": "Jay",
+  "checkConnection": "Zkontrolujte připojení k internetu",
   "helloWorld": "Ahoj světe",
   "email": "Email",
   "password": "Heslo",
