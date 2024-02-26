@@ -1,6 +1,7 @@
 import 'dart:developer';
 
-import 'package:app/application/services/alarm_service.dart';
+import 'package:app/application/services/alarm/alarm_notification_service.dart';
+import 'package:app/application/services/alarm/alarm_service.dart';
 import 'package:app/application/services/event_service.dart';
 import 'package:app/application/services/tts_service.dart';
 import 'package:app/application/shared/device_information.dart';
@@ -20,6 +21,7 @@ import 'package:app/infrastructure/repositories/credentials_secure_storage.dart'
 import 'package:app/infrastructure/repositories/shared_event_repository.dart';
 import 'package:app/infrastructure/repositories/shared_setting_repository.dart';
 import 'package:app/infrastructure/services/alarm/simple_alarm_service.dart';
+import 'package:app/infrastructure/services/notification/firebase_alarm_notification_service.dart';
 import 'package:app/infrastructure/services/simple_event_service.dart';
 import 'package:app/infrastructure/services/text_to_speech_service.dart';
 import 'package:app/infrastructure/shared/info_plus_device_information_factory.dart';
@@ -31,19 +33,19 @@ import 'package:logger/logger.dart';
 /// Before running init, please ensure call of WidgetsFlutterBinding.ensureInitialized();
 
 final class AppDependencyConfiguration {
+  static final Logger _logger = Logger(
+    printer: PrettyPrinter(
+      printTime: true,
+    ),
+  );
+
   AppDependencyConfiguration._();
 
   static Future<void> init() async {
     log('Starting app dependency configuration', name: 'AppDependencyConfiguration');
     final GetIt getIt = GetIt.instance;
 
-    Logger logger = Logger(
-      printer: PrettyPrinter(
-        printTime: true,
-      ),
-    );
-
-    getIt.registerSingleton<Logger>(logger);
+    getIt.registerSingleton<Logger>(_logger);
 
     // Factories
     getIt.registerSingleton<DeviceInformationFactory>(InfoPlusDeviceInformationFactory());
@@ -80,8 +82,23 @@ final class AppDependencyConfiguration {
       ),
     );
 
+    getIt.registerLazySingleton<AlarmNotificationService>(() => FirebaseAlarmNotificationService());
+
     // Routing
 
     getIt.registerSingleton(RoutesConfig(getIt<EventService>()));
+  }
+
+  static void initBackground() {
+    _logger.d('Starting background dependency configuration');
+    final GetIt getIt = GetIt.I;
+
+    if (!getIt.isRegistered<AlarmNotificationService>()) {
+      getIt.registerLazySingleton<AlarmNotificationService>(() => FirebaseAlarmNotificationService());
+    }
+
+    if (!GetIt.I.isRegistered<Logger>()) {
+      GetIt.I.registerSingleton<Logger>(_logger);
+    }
   }
 }
