@@ -2,12 +2,10 @@ import 'package:app/application/shared/device_information.dart';
 import 'package:app/infrastructure/api_v1/clients/rest_api_v1_client.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
-import 'package:meta/meta.dart';
 
 mixin DioApiV1 {
   RestApiV1Client? _client;
 
-  @protected
   Future<RestApiV1Client> createClient() async {
     if (_client != null) {
       return _client!;

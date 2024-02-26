@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:app/app.dart';
-import 'package:app/application/services/alarm/alarm_notification_service.dart';
 import 'package:app/application/services/event_service.dart';
 import 'package:app/presentation/di/app_dependency_configuration.dart';
 import 'package:app/presentation/navigation/routes_config.dart';
@@ -10,20 +9,11 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get_it/get_it.dart';
-import 'package:logger/logger.dart';
 
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(final RemoteMessage message) async {
-  AppDependencyConfiguration.initBackground();
-
-  Logger l = GetIt.I<Logger>();
-  l.i('Got a message whilst in the background!');
-  l.d('Message data: ${message.data.isEmpty ? 'empty' : message.data}');
-
-  final title = message.data['text'] ?? 'Alarm';
-  final body = message.data['preview'] ?? 'There is alarm event';
-
-  GetIt.I<AlarmNotificationService>().showAlarm(title, body);
+  log('Got a message whilst in the background!');
+  log('Message data: ${message.data}');
 }
 
 Future<void> _firebaseOnMessageHandler(final RemoteMessage message) async {
