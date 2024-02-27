@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:app/application/dto/alarm_dto.dart';
 import 'package:app/application/dto/mappers/alarm_mapper.dart';
 import 'package:app/application/extensions/l.dart';
-import 'package:app/application/services/alarm_service.dart';
+import 'package:app/application/services/alarm/alarm_service.dart';
 import 'package:app/domain/alarm/entity/alarm.dart';
 import 'package:app/domain/alarm/repository/alarm_repository.dart';
 import 'package:bloc/bloc.dart';
