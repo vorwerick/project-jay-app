@@ -32,12 +32,12 @@ class AlarmControlBloc extends Bloc<AlarmControlEvent, AlarmControlState> with L
     await _alert.initDefaultEvent();
     if (_alert.hasActiveEvent) {
       switch (_alert.alarmState) {
-        case NotAnnounced():
-          return emit(AlarmControlOpen());
         case Announced():
-          return emit(AlarmControlAccepted());
+          return emit(AlarmControlOpen());
+        // return emit(AlarmControlAccepted());
+        // return emit(AlarmControlRejected());
         case Closed():
-          return emit(AlarmControlRejected());
+        case NotAnnounced():
         case NullAlarmState():
           return emit(AlarmControlEmpty());
       }

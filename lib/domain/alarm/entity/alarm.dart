@@ -40,6 +40,8 @@ final class Alarm extends Entity {
 
   final LatLng location;
 
+  bool get isActive => state is Announced;
+
   Alarm._(
     super.id, {
     required this.confirmedCount,

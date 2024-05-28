@@ -9,6 +9,7 @@ import 'package:app/infrastructure/services/alarm/alarm_fetch_strategy.dart';
 import 'package:app/infrastructure/utils/repository_streamer.dart';
 import 'package:app/infrastructure/utils/service_pooling.dart';
 
+@Deprecated('use simple event service')
 final class SimpleAlarmService with RepositoryStreamer<Alarm>, ServicePooling, L implements AlarmService {
   int? _eventId;
 
