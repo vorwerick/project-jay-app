@@ -3,29 +3,40 @@ sealed class AlarmState {
 
   factory AlarmState.fromInt(final int state) {
     switch (state) {
-      case 0:
-        return Open();
       case 1:
-        return Accepted();
+        return NotAnnounced();
       case 2:
-        return Declined();
+        return Announced();
+      case 3:
+        return Closed();
       default:
-        return Open();
+        return NotAnnounced();
     }
   }
+
+  factory AlarmState.nullState() => NullAlarmState();
+
+  bool get isNull => this is NullAlarmState;
+
+  bool get isNotNull => !isNull;
 }
 
-final class Open extends AlarmState {
+final class NotAnnounced extends AlarmState {
   @override
-  String toString() => 'Open';
+  String toString() => 'NotAnnounced';
 }
 
-final class Accepted extends AlarmState {
+final class Announced extends AlarmState {
   @override
-  String toString() => 'Accepted';
+  String toString() => 'Announced';
 }
 
-final class Declined extends AlarmState {
+final class Closed extends AlarmState {
   @override
-  String toString() => 'Declined';
+  String toString() => 'Closed';
+}
+
+final class NullAlarmState extends AlarmState {
+  @override
+  String toString() => 'NullAlarmState';
 }

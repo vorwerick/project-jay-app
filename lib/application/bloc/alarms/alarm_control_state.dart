@@ -1,6 +1,16 @@
 part of 'alarm_control_bloc.dart';
 
 @immutable
-abstract class AlarmControlState {}
+sealed class AlarmControlState {}
 
-class AlarmControlInitial extends AlarmControlState {}
+final class AlarmControlInitial extends AlarmControlState {}
+
+final class AlarmControlOpen extends AlarmControlState {}
+
+final class AlarmControlAccepted extends AlarmControlState {}
+
+final class AlarmControlRejected extends AlarmControlState {}
+
+final class AlarmControlEmpty extends AlarmControlState {}
+
+final class AlarmControlFailed extends AlarmControlState {}

@@ -3,8 +3,8 @@ import 'dart:developer';
 import 'package:app/app.dart';
 import 'package:app/application/services/alarm/alarm_notification_service.dart';
 import 'package:app/application/services/event_service.dart';
-import 'package:app/presentation/di/app_dependency_configuration.dart';
-import 'package:app/presentation/navigation/routes_config.dart';
+import 'package:app/configuration/di/app_dependency_configuration.dart';
+import 'package:app/configuration/navigation/routes_config.dart';
 import 'package:app/presentation/utils/firebase_utils.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +21,7 @@ Future<void> _firebaseMessagingBackgroundHandler(final RemoteMessage message) as
   l.d('Message data: ${message.data.isEmpty ? 'empty' : message.data}');
 
   final title = message.data['text'] ?? 'Alarm';
-  final body = message.data['preview'] ?? 'There is alarm event';
+  final body = message.data['preview'] ?? 'There is alarm alarm_event';
 
   GetIt.I<AlarmNotificationService>().showAlarm(title, body);
 }

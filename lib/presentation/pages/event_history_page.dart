@@ -1,8 +1,8 @@
 import 'package:app/application/bloc/alarms/alarm_history_bloc.dart';
+import 'package:app/configuration/navigation/app_routes.dart';
 import 'package:app/presentation/components/jay_container.dart';
 import 'package:app/presentation/components/jay_progress_indicator.dart';
 import 'package:app/presentation/components/jay_white_text.dart';
-import 'package:app/presentation/navigation/app_routes.dart';
 import 'package:app/presentation/pages/widgets/list/list_event_pair.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

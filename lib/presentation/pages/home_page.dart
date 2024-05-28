@@ -1,9 +1,9 @@
 import 'package:app/application/bloc/alarms/active_alarm_bloc.dart';
 import 'package:app/application/dto/alarm_dto.dart';
+import 'package:app/presentation/components/fab/jay_fab.dart';
 import 'package:app/presentation/components/jay_bottom_navigation_bar.dart';
 import 'package:app/presentation/components/jay_bottom_navigation_bar_landscape.dart';
 import 'package:app/presentation/components/jay_drawer.dart';
-import 'package:app/presentation/components/jay_fab.dart';
 import 'package:app/presentation/components/jay_progress_indicator.dart';
 import 'package:app/presentation/components/jay_white_text.dart';
 import 'package:app/presentation/pages/screens/event_details_screen.dart';

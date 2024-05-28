@@ -9,6 +9,7 @@ import 'package:meta/meta.dart';
 part 'alert_event.dart';
 part 'alert_state.dart';
 
+/// used for menu, currently only mocked data
 class AlertBloc extends Bloc<AlertEvent, AlertState> with L {
   AlertBloc() : super(AlertInitial()) {
     on<AlertStarted>((final event, final emit) async {

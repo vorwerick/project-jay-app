@@ -2,7 +2,7 @@ import 'package:app/application/commands/has_active_event_async_cmd.dart';
 import 'package:app/application/commands/is_registered_async_cmd.dart';
 import 'package:app/application/extensions/l.dart';
 import 'package:app/application/services/event_service.dart';
-import 'package:app/domain/event/repository/events_storage_repository.dart';
+import 'package:app/domain/alarm_event/alarm_event.dart';
 import 'package:app/domain/settings/repository/setting_repository.dart';
 import 'package:app/presentation/pages/event_detail_page.dart';
 import 'package:app/presentation/pages/event_history_page.dart';

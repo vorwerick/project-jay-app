@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:app/application/shared/device_information.dart';
-import 'package:app/domain/primitives/result.dart';
+import 'package:app/domain/common/result.dart';
 import 'package:app/domain/registration/repository/device_registration_repository.dart';
 import 'package:app/domain/registration/values/registration_code.dart';
 import 'package:app/infrastructure/api_v1/common/dio_api_v1.dart';

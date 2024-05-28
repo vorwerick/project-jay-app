@@ -1,6 +1,6 @@
 import 'package:app/domain/alarm/values/alarm_state.dart';
 import 'package:app/domain/alarm/values/count.dart';
-import 'package:app/domain/primitives/entity.dart';
+import 'package:app/domain/common/entity.dart';
 import 'package:latlong2/latlong.dart';
 
 final class Alarm extends Entity {

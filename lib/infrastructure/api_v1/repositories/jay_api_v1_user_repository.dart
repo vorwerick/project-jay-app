@@ -1,5 +1,5 @@
 import 'package:app/application/extensions/l.dart';
-import 'package:app/domain/primitives/result.dart';
+import 'package:app/domain/common/result.dart';
 import 'package:app/domain/user/entity/user.dart';
 import 'package:app/domain/user/repository/user_repository.dart';
 import 'package:app/infrastructure/api_v1/common/dio_api_v1.dart';

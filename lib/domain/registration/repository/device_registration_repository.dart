@@ -1,4 +1,4 @@
-import 'package:app/domain/primitives/result.dart';
+import 'package:app/domain/common/result.dart';
 import 'package:app/domain/registration/values/registration_code.dart';
 
 abstract interface class DeviceRegistrationRepository {

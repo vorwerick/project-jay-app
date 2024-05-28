@@ -1,6 +1,6 @@
 import 'package:app/domain/alarm/entity/alarm.dart';
 import 'package:app/domain/alarm/repository/alarm_repository.dart';
-import 'package:app/domain/primitives/result.dart';
+import 'package:app/domain/common/result.dart';
 import 'package:app/infrastructure/api_v1/common/dio_api_v1.dart';
 import 'package:app/infrastructure/api_v1/mappers/alarm_mapper.dart';
 import 'package:app/infrastructure/api_v1/validation/active_alarm_validation.dart';

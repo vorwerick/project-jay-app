@@ -1,5 +1,5 @@
+import 'package:app/domain/common/result.dart';
 import 'package:app/domain/member/entity/member.dart';
-import 'package:app/domain/primitives/result.dart';
 
 abstract interface class MemberRepository {
   Future<Result<MemberRepositoryState, List<Member>>> getMembersById(final int id);

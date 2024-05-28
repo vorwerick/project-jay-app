@@ -11,7 +11,7 @@ class JayAlarmDialog extends StatelessWidget {
   const JayAlarmDialog({super.key, this.onAccept});
 
   @override
-  Widget build(BuildContext context) => Dialog(
+  Widget build(final BuildContext context) => Dialog(
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
@@ -38,7 +38,7 @@ class JayAlarmDialog extends StatelessWidget {
                     minuteInterval: 15,
                     // This is called when the user changes the timer's
                     // duration.
-                    onTimerDurationChanged: (Duration newDuration) {},
+                    onTimerDurationChanged: (final Duration newDuration) {},
                   ),
                 ),
               ),
@@ -61,14 +61,15 @@ class JayAlarmDialog extends StatelessWidget {
                     ElevatedButton(onPressed: context.pop, child: Text(AppLocalizations.of(context)!.back)),
                     const SizedBox(width: 10),
                     ElevatedButton(
-                        onPressed: () {
-                          context.pop();
-                          onAccept?.call();
-                        },
-                        child: Text(AppLocalizations.of(context)!.accept)),
+                      onPressed: () {
+                        context.pop();
+                        onAccept?.call();
+                      },
+                      child: Text(AppLocalizations.of(context)!.accept),
+                    ),
                   ],
                 ),
-              )
+              ),
             ],
           ),
         ),

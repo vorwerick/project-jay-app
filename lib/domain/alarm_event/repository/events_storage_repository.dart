@@ -1,5 +1,5 @@
-import 'package:app/domain/event/entity/event.dart';
-import 'package:app/domain/primitives/result.dart';
+import 'package:app/domain/alarm_event/entity/event.dart';
+import 'package:app/domain/common/result.dart';
 
 abstract interface class EventsStorageRepository {
   Stream<Event> get stream;

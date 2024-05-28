@@ -1,4 +1,4 @@
-import 'package:app/domain/primitives/entity.dart';
+import 'package:app/domain/common/entity.dart';
 
 final class Setting extends Entity {
   // final AppVersion appVersion;

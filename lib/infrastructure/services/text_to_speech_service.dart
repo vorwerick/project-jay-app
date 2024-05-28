@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:app/application/extensions/l.dart';
 import 'package:app/application/services/tts_service.dart';
-import 'package:app/domain/primitives/result.dart';
+import 'package:app/domain/common/result.dart';
 import 'package:app/domain/settings/entity/settings.dart';
 import 'package:app/domain/settings/repository/setting_repository.dart';
 import 'package:flutter_tts/flutter_tts.dart';

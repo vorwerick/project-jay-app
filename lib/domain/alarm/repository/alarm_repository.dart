@@ -1,5 +1,5 @@
 import 'package:app/domain/alarm/entity/alarm.dart';
-import 'package:app/domain/primitives/result.dart';
+import 'package:app/domain/common/result.dart';
 
 abstract interface class AlarmRepository {
   Future<Result<AlarmRepositoryState, bool>> hasActiveAlarm();

@@ -1,7 +1,15 @@
 part of 'alarm_control_bloc.dart';
 
 @immutable
-abstract class AlarmControlEvent {}
+sealed class AlarmControlEvent {}
+
+final class AlarmControlStarted extends AlarmControlEvent {}
+
+final class AlarmControlEventReceived extends AlarmControlEvent {
+  final AlarmEvents event;
+
+  AlarmControlEventReceived(this.event);
+}
 
 final class AlarmControlAcceptPressed extends AlarmControlEvent {}
 

@@ -1,6 +1,6 @@
 import 'package:app/application/extensions/l.dart';
 import 'package:app/application/services/alarm/alarm_notification_service.dart';
-import 'package:app/presentation/di/app_dependency_configuration.dart';
+import 'package:app/configuration/di/app_dependency_configuration.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get_it/get_it.dart';

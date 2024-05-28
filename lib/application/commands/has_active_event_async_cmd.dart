@@ -1,5 +1,5 @@
 import 'package:app/application/commands/command.dart';
-import 'package:app/domain/event/repository/events_storage_repository.dart';
+import 'package:app/domain/alarm_event/alarm_event.dart';
 
 final class HasActiveEventAsync implements AsyncCommand<bool> {
   final EventsStorageRepository _repository;
@@ -10,7 +10,7 @@ final class HasActiveEventAsync implements AsyncCommand<bool> {
   Future<bool> execute() async {
     final result = await _repository.getEvent();
 
-    if (result.isSuccess) {
+    if (result.isSuccess && result.success.isValid) {
       return true;
     }
     return false;

@@ -1,4 +1,4 @@
-import 'package:app/domain/primitives/result.dart';
+import 'package:app/domain/common/result.dart';
 import 'package:app/domain/user/entity/credentials.dart';
 import 'package:app/domain/user/repository/credential_storage.dart';
 
