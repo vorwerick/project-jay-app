@@ -1,4 +1,4 @@
-import 'package:app/domain/primitives/result.dart';
+import 'package:app/domain/common/result.dart';
 
 abstract interface class TTSService {
   Future<Result<TTSServiceState, void>> speak(final String text);

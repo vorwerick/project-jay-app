@@ -1,6 +1,5 @@
-import 'package:app/domain/event/entity/event.dart';
-import 'package:app/domain/event/repository/events_storage_repository.dart';
-import 'package:app/domain/primitives/result.dart';
+import 'package:app/domain/alarm_event/alarm_event.dart';
+import 'package:app/domain/common/result.dart';
 import 'package:app/infrastructure/utils/repository_streamer.dart';
 import 'package:app/infrastructure/utils/shared_prefs.dart';
 

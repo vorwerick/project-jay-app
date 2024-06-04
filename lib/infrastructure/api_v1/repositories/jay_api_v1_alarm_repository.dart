@@ -1,9 +1,9 @@
 import 'package:app/domain/alarm/entity/alarm.dart';
 import 'package:app/domain/alarm/repository/alarm_repository.dart';
-import 'package:app/domain/primitives/result.dart';
+import 'package:app/domain/alarm/values/alarm_state.dart';
+import 'package:app/domain/common/result.dart';
 import 'package:app/infrastructure/api_v1/common/dio_api_v1.dart';
 import 'package:app/infrastructure/api_v1/mappers/alarm_mapper.dart';
-import 'package:app/infrastructure/api_v1/validation/active_alarm_validation.dart';
 import 'package:app/infrastructure/api_v1/validation/api_response_validation.dart';
 import 'package:get_it/get_it.dart';
 import 'package:logger/logger.dart';
@@ -33,19 +33,26 @@ final class JayApiV1AlarmRepository with DioApiV1 implements AlarmRepository {
 
   @override
   Future<Result<AlarmRepositoryState, bool>> hasActiveAlarm() async {
-    final client = await createClient();
+    final result = await getActiveAlarm();
 
-    try {
-      final result = await client.getAlarmList();
-
-      if (ApiResponseValidation(result).isNotValid) {
-        return Result.failure(AlarmRepositoryFailure());
-      }
-
-      return Result.success(result.data.alarms?.isNotEmpty ?? false);
-    } on Exception catch (e) {
-      return Result.failure(AlarRepositoryError(e));
+    if (result.isSuccess) {
+      return Result.success(true);
     }
+
+    return Result.success(false);
+    // final client = await createClient();
+    //
+    // try {
+    //   final result = await client.getAlarmList();
+    //
+    //   if (ApiResponseValidation(result).isNotValid) {
+    //     return Result.failure(AlarmRepositoryFailure());
+    //   }
+    //
+    //   return Result.success(result.data.alarms?.isNotEmpty ?? false);
+    // } on Exception catch (e) {
+    //   return Result.failure(AlarRepositoryError(e));
+    // }
   }
 
   @override
@@ -108,8 +115,9 @@ final class JayApiV1AlarmRepository with DioApiV1 implements AlarmRepository {
 
       if (result.data.alarms?.isNotEmpty == true) {
         for (final alarm in result.data.alarms!) {
-          if (ActiveAlarmValidation(alarm).isValid) {
-            return Result.success(AlarmJsonMapper(alarm).toEntity());
+          final alarmEntity = AlarmJsonMapper(alarm).toEntity();
+          if (alarmEntity.state is Announced) {
+            return Result.success(alarmEntity);
           }
         }
       }

@@ -8,25 +8,23 @@ class JayBottomNavigationBar extends StatelessWidget {
   const JayBottomNavigationBar({super.key, this.onTap, this.currentPageIndex = 0});
 
   @override
-  Widget build(final BuildContext context) {
-    return BottomNavigationBar(
-      backgroundColor: Colors.black,
-      currentIndex: currentPageIndex,
-      onTap: onTap,
-      items: [
-        BottomNavigationBarItem(
-          icon: const Icon(Icons.event),
-          label: AppLocalizations.of(context)!.event,
-        ),
-        BottomNavigationBarItem(
-          icon: const Icon(Icons.people),
-          label: AppLocalizations.of(context)!.participants,
-        ),
-        BottomNavigationBarItem(
-          icon: const Icon(Icons.map),
-          label: AppLocalizations.of(context)!.map,
-        ),
-      ],
-    );
-  }
+  Widget build(final BuildContext context) => BottomNavigationBar(
+        backgroundColor: Colors.black,
+        currentIndex: currentPageIndex,
+        onTap: onTap,
+        items: [
+          BottomNavigationBarItem(
+            icon: const Icon(Icons.event),
+            label: AppLocalizations.of(context)!.event,
+          ),
+          BottomNavigationBarItem(
+            icon: const Icon(Icons.people),
+            label: AppLocalizations.of(context)!.participants,
+          ),
+          BottomNavigationBarItem(
+            icon: const Icon(Icons.map),
+            label: AppLocalizations.of(context)!.map,
+          ),
+        ],
+      );
 }

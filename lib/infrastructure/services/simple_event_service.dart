@@ -1,19 +1,22 @@
 import 'package:app/application/extensions/l.dart';
 import 'package:app/application/services/event_service.dart';
 import 'package:app/domain/alarm/repository/alarm_repository.dart';
-import 'package:app/domain/event/entity/event.dart';
-import 'package:app/domain/event/repository/events_storage_repository.dart';
+import 'package:app/domain/alarm_event/alarm_event.dart';
+import 'package:app/domain/alerts/alert.dart';
 import 'package:app/infrastructure/utils/repository_streamer.dart';
 import 'package:app/infrastructure/utils/service_pooling.dart';
 
 final class SimpleEventService with RepositoryStreamer<bool>, ServicePooling, L implements EventService {
   int _eventId = -1;
 
-  final EventsStorageRepository _eventRepository;
-
   final AlarmRepository _alarmRepository;
 
-  SimpleEventService(this._eventRepository, this._alarmRepository);
+  final Alert _alert;
+
+  SimpleEventService(
+    this._alarmRepository,
+    this._alert,
+  );
 
   @override
   void dispose() {
@@ -30,10 +33,10 @@ final class SimpleEventService with RepositoryStreamer<bool>, ServicePooling, L 
   void stopPolling() => stop;
 
   Future<void> _onPoolTime() async {
-    final result = await _alarmRepository.getActiveAlarm();
+    final result = await _alarmRepository.getLast();
 
     if (result.isFailure && result.failure is AlarmNotFound) {
-      await _eventRepository.deleteEvent();
+      await _alert.clear();
       l.d('No active alarm');
       int newEventId = -1;
       if (newEventId != _eventId) {
@@ -45,15 +48,16 @@ final class SimpleEventService with RepositoryStreamer<bool>, ServicePooling, L 
 
     if (result.isFailure) {
       l.w('Failure with active alarm');
-      await _eventRepository.deleteEvent();
+      await _alert.clear();
       return;
     }
 
     final newEventId = result.success.id;
     if (_eventId != newEventId) {
-      l.d('checking event id: $newEventId');
+      l.d('checking alarm_event id: $newEventId');
       _eventId = newEventId;
-      _eventRepository.addNewEvent(Event(_eventId, result.success.lastUpdate));
+      _alert.setCurrentEvent(Event(_eventId, result.success.lastUpdate));
+
       notifyListeners(true);
     }
   }

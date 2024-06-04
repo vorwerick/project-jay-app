@@ -1,5 +1,5 @@
-import 'package:app/domain/primitives/invalid_value_exception.dart';
-import 'package:app/domain/primitives/result.dart';
+import 'package:app/domain/common/invalid_value_exception.dart';
+import 'package:app/domain/common/result.dart';
 import 'package:app/domain/user/entity/user.dart';
 import 'package:app/domain/user/repository/user_repository.dart';
 

@@ -1,8 +1,8 @@
 enum AppRoutes {
   login('login'),
   home('home'),
-  eventHistory('event-history'),
-  eventDetail('event-detail'),
+  eventHistory('alarm_event-history'),
+  eventDetail('alarm_event-detail'),
   pdf('pdf'),
   settings('settings'),
   deviceRegistration('deviceRegistration');

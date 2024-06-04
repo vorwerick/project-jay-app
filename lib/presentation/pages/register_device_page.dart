@@ -1,6 +1,6 @@
 import 'package:app/application/bloc/device/device_registration_bloc.dart';
+import 'package:app/configuration/navigation/app_routes.dart';
 import 'package:app/presentation/components/jay_text_form_field.dart';
-import 'package:app/presentation/navigation/app_routes.dart';
 import 'package:app/presentation/utils/snack_bar_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

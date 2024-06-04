@@ -1,4 +1,4 @@
-import 'package:app/domain/primitives/entity.dart';
+import 'package:app/domain/common/entity.dart';
 import 'package:app/domain/user/values/academic_title.dart';
 import 'package:app/domain/user/values/name.dart';
 

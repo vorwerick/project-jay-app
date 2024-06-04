@@ -1,4 +1,4 @@
-import 'package:app/domain/primitives/entity.dart';
+import 'package:app/domain/common/entity.dart';
 
 final class Member extends Entity {
   final String name;

@@ -1,6 +1,6 @@
+import 'package:app/domain/common/result.dart';
 import 'package:app/domain/member/entity/member.dart';
 import 'package:app/domain/member/repository/member_repository.dart';
-import 'package:app/domain/primitives/result.dart';
 import 'package:app/infrastructure/api_v1/common/dio_api_v1.dart';
 import 'package:app/infrastructure/api_v1/mappers/alarm_member_mapper.dart';
 import 'package:app/infrastructure/api_v1/validation/api_response_validation.dart';

@@ -1,8 +1,8 @@
 import 'package:app/application/cubit/file/file_cubit.dart';
 import 'package:app/application/cubit/phone/dial_number_cubit.dart';
 import 'package:app/application/dto/alarm_dto.dart';
+import 'package:app/configuration/navigation/app_routes.dart';
 import 'package:app/presentation/components/jay_container.dart';
-import 'package:app/presentation/navigation/app_routes.dart';
 import 'package:app/presentation/pages/widgets/announcer.dart';
 import 'package:app/presentation/pages/widgets/list/list_file_item.dart';
 import 'package:app/presentation/pages/widgets/list/list_pair.dart';

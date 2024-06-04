@@ -1,7 +1,7 @@
 import 'dart:developer';
 
-import 'package:app/domain/primitives/invalid_value_exception.dart';
-import 'package:app/domain/primitives/result.dart';
+import 'package:app/domain/common/invalid_value_exception.dart';
+import 'package:app/domain/common/result.dart';
 import 'package:app/domain/settings/entity/settings.dart';
 import 'package:app/domain/settings/repository/setting_repository.dart';
 import 'package:app/infrastructure/utils/repository_streamer.dart';

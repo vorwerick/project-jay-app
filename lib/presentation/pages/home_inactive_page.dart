@@ -1,6 +1,6 @@
+import 'package:app/configuration/navigation/app_routes.dart';
 import 'package:app/presentation/components/jay_drawer.dart';
 import 'package:app/presentation/components/jay_white_text.dart';
-import 'package:app/presentation/navigation/app_routes.dart';
 import 'package:app/presentation/pages/widgets/event_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';

@@ -1,6 +1,6 @@
 import 'package:app/domain/alarm/values/alarm_state.dart';
 import 'package:app/domain/alarm/values/count.dart';
-import 'package:app/domain/primitives/entity.dart';
+import 'package:app/domain/common/entity.dart';
 import 'package:latlong2/latlong.dart';
 
 final class Alarm extends Entity {
@@ -39,6 +39,8 @@ final class Alarm extends Entity {
   final String technique;
 
   final LatLng location;
+
+  bool get isActive => state is Announced;
 
   Alarm._(
     super.id, {

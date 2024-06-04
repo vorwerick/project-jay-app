@@ -1,4 +1,4 @@
-import 'package:app/domain/primitives/invalid_value_exception.dart';
+import 'package:app/domain/common/invalid_value_exception.dart';
 
 final class Count {
   final int value;

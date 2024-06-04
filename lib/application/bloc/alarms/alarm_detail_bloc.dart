@@ -12,16 +12,16 @@ part 'alarm_detail_state.dart';
 
 class AlarmDetailBloc extends Bloc<AlarmDetailEvent, AlarmDetailState> with L {
   AlarmDetailBloc() : super(AlarmDetailInitial()) {
-    // Pressed event
+    // Pressed alarm_event
     on<AlarmDetailIdPressed>((final event, final emit) async {
-      l.i('Load event for id ${event.eventId}');
+      l.i('Load alarm_event for id ${event.eventId}');
       emit(AlarmDetailLoadInProgress());
       final repository = GetIt.I<AlarmRepository>();
 
       final result = await repository.getById(event.eventId);
 
       if (result.isFailure) {
-        l.w('Failed to load event for id ${event.eventId}');
+        l.w('Failed to load alarm_event for id ${event.eventId}');
         emit(AlarmDetailLoadFailure());
         return;
       }

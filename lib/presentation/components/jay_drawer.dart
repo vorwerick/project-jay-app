@@ -1,9 +1,10 @@
 import 'package:app/application/bloc/alarms/alert_bloc.dart';
 import 'package:app/application/bloc/settings/version/app_version_bloc.dart';
 import 'package:app/application/bloc/user/user_bloc.dart';
+import 'package:app/application/cubit/logout/logout_cubit.dart';
+import 'package:app/configuration/navigation/app_routes.dart';
 import 'package:app/presentation/common/jay_colors.dart';
 import 'package:app/presentation/components/jay_white_text.dart';
-import 'package:app/presentation/navigation/app_routes.dart';
 import 'package:app/presentation/pages/widgets/list/drawer_unit_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,6 +21,7 @@ class JayDrawer extends StatelessWidget {
           BlocProvider<AppVersionBloc>(create: (final context) => AppVersionBloc()..add(AppVersionStarted())),
           BlocProvider<AlertBloc>(create: (final context) => AlertBloc()..add(AlertStarted())),
           BlocProvider<UserBloc>(create: (final context) => UserBloc()..add(UserStarted())),
+          BlocProvider<LogoutCubit>(create: (final context) => LogoutCubit()),
         ],
         child: SafeArea(
           child: Drawer(
@@ -86,13 +88,21 @@ class JayDrawer extends StatelessWidget {
                       context.pushNamed(AppRoutes.settings.name);
                     },
                   ),
-                  ListTile(
-                    title: Text(AppLocalizations.of(context)!.logout),
-                    onTap: () {
-                      // TODO(Vojjta): Update the state of the app.
-                      context.pop();
-                      context.go(AppRoutes.login.path);
-                    },
+                  Builder(
+                    builder: (final context) => BlocListener<LogoutCubit, LogoutState>(
+                      listener: (final context, final state) {
+                        if (state is LogoutSuccess) {
+                          context.pop();
+                          context.go(AppRoutes.deviceRegistration.path);
+                        }
+                      },
+                      child: ListTile(
+                        title: Text(AppLocalizations.of(context)!.logout),
+                        onTap: () {
+                          context.read<LogoutCubit>().logout();
+                        },
+                      ),
+                    ),
                   ),
                   BlocBuilder<AppVersionBloc, AppVersionState>(
                     builder: (final context, final state) {

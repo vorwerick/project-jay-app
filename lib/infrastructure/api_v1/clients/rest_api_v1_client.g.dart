@@ -78,15 +78,15 @@ class _RestApiV1Client implements RestApiV1Client {
   }
 
   @override
-  Future<ApiResponse> setAlarmConfirmation(
+  Future<HttpResponse<ApiResponse>> setAlarmConfirmation(
       AlarmConfirmation alarmConfirmation) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(alarmConfirmation.toJson());
-    final _result = await _dio
-        .fetch<Map<String, dynamic>>(_setStreamType<ApiResponse>(Options(
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<HttpResponse<ApiResponse>>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
@@ -103,7 +103,8 @@ class _RestApiV1Client implements RestApiV1Client {
               baseUrl,
             ))));
     final value = ApiResponse.fromJson(_result.data!);
-    return value;
+    final httpResponse = HttpResponse(value, _result);
+    return httpResponse;
   }
 
   @override

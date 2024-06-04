@@ -27,7 +27,7 @@ abstract class RestApiV1Client {
   Future<HttpResponse<AlarmConfirmationDetail>> getAlarmConfirmationById(@Path('id') int id);
 
   @POST('/AlarmConfirmation')
-  Future<ApiResponse> setAlarmConfirmation(@Body() AlarmConfirmation alarmConfirmation);
+  Future<HttpResponse<ApiResponse>> setAlarmConfirmation(@Body() AlarmConfirmation alarmConfirmation);
 
   @GET('/AlarmList')
   Future<HttpResponse<AlarmList>> getAlarmList();
