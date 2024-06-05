@@ -160,9 +160,9 @@ class _ExpandableFabState extends State<ExpandableFab> with SingleTickerProvider
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(_textWhenClosed),
+                  Text(_textWhenClosed, style: Theme.of(context).textTheme.titleLarge,),
                   const SizedBox(width: 10),
-                  Icon(_iconWhenClosed),
+                  Icon(_iconWhenClosed, color: JayColors.secondary,size: 28,),
                 ],
               ),
             ),

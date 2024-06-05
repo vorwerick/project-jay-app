@@ -12,10 +12,12 @@ class JayWhiteText extends StatelessWidget {
   @override
   Widget build(final BuildContext context) => Text(
         data,
+        textAlign: TextAlign.center,
         style: TextStyle(
-          color: Colors.white,
+          color: Colors.black,
           fontSize: fontSize,
           fontWeight: fontWeight,
+
         ),
       );
 }

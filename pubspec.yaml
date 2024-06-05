@@ -1,4 +1,4 @@
-name: app
+name: Jay
 description: "The Jay app with flutter"
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
@@ -38,6 +38,7 @@ dependencies:
 
   # Icons
   cupertino_icons: ^1.0.6
+  flutter_svg: ^2.0.10+1
 
   # Utils
   url_launcher: ^6.2.4
@@ -45,6 +46,7 @@ dependencies:
   device_info_plus: ^9.1.2
   latlong2: ^0.9.0
   logger: ^2.0.2+1
+  flutter_cached_pdfview: ^0.4.2
 
 
   # Firebase
@@ -79,8 +81,11 @@ flutter:
   generate: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
+  assets:
+    - assets/jay-logo.png
+    - assets/firefighter-avatar.svg
+    - assets/megaphone.svg
+    - assets/sleeping.svg
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

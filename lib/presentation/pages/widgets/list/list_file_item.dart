@@ -19,23 +19,7 @@ final class ListFileItem extends StatelessWidget {
         child: InkWell(
           splashColor: JayColors.lightGrey,
           onTap: () => onFileSelected?.call(filePair.path),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              padding: const EdgeInsets.all(8.0),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: JayColors.blue,
-              ),
-              child: Row(
-                children: [
-                  const BadgeIcon(color: JayColors.lightGrey, icon: Icons.attach_file),
-                  const SizedBox(width: 12),
-                  JayWhiteText(filePair.name),
-                ],
-              ),
-            ),
-          ),
+          child: SizedBox(),
         ),
       );
 }

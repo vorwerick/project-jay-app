@@ -12,8 +12,7 @@ class EventHeader extends StatelessWidget {
           child: Text(
             title,
             textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.headlineLarge!.copyWith(
-                  color: Colors.white,
+            style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
           ),

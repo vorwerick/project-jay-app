@@ -1,3 +1,4 @@
+import 'package:app/presentation/common/jay_colors.dart';
 import 'package:flutter/material.dart';
 
 @immutable
@@ -18,13 +19,13 @@ class ActionButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Material(
-      color: backgroundColor,
-      elevation: 4,
+      elevation: 16,
+      color: JayColors.secondary,
       child: IconButton(
-        iconSize: 50,
+        iconSize: 64,
         onPressed: onPressed,
         icon: icon,
-        color: theme.colorScheme.onSecondary,
+        color: JayColors.secondary
       ),
     );
   }

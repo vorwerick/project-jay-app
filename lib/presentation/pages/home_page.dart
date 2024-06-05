@@ -37,6 +37,7 @@ class _HomePageState extends State<HomePage> {
             ),
           child: Scaffold(
             appBar: AppBar(
+              toolbarHeight: 80,
               title: BlocBuilder<ActiveAlarmBloc, ActiveAlarmState>(
                 builder: (final context, final state) {
                   if (state is ActiveAlarmLoadSuccess) {
@@ -93,24 +94,27 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  Widget _getBottomNavigationBar(final Orientation orientation) => orientation == Orientation.portrait
-      ? JayBottomNavigationBar(
-          currentPageIndex: _currentPageIndex,
-          onTap: _onPageTap,
-        )
-      : JayBottomNavigationBarLandscape(
-          currentPageIndex: _currentPageIndex > 1 ? 1 : _currentPageIndex,
-          onTap: _onPageTap,
-        );
+  Widget _getBottomNavigationBar(final Orientation orientation) =>
+      orientation == Orientation.portrait
+          ? JayBottomNavigationBar(
+              currentPageIndex: _currentPageIndex,
+              onTap: _onPageTap,
+            )
+          : JayBottomNavigationBarLandscape(
+              currentPageIndex: _currentPageIndex > 1 ? 1 : _currentPageIndex,
+              onTap: _onPageTap,
+            );
 
-  List<Widget> _getScreens(final Orientation orientation, final AlarmDto detail) => orientation == Orientation.portrait
-      ? [
-          EventDetailsScreen(detail: detail),
-          ParticipantsScreen(),
-          const MapScreen(),
-        ]
-      : [
-          EventParticipantScreen(detail: detail),
-          const MapScreen(),
-        ];
+  List<Widget> _getScreens(
+          final Orientation orientation, final AlarmDto detail) =>
+      orientation == Orientation.portrait
+          ? [
+              EventDetailsScreen(detail: detail),
+              ParticipantsScreen(),
+              const MapScreen(),
+            ]
+          : [
+              EventParticipantScreen(detail: detail),
+              const MapScreen(),
+            ];
 }

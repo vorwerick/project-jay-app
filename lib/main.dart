@@ -64,9 +64,11 @@ Future<void> _initFirebase() async {
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+
   AppDependencyConfiguration.init();
 
   await _initFirebase();
+
   await GetIt.I<EventService>().startPolling();
 
   final routerConfig = await GetIt.I<RoutesConfig>().create();

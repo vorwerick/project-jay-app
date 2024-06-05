@@ -63,6 +63,7 @@ class _MapScreenState extends State<MapScreen> {
             ],
           ),
           floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
+
           body: BlocListener<AlarmGpsBloc, AlarmGpsState>(
             listener: (final context, final state) {
               if (state is AlarmGpsLoadSuccess) {

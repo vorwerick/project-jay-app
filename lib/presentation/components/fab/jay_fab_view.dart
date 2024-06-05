@@ -28,15 +28,15 @@ class _JayFabViewState extends State<JayFabView> {
             case AlarmControlAccepted():
               _notifier.value = JayFabEvent.closeWithNewParams(
                 Icons.done,
-                JayColors.green,
-                AppLocalizations.of(context)!.accepted,
+                JayColors.primary,
+                "Účast na výjezdu potvrzena",
               );
               break;
             case AlarmControlRejected():
               _notifier.value = JayFabEvent.closeWithNewParams(
                 Icons.close,
-                JayColors.red,
-                AppLocalizations.of(context)!.rejected,
+                JayColors.primary,
+                "Účast na výjezdu odmítnuta",
               );
               break;
             case AlarmControlEmpty() || AlarmControlInitial():
@@ -53,41 +53,55 @@ class _JayFabViewState extends State<JayFabView> {
           distance: 100, //175
           initialOpen: true,
           children: [
-            ActionButton(
-              onPressed: () {
-                // _notifier.value = JayFabEvent.closeWithNewParams(
-                //   Icons.close,
-                //   JayColors.red,
-                //   AppLocalizations.of(context)!.rejected,
-                // );
-                context.read<AlarmControlBloc>().add(
-                      AlarmControlRejectPressed(),
-                    );
-              },
-              icon: const Icon(Icons.close),
-              backgroundColor: Colors.red,
-            ),
-            // ActionButton(
-            //   onPressed: () {
-            //     _showAlarmDialog(context);
-            //   },
-            //   icon: const Icon(Icons.circle_outlined),
-            //   backgroundColor: JayColors.orange,
-            // ),
-            ActionButton(
-              onPressed: () {
-                // _notifier.value = JayFabEvent.closeWithNewParams(
-                //   Icons.done,
-                //   JayColors.green,
-                //   AppLocalizations.of(context)!.accepted,
-                // );
-                context.read<AlarmControlBloc>().add(
-                      AlarmControlAcceptPressed(),
-                    );
-              },
-              icon: const Icon(Icons.done),
-              backgroundColor: JayColors.green,
-            ),
+            Container(
+              decoration: BoxDecoration(              color: JayColors.primary,
+                  borderRadius: BorderRadius.all(Radius.circular(24))),
+              padding: EdgeInsets.all(24),
+              child: Column(children: [
+                Row(mainAxisSize: MainAxisSize.max,children: [
+
+                  ActionButton(
+                    onPressed: () {
+                      // _notifier.value = JayFabEvent.closeWithNewParams(
+                      //   Icons.done,
+                      //   JayColors.green,
+                      //   AppLocalizations.of(context)!.accepted,
+                      // );
+                      context.read<AlarmControlBloc>().add(
+                        AlarmControlAcceptPressed(),
+                      );
+                    },
+                    icon: const Icon(Icons.done, color: JayColors.primary),
+                    backgroundColor: JayColors.green,),
+                  SizedBox(width: 24,),
+                  ActionButton(
+                    onPressed: () {
+                      // _notifier.value = JayFabEvent.closeWithNewParams(
+                      //   Icons.close,
+                      //   JayColors.red,
+                      //   AppLocalizations.of(context)!.rejected,
+                      // );
+                      context.read<AlarmControlBloc>().add(
+                        AlarmControlRejectPressed(),
+                      );
+                    },
+                    icon: const Icon(Icons.close, color: JayColors.primary),
+                    backgroundColor: Colors.red,
+                  ),
+                  // ActionButton(
+                  //   onPressed: () {
+                  //     _showAlarmDialog(context);
+                  //   },
+                  //   icon: const Icon(Icons.circle_outlined),
+                  //   backgroundColor: JayColors.orange,
+                  // ),
+
+                ],),
+                SizedBox(height: 16,),
+                Text("Účast na výjezdu", style: Theme.of(context).textTheme.titleLarge,),
+              ],)
+            )
+
           ],
         ),
       );

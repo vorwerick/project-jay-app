@@ -1,3 +1,4 @@
+import 'package:app/presentation/common/jay_colors.dart';
 import 'package:flutter/material.dart';
 
 class JayFloatingActionButton extends StatelessWidget {
@@ -11,7 +12,8 @@ class JayFloatingActionButton extends StatelessWidget {
     return FloatingActionButton(
       onPressed: onPressed,
       shape: const CircleBorder(),
-      child: Icon(iconData),
+      backgroundColor: JayColors.primary,
+      child: Icon(iconData, color: JayColors.secondary,),
     );
   }
 }

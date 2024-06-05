@@ -1,3 +1,4 @@
+import 'package:app/application/bloc/settings/version/app_version_bloc.dart';
 import 'package:app/application/bloc/settings/version/settings_bloc.dart';
 import 'package:app/presentation/components/jay_container.dart';
 import 'package:app/presentation/components/jay_progress_indicator.dart';
@@ -15,12 +16,17 @@ class SettingsPage extends StatelessWidget {
         appBar: AppBar(
           title: JayWhiteText(AppLocalizations.of(context)!.settings),
         ),
-        body: BlocProvider(
-          create: (final context) => SettingsBloc()..add(SettingsStarted()),
+        body: MultiBlocProvider(
+          providers: [
+            BlocProvider<AppVersionBloc>(
+                create: (final context) =>
+                AppVersionBloc()..add(AppVersionStarted())),
+            BlocProvider(create:(final context) => SettingsBloc()..add(SettingsStarted())),
+          ],
           child: JayContainer(
             child: Padding(
               padding: const EdgeInsets.all(15.0),
-              child: BlocBuilder<SettingsBloc, SettingsState>(
+              child: Column(children: [BlocBuilder<SettingsBloc, SettingsState>(
                 builder: (final context, final state) {
                   if (state is SettingsLoadSuccess) {
                     return Column(
@@ -37,7 +43,28 @@ class SettingsPage extends StatelessWidget {
                   }
                   return const JayProgressIndicator();
                 },
-              ),
+              ),  BlocBuilder<AppVersionBloc, AppVersionState>(
+                builder: (final context, final state) {
+                  if (state is AppVersionLoadSuccess) {
+                    return Padding(
+                      padding: const EdgeInsets.only(
+                          bottom: 5.0, left: 5.0, right: 5.0),
+                      child: Row(
+                        children: [
+                          Text(
+                            'App version: ${state.appVersion}',
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelSmall
+                                ?.copyWith(fontSize: 8),
+                          ),
+                        ],
+                      ),
+                    );
+                  }
+                  return const SizedBox.shrink();
+                },
+              ),],)
             ),
           ),
         ),

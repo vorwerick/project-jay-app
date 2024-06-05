@@ -5,19 +5,12 @@ class JayContainer extends StatelessWidget {
 
   const JayContainer({super.key, required this.child});
   @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
+  Widget build(final BuildContext context) => Padding(
+      padding: const EdgeInsets.all(0),
       child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 10),
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.all(
-            Radius.circular(10),
-          ),
-        ),
+        padding: const EdgeInsets.symmetric(vertical: 0),
+
         child: child,
       ),
     );
-  }
 }

@@ -7,6 +7,14 @@ class JayColors {
 
   static const Color lightGrey = Colors.grey;
 
+  static const Color primary = Color(0xffd16014);
+
+  static const Color secondary = Color(0xff313715);
+
+  static const Color primaryLight = Color(0x20d16014);
+
+  static const Color secondaryLight = Color(0x20313715);
+
   static const Color green = Color(0XFF218A25);
 
   static const Color orange = Color(0XFFC79516);

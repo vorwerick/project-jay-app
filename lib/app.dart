@@ -1,3 +1,4 @@
+import 'package:app/presentation/common/jay_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -14,22 +15,16 @@ class App extends StatelessWidget {
         theme: ThemeData(
           elevatedButtonTheme: ElevatedButtonThemeData(
             style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFFC02222),
-              foregroundColor: Colors.white,
               textStyle: const TextStyle(fontSize: 20),
             ),
           ),
-          colorScheme: const ColorScheme.dark(
-            primary: Color(0xFFC02222),
-            inversePrimary: Color(0xFFA83434),
-            onPrimary: Colors.white,
-            secondary: Colors.white,
-            background: Color(0xFF4b4a4a),
-            onBackground: Colors.white,
-            tertiary: Colors.deepPurple,
-            surface: Color(0xFFA83434),
-            onSurface: Colors.black,
-            surfaceVariant: Colors.white,
+        appBarTheme: AppBarTheme(backgroundColor: JayColors.primary,),
+          colorScheme: ColorScheme.fromSeed(
+            error: Color(0xFF9d1b25),
+            errorContainer: Color(0xFFea858d),
+            seedColor: Color(0xFFd16014),
+
+
           ),
           useMaterial3: true,
         ),

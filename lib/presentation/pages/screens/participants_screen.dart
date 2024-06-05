@@ -46,19 +46,19 @@ class ParticipantsScreen extends StatelessWidget {
               );
             }
             if (state is MembersLoadSuccess && state.members.isNotEmpty) {
-              return ListView.builder(
+              return ListView.separated(
                 itemCount: state.members.length,
                 itemBuilder: (final context, final index) => ListParticipantPair(
                   badgeColor: JayColors.badgeCross,
                   title: state.members[index].name,
                   subtitle: state.members[index].function,
                   trailingTime: state.members[index].dateOfAcceptation,
-                ),
+                ), separatorBuilder: (BuildContext context, int index) { return Divider(); },
               );
             }
 
             return const Center(
-              child: JayWhiteText('No members', fontSize: 20.0),
+              child: JayWhiteText('Žádní účastníci výjezdu', fontSize: 20.0),
             );
           },
         ),
