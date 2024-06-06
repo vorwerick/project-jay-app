@@ -1,26 +1,258 @@
 {
   "project_info": {
-    "project_number": "1037700643762",
-    "project_id": "jay-app-dev",
-    "storage_bucket": "jay-app-dev.appspot.com"
+    "project_number": "61630046308",
+    "firebase_url": "https://jay-system.firebaseio.com",
+    "project_id": "jay-system",
+    "storage_bucket": "jay-system.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1037700643762:android:7256660236b0d82f0fc2ab",
+        "mobilesdk_app_id": "1:61630046308:android:c6bf54d3f323dd07c13f71",
         "android_client_info": {
           "package_name": "cz.appwizards.jay.app"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "61630046308-pdnpqsvg4nf6sjri9bsdjvipk2egk9bp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
-          "current_key": "AIzaSyCRMtLuvAdiwsQGq7Dz6CfT1KaDSRT1Uv0"
+          "current_key": "AIzaSyD1atURW7pdeEN83EGbhq7INd3bnLH5r-E"
+        },
+        {
+          "current_key": "AIzaSyBaJ-ZeZXEwjK5rYlsvsHmtZU-9RTcqRec"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "61630046308-57e354m26bo1174mhbhh5r2nt3q1eups.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "61630046308-lc9ui52ofvgr8756e9oq1ueif0pbmh8v.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "cz.telwork.jay.flutter"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:61630046308:android:11d0f5d7b39e59b0c13f71",
+        "android_client_info": {
+          "package_name": "cz.telwork.info_panel"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "61630046308-pdnpqsvg4nf6sjri9bsdjvipk2egk9bp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1atURW7pdeEN83EGbhq7INd3bnLH5r-E"
+        },
+        {
+          "current_key": "AIzaSyBaJ-ZeZXEwjK5rYlsvsHmtZU-9RTcqRec"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "61630046308-57e354m26bo1174mhbhh5r2nt3q1eups.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "61630046308-lc9ui52ofvgr8756e9oq1ueif0pbmh8v.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "cz.telwork.jay.flutter"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:61630046308:android:c4ef8a4f5930bac3",
+        "android_client_info": {
+          "package_name": "cz.telwork.jay"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "61630046308-gcig61asird06ffhlnbjbbcorchfghb1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "cz.telwork.jay",
+            "certificate_hash": "49db42756e69ae0aed37dd1a026248a2d80cf720"
+          }
+        },
+        {
+          "client_id": "61630046308-qahkkm1efc4um0vdgupe22didtdh0oe7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "cz.telwork.jay",
+            "certificate_hash": "1251c508020f30a8e26859854e2474c99c6e0f60"
+          }
+        },
+        {
+          "client_id": "61630046308-pdnpqsvg4nf6sjri9bsdjvipk2egk9bp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1atURW7pdeEN83EGbhq7INd3bnLH5r-E"
+        },
+        {
+          "current_key": "AIzaSyBaJ-ZeZXEwjK5rYlsvsHmtZU-9RTcqRec"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "61630046308-57e354m26bo1174mhbhh5r2nt3q1eups.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "61630046308-lc9ui52ofvgr8756e9oq1ueif0pbmh8v.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "cz.telwork.jay.flutter"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:61630046308:android:98d4ce68b639ec60c13f71",
+        "android_client_info": {
+          "package_name": "cz.telwork.jay.flutter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "61630046308-pdnpqsvg4nf6sjri9bsdjvipk2egk9bp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1atURW7pdeEN83EGbhq7INd3bnLH5r-E"
+        },
+        {
+          "current_key": "AIzaSyBaJ-ZeZXEwjK5rYlsvsHmtZU-9RTcqRec"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "61630046308-57e354m26bo1174mhbhh5r2nt3q1eups.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "61630046308-lc9ui52ofvgr8756e9oq1ueif0pbmh8v.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "cz.telwork.jay.flutter"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:61630046308:android:9ab4d4ade3aeb418",
+        "android_client_info": {
+          "package_name": "cz.telwork.jay.play"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "61630046308-pdnpqsvg4nf6sjri9bsdjvipk2egk9bp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1atURW7pdeEN83EGbhq7INd3bnLH5r-E"
+        },
+        {
+          "current_key": "AIzaSyBaJ-ZeZXEwjK5rYlsvsHmtZU-9RTcqRec"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "61630046308-57e354m26bo1174mhbhh5r2nt3q1eups.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "61630046308-lc9ui52ofvgr8756e9oq1ueif0pbmh8v.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "cz.telwork.jay.flutter"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:61630046308:android:7da950316f7a7f96c13f71",
+        "android_client_info": {
+          "package_name": "cz.telwork.jay.tablet"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "61630046308-pdnpqsvg4nf6sjri9bsdjvipk2egk9bp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1atURW7pdeEN83EGbhq7INd3bnLH5r-E"
+        },
+        {
+          "current_key": "AIzaSyBaJ-ZeZXEwjK5rYlsvsHmtZU-9RTcqRec"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "61630046308-57e354m26bo1174mhbhh5r2nt3q1eups.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "61630046308-lc9ui52ofvgr8756e9oq1ueif0pbmh8v.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "cz.telwork.jay.flutter"
+              }
+            }
+          ]
         }
       }
     }

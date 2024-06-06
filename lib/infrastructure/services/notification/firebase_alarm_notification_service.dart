@@ -1,6 +1,7 @@
 import 'package:app/application/extensions/l.dart';
 import 'package:app/application/services/alarm/alarm_notification_service.dart';
 import 'package:app/configuration/di/app_dependency_configuration.dart';
+import 'package:app/presentation/common/jay_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get_it/get_it.dart';
@@ -16,6 +17,10 @@ final class FirebaseAlarmNotificationService with L implements AlarmNotification
     'High Importance Notifications', // title
     description: 'This channel is used for important notifications.', // description
     importance: Importance.max,
+    playSound: true,
+    enableVibration: true,
+
+    sound: RawResourceAndroidNotificationSound('fire_siren.mp3'),
   );
 
   static const AndroidInitializationSettings _initializationSettingsAndroid =
@@ -51,19 +56,19 @@ final class FirebaseAlarmNotificationService with L implements AlarmNotification
         android: AndroidNotificationDetails(
           _channel.id, _channel.name,
           channelDescription: _channel.description,
-          icon: _initializationSettingsAndroid.defaultIcon,
+
           importance: Importance.max,
-          priority: Priority.high,
+          priority: Priority.max,
           actions: [
             const AndroidNotificationAction(
               actionAcceptId,
-              'Accept',
-              titleColor: Color(0xFF00FF00),
+              'Přijmout',
+              titleColor: JayColors.secondary,
             ),
             const AndroidNotificationAction(
               actionDeclineId,
-              'Decline',
-              titleColor: Color(0xFFFF0000),
+              'Odmítnout',
+              titleColor: JayColors.secondary,
             ),
           ],
           // other properties...

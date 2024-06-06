@@ -11,9 +11,7 @@ class JayTextFormField extends StatelessWidget {
   Widget build(final BuildContext context) => TextFormField(
         controller: controller,
         decoration: InputDecoration(
-          filled: true,
-          fillColor: Colors.white,
-          border: OutlineInputBorder(
+         border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
           ),
           labelText: labelText,
