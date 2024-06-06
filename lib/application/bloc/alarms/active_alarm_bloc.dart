@@ -6,6 +6,7 @@ import 'package:app/application/extensions/l.dart';
 import 'package:app/application/services/alarm/alarm_service.dart';
 import 'package:app/domain/alarm/entity/alarm.dart';
 import 'package:app/domain/alarm/repository/alarm_repository.dart';
+import 'package:app/infrastructure/services/text_to_speech_service.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:get_it/get_it.dart';
@@ -41,6 +42,8 @@ class ActiveAlarmBloc extends Bloc<ActiveAlarmEvent, ActiveAlarmState> with L {
       l.d('Refreshed alarm received');
 
       final alarm = AlarmMapper(event.alarm).toAlarmDetail();
+
+      GetIt.I<TextToSpeechService>().speak(event.alarm.toSpeechText());
 
       emit(ActiveAlarmLoadSuccess(alarm));
     });

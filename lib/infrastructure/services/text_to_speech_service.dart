@@ -26,6 +26,7 @@ final class TextToSpeechService with L implements TTSService {
 
   @override
   Future<Result<TTSServiceState, void>> speak(final String text) async {
+    tts.setLanguage('cs');
     if (_isTTSEnabled) {
       l.i('Speaking $text');
       await tts.speak(text);
@@ -38,6 +39,7 @@ final class TextToSpeechService with L implements TTSService {
   void _onSettingsChange(final Setting setting) {
     l.d('Settings changed, TTS is: ${setting.isTTSEnabled}');
     _isTTSEnabled = setting.isTTSEnabled;
+   
   }
 
   void _initIsTTSEnabled() {

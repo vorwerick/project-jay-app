@@ -4,16 +4,23 @@ import 'package:flutter/material.dart';
 class JayFloatingActionButton extends StatelessWidget {
   final IconData iconData;
   final void Function() onPressed;
+  final String hero;
 
-  const JayFloatingActionButton({super.key, required this.onPressed, required this.iconData});
+  const JayFloatingActionButton(
+      {super.key,
+      required this.onPressed,
+      required this.iconData,
+      required this.hero});
 
   @override
-  Widget build(BuildContext context) {
-    return FloatingActionButton(
-      onPressed: onPressed,
-      shape: const CircleBorder(),
-      backgroundColor: JayColors.primary,
-      child: Icon(iconData, color: JayColors.secondary,),
-    );
-  }
+  Widget build(final BuildContext context) => FloatingActionButton(
+        onPressed: onPressed,
+        heroTag: hero,
+        shape: const CircleBorder(),
+        backgroundColor: JayColors.primary,
+        child: Icon(
+          iconData,
+          color: JayColors.secondary,
+        ),
+      );
 }

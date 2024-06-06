@@ -15,7 +15,7 @@ class App extends StatelessWidget {
         theme: ThemeData(
           elevatedButtonTheme: ElevatedButtonThemeData(
             style: ElevatedButton.styleFrom(
-              textStyle: const TextStyle(fontSize: 20),
+              textStyle: const TextStyle(fontSize: 20,color: Colors.white),
             ),
           ),
         appBarTheme: AppBarTheme(backgroundColor: JayColors.primary,),

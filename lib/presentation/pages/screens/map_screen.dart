@@ -42,6 +42,7 @@ class _MapScreenState extends State<MapScreen> {
                 builder: (final context, final state) {
                   if (state is AlarmGpsLoadSuccess) {
                     return JayFloatingActionButton(
+                      hero: 'navigate-fab',
                       onPressed: () {
                         MapUtils.openMap(state.latitude, state.longitude);
                       },
@@ -53,21 +54,27 @@ class _MapScreenState extends State<MapScreen> {
               ),
               const SizedBox(height: 10),
               JayFloatingActionButton(
+                hero: 'layers-fab',
                 onPressed: () {
                   setState(() {
-                    _currentMapType = (_currentMapType == MapType.normal) ? MapType.satellite : MapType.normal;
+                    _currentMapType = (_currentMapType == MapType.normal)
+                        ? MapType.satellite
+                        : MapType.normal;
                   });
                 },
                 iconData: Icons.layers,
               ),
+              SizedBox(
+                height: 56,
+              )
             ],
           ),
           floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
-
           body: BlocListener<AlarmGpsBloc, AlarmGpsState>(
             listener: (final context, final state) {
               if (state is AlarmGpsLoadSuccess) {
-                _mapController.animateCamera(CameraUpdate.newLatLng(LatLng(state.latitude, state.longitude)));
+                _mapController.animateCamera(CameraUpdate.newLatLng(
+                    LatLng(state.latitude, state.longitude)));
                 _markers.clear();
 
                 final Marker marker = Marker(

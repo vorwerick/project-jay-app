@@ -5,6 +5,7 @@ import 'package:app/application/services/alarm/alarm_notification_service.dart';
 import 'package:app/application/services/event_service.dart';
 import 'package:app/configuration/di/app_dependency_configuration.dart';
 import 'package:app/configuration/navigation/routes_config.dart';
+import 'package:app/infrastructure/services/text_to_speech_service.dart';
 import 'package:app/presentation/utils/firebase_utils.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';

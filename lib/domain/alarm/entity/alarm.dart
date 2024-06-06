@@ -114,4 +114,7 @@ final class Alarm extends Entity {
   @override
   String toString() =>
       'Alarm{id: $id, confirmedCount: $confirmedCount, declinedCount: $declinedCount, state: $state, title: $title, preview: $preview, unitName: $unitName, announcer: $announcer, announcerPhone: $announcerPhone, eventType: $eventType}';
+
+  String toSpeechText() =>
+      'Vyhlášen poplach pro jednotku ${this.unitName}.Typ události ${this.eventType}. Technika ${this.technique}.';
 }

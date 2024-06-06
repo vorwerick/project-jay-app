@@ -86,6 +86,7 @@ class JayDrawer extends StatelessWidget {
                           SizedBox(
                             height: 16,
                           ),
+                          /*
                           BlocBuilder<AlertBloc, AlertState>(
                             builder: (final context, final state) {
                               if (state is CurrentAlertsState) {
@@ -130,7 +131,7 @@ class JayDrawer extends StatelessWidget {
                                 child: CircularProgressIndicator(),
                               );
                             },
-                          ),
+                          ),*/
                         ],
                       )),
                   ListTile(
@@ -147,6 +148,60 @@ class JayDrawer extends StatelessWidget {
                     onTap: () {
                       context.pop();
                       context.pushNamed(AppRoutes.settings.name);
+                    },
+                  ),
+                  ListTile(
+                    title: Text("O aplikaci"),
+                    onTap: () {
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return Dialog(
+
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Container(
+                                    margin: EdgeInsets.all(24),
+                                    child: Text(
+                                      "O aplikaci",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleLarge,
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(left:24, right: 24, bottom: 24),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Image.network(
+                                              "https://www.telwork.cz/JAYAdmin/assets/images/logo-light-icon.png",
+                                              width: 24,
+                                              color: JayColors.blue,
+                                            ),
+                                            SizedBox(
+                                              width: 4,
+                                            ),
+                                            Text(
+                                              "TELwork",
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .titleMedium,
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(height: 12,),
+                                        Text("2024 TELwork, s.r.o. \nVšechna práva vyhrazena")
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
+                            );
+                          });
                     },
                   ),
                   Builder(

@@ -77,7 +77,7 @@ final class AppDependencyConfiguration {
       ),
     );
 
-    getIt.registerSingleton<TTSService>(
+    getIt.registerSingleton<TextToSpeechService>(
       TextToSpeechService(
         getIt.get<SettingRepository>(),
       ),
