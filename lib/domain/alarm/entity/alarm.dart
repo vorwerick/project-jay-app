@@ -116,5 +116,5 @@ final class Alarm extends Entity {
       'Alarm{id: $id, confirmedCount: $confirmedCount, declinedCount: $declinedCount, state: $state, title: $title, preview: $preview, unitName: $unitName, announcer: $announcer, announcerPhone: $announcerPhone, eventType: $eventType}';
 
   String toSpeechText() =>
-      'Vyhlášen poplach pro jednotku ${this.unitName}.Typ události ${this.eventType}. Technika ${this.technique}.';
+      'Vyhlášen poplach pro jednotku ${this.unitName}.Typ události ${this.eventType}. Kraj ${this.region}. Město ${this.city}. Ulice ${this.street}. Budova ${this.object}. Podlaží ${this.floor}. Popis ${this.explanation}. Dostupné dokumenty plán domu';
 }

@@ -47,6 +47,7 @@ dependencies:
   latlong2: ^0.9.0
   logger: ^2.0.2+1
   flutter_pdfview: ^1.3.2
+  path_provider: ^2.1.3
 
 
   # Firebase
@@ -86,6 +87,7 @@ flutter:
     - assets/firefighter-avatar.svg
     - assets/megaphone.svg
     - assets/sleeping.svg
+    - assets/plan-domu.pdf
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

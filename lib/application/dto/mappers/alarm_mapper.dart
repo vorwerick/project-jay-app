@@ -7,9 +7,8 @@ final class AlarmMapper {
   final Alarm alarm;
 
   final List<FilePairDto> _mockedFiles = [
-    const FilePairDto(name: 'Test pdf file', path: 'path1.pdf'),
-    const FilePairDto(name: 'Test jpg file', path: 'path2.jpg'),
-    const FilePairDto(name: 'Test csv file', path: 'path3.csv'),
+    const FilePairDto(name: 'Plan domu test', path: 'assets/plan-domu.pdf'),
+
   ];
 
   AlarmMapper(this.alarm);

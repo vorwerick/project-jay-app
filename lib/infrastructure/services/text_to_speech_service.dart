@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:app/application/extensions/l.dart';
 import 'package:app/application/services/tts_service.dart';
@@ -13,6 +14,7 @@ final class TextToSpeechService with L implements TTSService {
   late StreamSubscription<void> _settingSubscription;
 
   bool _isTTSEnabled = false;
+  bool _isSpeaking = false;
 
   final FlutterTts tts = FlutterTts();
 
@@ -24,14 +26,23 @@ final class TextToSpeechService with L implements TTSService {
     });
   }
 
+  bool isSpeaking() => _isSpeaking;
+
   @override
   Future<Result<TTSServiceState, void>> speak(final String text) async {
     tts.setLanguage('cs');
+    _isSpeaking = true;
     if (_isTTSEnabled) {
       l.i('Speaking $text');
       await tts.speak(text);
+
+      tts.completionHandler = (){
+        _isSpeaking = false;
+      };
+
       return Future.value(Result.success(null));
     }
+
     l.i('TTS is disabled');
     return Future.value(Result.failure(TTSDisabled()));
   }
@@ -39,7 +50,6 @@ final class TextToSpeechService with L implements TTSService {
   void _onSettingsChange(final Setting setting) {
     l.d('Settings changed, TTS is: ${setting.isTTSEnabled}');
     _isTTSEnabled = setting.isTTSEnabled;
-   
   }
 
   void _initIsTTSEnabled() {

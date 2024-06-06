@@ -43,7 +43,9 @@ class ActiveAlarmBloc extends Bloc<ActiveAlarmEvent, ActiveAlarmState> with L {
 
       final alarm = AlarmMapper(event.alarm).toAlarmDetail();
 
-      GetIt.I<TextToSpeechService>().speak(event.alarm.toSpeechText());
+      if(!GetIt.I<TextToSpeechService>().isSpeaking()){
+        GetIt.I<TextToSpeechService>().speak(event.alarm.toSpeechText());
+      }
 
       emit(ActiveAlarmLoadSuccess(alarm));
     });
