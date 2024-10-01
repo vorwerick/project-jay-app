@@ -20,7 +20,7 @@ final class FirebaseAlarmNotificationService with L implements AlarmNotification
     playSound: true,
     enableVibration: true,
 
-    sound: RawResourceAndroidNotificationSound('fire_siren.mp3'),
+    sound: RawResourceAndroidNotificationSound('fire_siren.wav'),
   );
 
   static const AndroidInitializationSettings _initializationSettingsAndroid =

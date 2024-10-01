@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:app/domain/common/result.dart';
 import 'package:app/domain/member/entity/member.dart';
 import 'package:app/domain/member/repository/member_repository.dart';
@@ -7,10 +9,13 @@ import 'package:app/infrastructure/api_v1/validation/api_response_validation.dar
 
 final class JayApiV1MemberRepository with DioApiV1 implements MemberRepository {
   @override
-  Future<Result<MemberRepositoryState, List<Member>>> getMembersById(final int id) async {
+  Future<Result<MemberRepositoryState, List<Member>>> getMembersById(
+      final int id) async {
     final client = await createClient();
 
     try {
+      final result1 = await client.getAlarmListById(id);
+      result1.alarms?.forEach((e) {});
       final result = await client.getAlarmConfirmationById(id);
 
       if (ApiResponseValidation(result).isValid) {
@@ -19,7 +24,7 @@ final class JayApiV1MemberRepository with DioApiV1 implements MemberRepository {
               (final m) => AlarmMemberJsonMapper(m).toMember(),
             )
             .toList();
-
+        log("members: ${members.map((final m) => m.name).join(" ")}");
         return Result.success(members);
       } else {
         return Result.success([]);

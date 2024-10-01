@@ -1,21 +1,21 @@
 import 'dart:developer';
 
-import 'package:app/application/shared/device_information.dart';
 import 'package:app/domain/common/result.dart';
 import 'package:app/domain/registration/repository/device_registration_repository.dart';
 import 'package:app/domain/registration/values/registration_code.dart';
 import 'package:app/infrastructure/api_v1/common/dio_api_v1.dart';
 import 'package:app/infrastructure/api_v1/models/json/registration/device_registration.dart';
+import 'package:app/infrastructure/shared/info_plus_device_information_service.dart';
 import 'package:dio/dio.dart';
-import 'package:get_it/get_it.dart';
 
 final class JayApiV1RegistrationRepository with DioApiV1 implements DeviceRegistrationRepository {
   @override
   Future<Result<DeviceRegistrationRepositoryState, bool>> registerDevice(final RegistrationCode code) async {
     try {
-      final deviceInfo = await GetIt.I.getAsync<DeviceInformation>();
+      final deviceInfo = await InfoPlusDeviceInformationService().createDeviceInformation();
 
-      final request = DeviceRegistration(code.code, deviceInfo.firebaseToken);
+      log("REGISTERZ: " + deviceInfo!.firebaseToken);
+      final request = DeviceRegistration(code.code, deviceInfo!.firebaseToken);
 
       final client = await createClient();
 

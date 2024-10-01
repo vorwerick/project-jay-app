@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:app/domain/alarm/entity/alarm.dart';
 import 'package:app/domain/alarm/repository/alarm_repository.dart';
 import 'package:app/domain/alarm/values/alarm_state.dart';
@@ -88,7 +90,7 @@ final class JayApiV1AlarmRepository with DioApiV1 implements AlarmRepository {
 
       final alarms = result.data.alarms?.map((final a) => AlarmJsonMapper(a).toEntity()).toList();
 
-      final lastAlarm = alarms?.last;
+      final lastAlarm = alarms?.lastOrNull;
 
       if (lastAlarm == null) {
         return Result.failure(AlarmRepositoryFailure());
@@ -116,6 +118,7 @@ final class JayApiV1AlarmRepository with DioApiV1 implements AlarmRepository {
       if (result.data.alarms?.isNotEmpty == true) {
         for (final alarm in result.data.alarms!) {
           final alarmEntity = AlarmJsonMapper(alarm).toEntity();
+          log(result.data.toString());
           if (alarmEntity.state is Announced) {
             return Result.success(alarmEntity);
           }

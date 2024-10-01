@@ -11,5 +11,6 @@ final class UserInfoJsonMapper {
         name: _userInfo.name,
         surname: _userInfo.surname,
         academicTitle: _userInfo.title,
+
       );
 }

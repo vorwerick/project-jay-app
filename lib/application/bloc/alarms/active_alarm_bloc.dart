@@ -33,8 +33,10 @@ class ActiveAlarmBloc extends Bloc<ActiveAlarmEvent, ActiveAlarmState> with L {
         emit(ActiveAlarmFailure());
         return;
       }
-      final alarm = AlarmMapper(result.success).toAlarmDetail();
-
+      final mapper = AlarmMapper(result.success);
+      final alarm = mapper.toAlarmDetail();
+      GetIt.I<TextToSpeechService>().loadText(mapper.toSpeechText());
+      GetIt.I<TextToSpeechService>().start();
       emit(ActiveAlarmLoadSuccess(alarm));
     });
 
@@ -42,10 +44,6 @@ class ActiveAlarmBloc extends Bloc<ActiveAlarmEvent, ActiveAlarmState> with L {
       l.d('Refreshed alarm received');
 
       final alarm = AlarmMapper(event.alarm).toAlarmDetail();
-
-      if(!GetIt.I<TextToSpeechService>().isSpeaking()){
-        GetIt.I<TextToSpeechService>().speak(event.alarm.toSpeechText());
-      }
 
       emit(ActiveAlarmLoadSuccess(alarm));
     });

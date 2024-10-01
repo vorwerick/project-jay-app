@@ -6,7 +6,7 @@ Project essentials
 - [Original Api in swagger](https://jayserver.telwork.cz/Mobile.API/swagger/)
 
 Package name
-> cz.appwizards.jay.app
+> cz.telwork.jay.play
 
 ## Project architecture
 

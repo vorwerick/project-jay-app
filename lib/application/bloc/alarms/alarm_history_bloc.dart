@@ -30,7 +30,7 @@ class AlarmHistoryBloc extends Bloc<AlarmHistoryEvent, AlarmHistoryState> with L
             (final a) => EventDto(
               '${a.id}',
               a.title,
-              DateTime.now(),
+              a.lastUpdate.toLocal(),
             ),
           )
           .toList();

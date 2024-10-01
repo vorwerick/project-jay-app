@@ -79,7 +79,8 @@ final class RoutesConfig with L {
         GoRoute(
           name: AppRoutes.home.name,
           path: AppRoutes.home.path,
-          pageBuilder: (final context, final state) => _createTransition(state.pageKey, home),
+          pageBuilder: (final context, final state) =>
+              _createTransition(state.pageKey, home),
         ),
         GoRoute(
           path: AppRoutes.deviceRegistration.path,
@@ -92,7 +93,8 @@ final class RoutesConfig with L {
         GoRoute(
           name: AppRoutes.eventHistory.name,
           path: AppRoutes.eventHistory.path,
-          pageBuilder: (final context, final state) => _createTransition(state.pageKey, const EventHistoryPage()),
+          pageBuilder: (final context, final state) =>
+              _createTransition(state.pageKey, const EventHistoryPage()),
           routes: [
             GoRoute(
               name: AppRoutes.eventDetail.name,
@@ -128,10 +130,14 @@ final class RoutesConfig with L {
     );
   }
 
-  CustomTransitionPage _createTransition(final LocalKey? key, final Widget page) => CustomTransitionPage(
+  CustomTransitionPage _createTransition(
+          final LocalKey? key, final Widget page) =>
+      CustomTransitionPage(
         key: key,
         child: page,
-        transitionsBuilder: (final context, final animation, final secondaryAnimation, final child) => FadeTransition(
+        transitionsBuilder: (final context, final animation,
+                final secondaryAnimation, final child) =>
+            FadeTransition(
           opacity: CurveTween(curve: Curves.easeInOutCirc).animate(animation),
           child: child,
         ),

@@ -1,82 +1,68 @@
-import 'dart:developer';
-
 import 'package:app/app.dart';
-import 'package:app/application/services/alarm/alarm_notification_service.dart';
 import 'package:app/application/services/event_service.dart';
 import 'package:app/configuration/di/app_dependency_configuration.dart';
 import 'package:app/configuration/navigation/routes_config.dart';
-import 'package:app/infrastructure/services/text_to_speech_service.dart';
-import 'package:app/presentation/utils/firebase_utils.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:app/domain/alerts/alert.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get_it/get_it.dart';
-import 'package:logger/logger.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-@pragma('vm:entry-point')
-Future<void> _firebaseMessagingBackgroundHandler(final RemoteMessage message) async {
-  AppDependencyConfiguration.initBackground();
-
-  Logger l = GetIt.I<Logger>();
-  l.i('Got a message whilst in the background!');
-  l.d('Message data: ${message.data.isEmpty ? 'empty' : message.data}');
-
-  final title = message.data['text'] ?? 'Alarm';
-  final body = message.data['preview'] ?? 'There is alarm alarm_event';
-
-  GetIt.I<AlarmNotificationService>().showAlarm(title, body);
-}
-
-Future<void> _firebaseOnMessageHandler(final RemoteMessage message) async {
-  log('Got a message whilst in the foreground!');
-  log('Message data: ${message.data}');
-  Fluttertoast.showToast(msg: 'Message data: ${message.data}', gravity: ToastGravity.CENTER);
-}
-
-Future<void> _firebaseMessageHandler(final RemoteMessage message) async {
-  log('A new was published!');
-  log('Message data: ${message.data}');
-  Fluttertoast.showToast(msg: 'Message data: ${message.data}', gravity: ToastGravity.CENTER);
-}
-
-Future<void> _initFirebase() async {
-  await FirebaseUtils.initCore();
-  await FirebaseUtils.requestNotificationPermission();
-  await FirebaseUtils.showTokenToLog();
-
-  FirebaseMessaging.onMessage.listen(_firebaseOnMessageHandler);
-
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-
-  RemoteMessage? initialMessage = await FirebaseMessaging.instance.getInitialMessage();
-
-  if (initialMessage != null) {
-    log('Handling a initial message: ${initialMessage.messageId}');
-    _firebaseMessageHandler(initialMessage);
-  } else {
-    log('No initial message');
-  }
-
-  FirebaseMessaging.onMessageOpenedApp.listen(_firebaseMessageHandler);
-
-  FirebaseUtils.initCrashlytics();
-}
+const ONE_SIGNAL_APP_ID = 'c1742112-083d-469c-adf1-6614fa33d5f6';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  OneSignal.initialize(ONE_SIGNAL_APP_ID);
 
+  await OneSignal.Notifications.requestPermission(true);
+  if (kDebugMode) {
+    OneSignal.Debug.setLogLevel(OSLogLevel.verbose);
+  }
 
   AppDependencyConfiguration.init();
 
-  await _initFirebase();
-
-  await GetIt.I<EventService>().startPolling();
+  Future.delayed(Duration(milliseconds: 10000), () async {
+    await GetIt.I<EventService>().startPolling();
+  });
 
   final routerConfig = await GetIt.I<RoutesConfig>().create();
 
-  runApp(
-    App(
-      routerConfig: routerConfig,
+  var start2 = DateTime.now().millisecondsSinceEpoch;
+  await SentryFlutter.init(
+    (final options) {
+      options.dsn =
+          'https://bb64b5286c9ae21975fc4531a996d24e@o1174084.ingest.us.sentry.io/4507985639243776';
+      // Set tracesSampleRate to 1.0 to capture 100% of transactions for tracing.
+      // We recommend adjusting this value in production.
+      options.tracesSampleRate = 1.0;
+      // The sampling rate for profiling is relative to tracesSampleRate
+      // Setting to 1.0 will profile 100% of sampled transactions:
+      options.profilesSampleRate = 1.0;
+    },
+    appRunner: () => runApp(
+      App(
+        routerConfig: routerConfig,
+      ),
     ),
   );
+
+  OneSignal.Notifications.addClickListener((final event) async {
+    final prefs = await SharedPreferences.getInstance();
+    StringBuffer sb = StringBuffer();
+    String g = prefs.getString('notifications') ?? '';
+    sb.write(g);
+    sb.write('\n');
+    sb.write(
+        '${DateTime.now().toString()} priority: ${event.notification.priority}');
+
+    prefs.setString('notifications', sb.toString());
+    final Alert alert = GetIt.I<Alert>();
+    if (event.result.actionId == 'accept') {
+      await alert.accept();
+    } else if (event.result.actionId == 'decline') {
+      await alert.reject();
+    }
+  });
 }

@@ -1,4 +1,7 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="cz.telwork.jay.play">
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <queries>
         <intent>
@@ -45,12 +48,9 @@
             android:name="flutterEmbedding"
             android:value="2" />
 
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_channel_id"
-            android:value="high_importance_channel" />
-
-        <receiver
-            android:exported="false"
-            android:name="com.dexterous.flutterlocalnotifications.ActionBroadcastReceiver" />
+        <!-->
+        <meta-data android:name="com.onesignal.NotificationServiceExtension"
+            android:value="cz.telwork.jay.play.NotificationServiceExtension" />
+            <-->
     </application>
 </manifest>

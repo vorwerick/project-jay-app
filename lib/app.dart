@@ -24,7 +24,6 @@ class App extends StatelessWidget {
             errorContainer: Color(0xFFea858d),
             seedColor: Color(0xFFd16014),
 
-
           ),
           useMaterial3: true,
         ),

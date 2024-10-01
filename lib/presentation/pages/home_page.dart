@@ -1,5 +1,7 @@
 import 'package:app/application/bloc/alarms/active_alarm_bloc.dart';
 import 'package:app/application/dto/alarm_dto.dart';
+import 'package:app/infrastructure/services/text_to_speech_service.dart';
+import 'package:app/presentation/common/jay_colors.dart';
 import 'package:app/presentation/components/fab/jay_fab.dart';
 import 'package:app/presentation/components/jay_bottom_navigation_bar.dart';
 import 'package:app/presentation/components/jay_bottom_navigation_bar_landscape.dart';
@@ -14,6 +16,7 @@ import 'package:app/presentation/pages/widgets/app_bar_alarm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:get_it/get_it.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -22,9 +25,27 @@ class HomePage extends StatefulWidget {
   State<StatefulWidget> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage>
+    with SingleTickerProviderStateMixin {
   int _currentPageIndex = 0;
+  late AnimationController _animationController;
   final PageController _pageController = PageController();
+
+  @override
+  void initState() {
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 500),
+    );
+    _animationController.repeat(reverse: true);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(final BuildContext context) => OrientationBuilder(
@@ -37,7 +58,21 @@ class _HomePageState extends State<HomePage> {
             ),
           child: Scaffold(
             appBar: AppBar(
-              toolbarHeight: 80,
+              toolbarHeight: 124,
+              backgroundColor: JayColors.primary,
+              actions: [
+                FadeTransition(
+                  opacity: _animationController,
+                  child: const Padding(
+                    padding: EdgeInsets.all(12),
+                    child: Icon(
+                      Icons.warning,
+                      color: JayColors.secondary,
+                      size: 42,
+                    ),
+                  ),
+                )
+              ],
               title: BlocBuilder<ActiveAlarmBloc, ActiveAlarmState>(
                 builder: (final context, final state) {
                   if (state is ActiveAlarmLoadSuccess) {
@@ -50,6 +85,7 @@ class _HomePageState extends State<HomePage> {
             body: BlocBuilder<ActiveAlarmBloc, ActiveAlarmState>(
               builder: (final context, final state) {
                 if (state is ActiveAlarmLoadSuccess) {
+
                   return PageView(
                     controller: _pageController,
                     physics: const NeverScrollableScrollPhysics(),
@@ -83,6 +119,8 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       );
+
+
 
   void _onPageTap(final int index) {
     // Place where we can add transition animations

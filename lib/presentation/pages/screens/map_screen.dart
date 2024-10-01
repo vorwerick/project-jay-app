@@ -13,7 +13,7 @@ class MapScreen extends StatefulWidget {
 }
 
 class _MapScreenState extends State<MapScreen> {
-  late GoogleMapController _mapController;
+  GoogleMapController? _mapController;
 
   MapType _currentMapType = MapType.normal;
 
@@ -73,7 +73,7 @@ class _MapScreenState extends State<MapScreen> {
           body: BlocListener<AlarmGpsBloc, AlarmGpsState>(
             listener: (final context, final state) {
               if (state is AlarmGpsLoadSuccess) {
-                _mapController.animateCamera(CameraUpdate.newLatLng(
+                _mapController?.animateCamera(CameraUpdate.newLatLng(
                     LatLng(state.latitude, state.longitude)));
                 _markers.clear();
 
@@ -101,6 +101,8 @@ class _MapScreenState extends State<MapScreen> {
       );
 
   void _onMapCreated(final GoogleMapController controller) {
-    _mapController = controller;
+    setState(() {
+      _mapController = controller;
+    });
   }
 }

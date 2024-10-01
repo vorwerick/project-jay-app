@@ -18,7 +18,7 @@ mixin ServicePooling {
       return;
     }
 
-    _timer = Timer.periodic(period, (final _) {
+    _timer = Timer.periodic(period, (final timer) {
       onPoolingTime.call();
     });
   }

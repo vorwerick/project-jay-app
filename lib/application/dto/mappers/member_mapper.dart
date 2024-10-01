@@ -7,9 +7,9 @@ final class MemberMapper {
   MemberMapper(this.member);
 
   MemberDto toMemberDto() => MemberDto(
-        name: member.name,
-        surname: member.surname,
-        function: member.function,
-        dateOfAcceptation: member.confirmTime,
-      );
+      name: member.name,
+      surname: member.surname,
+      function: member.function,
+      dateOfAcceptation: member.confirmTime.toLocal(),
+      confirmed: member.confirmed);
 }

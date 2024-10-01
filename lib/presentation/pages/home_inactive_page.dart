@@ -12,7 +12,7 @@ class HomeInactivePage extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) => Scaffold(
-        appBar: AppBar(title: JayWhiteText(AppLocalizations.of(context)!.noActiveAlarms)),
+        appBar: AppBar(title: JayWhiteText(AppLocalizations.of(context)!.noActiveAlarms),backgroundColor: Colors.blueGrey,),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,

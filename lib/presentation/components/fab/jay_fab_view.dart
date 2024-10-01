@@ -16,109 +16,127 @@ class JayFabView extends StatefulWidget {
 }
 
 class _JayFabViewState extends State<JayFabView> {
-  final ValueNotifier<JayFabEvent> _notifier = ValueNotifier<JayFabEvent>(JayFabEvent.close());
+
+  AlarmControlState state = AlarmControlEmpty();
 
   @override
-  Widget build(final BuildContext context) => BlocListener<AlarmControlBloc, AlarmControlState>(
-        listener: (final context, final state) {
-          switch (state) {
-            case AlarmControlOpen():
-              _notifier.value = JayFabEvent.open();
-              break;
-            case AlarmControlAccepted():
-              _notifier.value = JayFabEvent.closeWithNewParams(
-                Icons.done,
-                JayColors.primary,
-                "Účast na výjezdu potvrzena",
-              );
-              break;
-            case AlarmControlRejected():
-              _notifier.value = JayFabEvent.closeWithNewParams(
-                Icons.close,
-                JayColors.primary,
-                "Účast na výjezdu odmítnuta",
-              );
-              break;
-            case AlarmControlEmpty() || AlarmControlInitial():
-              _notifier.value = JayFabEvent.close();
-              break;
-            case AlarmControlFailed():
-              SnackBarUtils.showError(context, 'nepovedlo se');
-              _notifier.value = JayFabEvent.close();
-              break;
-          }
-        },
-        child: ExpandableFab(
-          notifier: _notifier,
-          distance: 100, //175
-          initialOpen: true,
-          children: [
-            Container(
-              decoration: BoxDecoration(              color: JayColors.primary,
-                  borderRadius: BorderRadius.all(Radius.circular(24))),
-              padding: EdgeInsets.all(24),
-              child: Column(children: [
-                Row(mainAxisSize: MainAxisSize.max,children: [
+  Widget build(final BuildContext context) =>
+      BlocListener<AlarmControlBloc, AlarmControlState>(
+          listener: (final context, final AlarmControlState state) {
 
-                  ActionButton(
-                    onPressed: () {
-                      // _notifier.value = JayFabEvent.closeWithNewParams(
-                      //   Icons.done,
-                      //   JayColors.green,
-                      //   AppLocalizations.of(context)!.accepted,
-                      // );
-                      context.read<AlarmControlBloc>().add(
-                        AlarmControlAcceptPressed(),
-                      );
-                    },
-                    icon: const Icon(Icons.done, color: JayColors.primary),
-                    backgroundColor: JayColors.green,),
-                  SizedBox(width: 24,),
-                  ActionButton(
-                    onPressed: () {
-                      // _notifier.value = JayFabEvent.closeWithNewParams(
-                      //   Icons.close,
-                      //   JayColors.red,
-                      //   AppLocalizations.of(context)!.rejected,
-                      // );
-                      context.read<AlarmControlBloc>().add(
-                        AlarmControlRejectPressed(),
-                      );
-                    },
-                    icon: const Icon(Icons.close, color: JayColors.primary),
-                    backgroundColor: Colors.red,
-                  ),
-                  // ActionButton(
-                  //   onPressed: () {
-                  //     _showAlarmDialog(context);
-                  //   },
-                  //   icon: const Icon(Icons.circle_outlined),
-                  //   backgroundColor: JayColors.orange,
-                  // ),
 
-                ],),
-                SizedBox(height: 16,),
-                Text("Účast na výjezdu", style: Theme.of(context).textTheme.titleLarge,),
-              ],)
-            )
+            setState(() {
+              this.state = state;
+            });
+          },
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              if (state is AlarmControlEmpty) SizedBox.shrink(),
 
-          ],
-        ),
-      );
+              if(state is AlarmControlRejected)
+                Container(
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(Radius.circular(16)),
+                        border: Border.all(color: JayColors.primary, width: 2)),
+                    padding: EdgeInsets.all(24),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text(
+                          "Účast odmítnuta",
+                          style: Theme.of(context).textTheme.titleLarge,
+                        ),
+                      ],
+                    )),
+              if(state is AlarmControlAccepted)
+                Container(
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(Radius.circular(16)),
+                        border: Border.all(color: JayColors.primary, width: 2)),
+                    padding: EdgeInsets.all(24),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text(
+                          "Účast potvrzena",
+                          style: Theme.of(context).textTheme.titleLarge,
+                        ),
+                      ],
+                    )),
+              if (state is AlarmControlOpen || state is AlarmControlInitial)
+                Container(
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(Radius.circular(16)),
+                        border: Border.all(color: JayColors.primary, width: 2)),
+                    padding: EdgeInsets.all(24),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text(
+                          "Odpoveď na výjezd",
+                          style: Theme.of(context).textTheme.titleLarge,
+                        ),
+                        SizedBox(
+                          height: 16,
+                        ),
+                        FloatingActionButton.extended(
+                          label: Text(
+                            "Nejdu",
+                            style: TextStyle(color: Colors.white, fontSize: 26),
+                          ),
+                          onPressed: () {
+                            // _notifier.value = JayFabEvent.closeWithNewParams(
+                            //   Icons.close,
+                            //   JayColors.red,
+                            //   AppLocalizations.of(context)!.rejected,
+                            // );
+                            context.read<AlarmControlBloc>().add(
+                                  AlarmControlRejectPressed(),
+                                );
+                          },
+                          icon: const Icon(
+                            Icons.close,
+                            color: Colors.white,
+                            size: 32,
+                          ),
+                          backgroundColor: Colors.red,
+                        ),
+                        SizedBox(
+                          height: 16,
+                        ),
+                        FloatingActionButton.extended(
+                          onPressed: () {
+
+                            context.read<AlarmControlBloc>().add(
+                                  AlarmControlAcceptPressed(),
+                                );
+                          },
+                          icon: const Icon(
+                            Icons.directions_run,
+                            color: Colors.white,
+                            size: 32,
+                          ),
+                          backgroundColor: JayColors.green,
+                          label: Text(
+                            "    Jdu",
+                            style: TextStyle(color: Colors.white, fontSize: 26),
+                          ),
+                        ),
+                      ],
+                    ))
+            ],
+          ));
 
   Future<void> _showAlarmDialog(final BuildContext context) async {
     await showDialog(
       context: context,
       builder: (final BuildContext builderContext) => JayAlarmDialog(
         onAccept: () {
-          _notifier.value = JayFabEvent.closeWithNewParams(
-            Icons.circle_outlined,
-            JayColors.orange,
-            AppLocalizations.of(context)!.delayed,
-          );
-          context.read<AlarmControlBloc>().add(
-                AlarmControlDelayPressed(),
-              );
+
         },
       ),
     );

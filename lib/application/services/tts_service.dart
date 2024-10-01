@@ -1,7 +1,7 @@
 import 'package:app/domain/common/result.dart';
 
 abstract interface class TTSService {
-  Future<Result<TTSServiceState, void>> speak(final String text);
+  Future<Result<TTSServiceState, void>> start();
 }
 
 sealed class TTSServiceState {}
