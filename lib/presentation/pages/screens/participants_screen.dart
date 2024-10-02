@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:app/application/bloc/members/members_bloc.dart';
+import 'package:app/application/dto/alarm_dto.dart';
 import 'package:app/presentation/common/jay_colors.dart';
 import 'package:app/presentation/components/jay_white_text.dart';
 import 'package:app/presentation/pages/widgets/list/list_pariticipant_pair.dart';
@@ -8,14 +9,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ParticipantsScreen extends StatefulWidget {
-  ParticipantsScreen({super.key});
+  final AlarmDto detail;
+  final bool isHistory;
+
+  const ParticipantsScreen({super.key, required this.detail, required this.isHistory});
 
   @override
   State<ParticipantsScreen> createState() => _ParticipantsScreenState();
 }
 
 class _ParticipantsScreenState extends State<ParticipantsScreen> {
-
   Timer? timer;
   final List<Widget> mockedData = [
     ListParticipantPair(
@@ -50,13 +53,14 @@ class _ParticipantsScreenState extends State<ParticipantsScreen> {
 
   @override
   void initState() {
-
     super.initState();
   }
 
   @override
   Widget build(final BuildContext context) => BlocProvider(
-        create: (final context) => MembersBloc()..add(MembersStarted(enableLiveUpdate: true)),
+        create: (final context) => MembersBloc()
+          ..add(MembersStarted(
+              enableLiveUpdate: true, id: widget.detail.eventId)),
         child: BlocBuilder<MembersBloc, MembersState>(
           builder: (final context, final state) {
             if (state is MembersLoadInProgress) {
@@ -65,12 +69,17 @@ class _ParticipantsScreenState extends State<ParticipantsScreen> {
               );
             }
             if (state is MembersLoadSuccess) {
-              timer = Timer(Duration(milliseconds: 3000), (){
-                context.read<MembersBloc>().add(MembersSilentRefresh());
-              });
+              if(widget.isHistory){
+                timer = Timer(const Duration(milliseconds: 3000), () {
+                  context.read<MembersBloc>().add(MembersSilentRefresh(id: widget.detail.eventId));
+                });
+              }
+
               return RefreshIndicator(
                 onRefresh: () {
-                  context.read<MembersBloc>().add(MembersStarted());
+                  context
+                      .read<MembersBloc>()
+                      .add(MembersStarted(id: widget.detail.eventId));
                   return Future.value();
                 },
                 child: state.members.isNotEmpty
@@ -95,8 +104,10 @@ class _ParticipantsScreenState extends State<ParticipantsScreen> {
                       ),
               );
             }
-            if(state is MembersLoadFailure){
-              return const Center(child: Text("Něco se pokazilo"),);
+            if (state is MembersLoadFailure) {
+              return const Center(
+                child: Text("Něco se pokazilo"),
+              );
             }
             return const SizedBox.shrink();
           },

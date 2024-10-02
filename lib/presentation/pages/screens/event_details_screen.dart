@@ -54,10 +54,8 @@ class EventDetailsScreen extends StatelessWidget {
                       trackVisibility: true,
                       thickness: 12,
                       interactive: true,
-
                       radius: Radius.circular(32),
                       child: ListView(
-
                         children: [
                           ListPair(
                             title: AppLocalizations.of(context)!.unit,
@@ -76,7 +74,7 @@ class EventDetailsScreen extends StatelessWidget {
                           ),
                           ListPair(
                             title: AppLocalizations.of(context)!.technique,
-                            value: detail.technique,
+                            value: detail.technique?.map((t) => t.fleetName).join(', '),
                             background: JayColors.secondaryLight,
                           ),
                           ListPair(
@@ -116,13 +114,13 @@ class EventDetailsScreen extends StatelessWidget {
                           ),
                           ListPair(
                             title: AppLocalizations.of(context)!.otherTechnique,
-                            value: detail.otherTechnique,
+                            value: detail.otherTechnique?.map((t) => t.fleetName).join(', '),
                             background: JayColors.secondaryLight,
                           ),
                           ListPairAction(
                             title: AppLocalizations.of(context)!.notifier,
                             name: detail.notifier,
-                            number: "tel: " + detail.notifierNumber,
+                            number: 'tel: ' + detail.notifierNumber,
                             background: JayColors.primaryLight,
                             icon: Icon(
                               color: Colors.white,
@@ -133,8 +131,8 @@ class EventDetailsScreen extends StatelessWidget {
                           ),
                           //_documentsWidget(),
                           ListPair(
-                            title: "\n\n\n\n\n\n\n\n\n\n\n",
-                            value: "",
+                            title: '\n\n\n\n\n\n\n\n\n\n\n',
+                            value: '',
                             background: JayColors.primaryLight,
                           ),
                           SizedBox(
@@ -152,27 +150,26 @@ class EventDetailsScreen extends StatelessWidget {
       );
 
   Widget _documentsWidget() => Builder(
-      builder: (final context) => Column(
-        children: detail.files
-            .map(
-              (final e) => ListPairAction(
-            onTap: (filepath) {
-              context.read<FileCubit>().openFile(e);
-            },
-            icon: Icon(
-              color: Colors.white,
-              Icons.file_present_rounded,
-            ),
-            name: e.path,
-            number: "",
-            title: "Dokument",
-            background:
-            detail.files.indexOf(e) % 2 == 0
-                ? JayColors.secondaryLight
-                : JayColors.primaryLight,
-          ),
-        )
-            .toList(),
-      ),
-    );
+        builder: (final context) => Column(
+          children: detail.files
+              .map(
+                (final e) => ListPairAction(
+                  onTap: (filepath) {
+                    context.read<FileCubit>().openFile(e);
+                  },
+                  icon: Icon(
+                    color: Colors.white,
+                    Icons.file_present_rounded,
+                  ),
+                  name: e.path,
+                  number: '',
+                  title: 'Dokument',
+                  background: detail.files.indexOf(e) % 2 == 0
+                      ? JayColors.secondaryLight
+                      : JayColors.primaryLight,
+                ),
+              )
+              .toList(),
+        ),
+      );
 }

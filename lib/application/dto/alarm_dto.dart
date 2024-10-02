@@ -1,11 +1,13 @@
 import 'package:app/application/dto/file_pair_dto.dart';
+import 'package:app/infrastructure/api_v1/models/json/fleet.dart';
 import 'package:equatable/equatable.dart';
 
 final class AlarmDto extends Equatable {
+  final int eventId;
   final String unit;
   final String eventType;
   final String event;
-  final String technique;
+  final List<Fleet>? technique;
   final String region;
   final String municipality;
   final String street;
@@ -13,7 +15,7 @@ final class AlarmDto extends Equatable {
   final String floor;
   final String explanation;
   final String lastUpdate;
-  final String otherTechnique;
+  final List<Fleet>? otherTechnique;
   final String notifier;
 
   final String notifierNumber;
@@ -21,7 +23,8 @@ final class AlarmDto extends Equatable {
   final List<FilePairDto> files;
 
   const AlarmDto(
-      {required this.unit,
+      {required this.eventId,
+      required this.unit,
       required this.eventType,
       required this.event,
       required this.technique,
@@ -39,6 +42,7 @@ final class AlarmDto extends Equatable {
 
   @override
   List<Object?> get props => [
+        eventId,
         unit,
         eventType,
         event,

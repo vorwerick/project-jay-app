@@ -32,7 +32,6 @@ class _JayFabViewState extends State<JayFabView> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              if (state is AlarmControlEmpty) SizedBox.shrink(),
 
               if(state is AlarmControlRejected)
                 Container(
@@ -66,7 +65,7 @@ class _JayFabViewState extends State<JayFabView> {
                         ),
                       ],
                     )),
-              if (state is AlarmControlOpen || state is AlarmControlInitial)
+              if (state is AlarmControlOpen || state is AlarmControlInitial || state is AlarmControlEmpty)
                 Container(
                     decoration: BoxDecoration(
                         color: Colors.white,
@@ -84,6 +83,7 @@ class _JayFabViewState extends State<JayFabView> {
                           height: 16,
                         ),
                         FloatingActionButton.extended(
+                          heroTag: Key("decline"),
                           label: Text(
                             "Nejdu",
                             style: TextStyle(color: Colors.white, fontSize: 26),
@@ -109,6 +109,7 @@ class _JayFabViewState extends State<JayFabView> {
                           height: 16,
                         ),
                         FloatingActionButton.extended(
+                          heroTag: Key("accept"),
                           onPressed: () {
 
                             context.read<AlarmControlBloc>().add(

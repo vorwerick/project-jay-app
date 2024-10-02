@@ -1,9 +1,11 @@
 import 'package:app/domain/alarm/values/alarm_state.dart';
 import 'package:app/domain/alarm/values/count.dart';
 import 'package:app/domain/common/entity.dart';
+import 'package:app/infrastructure/api_v1/models/json/fleet.dart';
 import 'package:latlong2/latlong.dart';
 
 final class Alarm extends Entity {
+  final int eventId;
   final Count confirmedCount;
 
   final Count declinedCount;
@@ -36,7 +38,9 @@ final class Alarm extends Entity {
 
   final String explanation;
 
-  final String technique;
+  final List<Fleet>? technique;
+
+  final List<Fleet>? otherTechnique;
 
   final LatLng location;
 
@@ -44,6 +48,7 @@ final class Alarm extends Entity {
 
   Alarm._(
     super.id, {
+    required this.eventId,
     required this.confirmedCount,
     required this.declinedCount,
     required this.state,
@@ -62,11 +67,13 @@ final class Alarm extends Entity {
     required this.object,
     required this.explanation,
     required this.technique,
+    required this.otherTechnique,
     required this.location,
   });
 
   factory Alarm.create(
     final int id, {
+    required final int eventId,
     required final int confirmCount,
     required final int declineCount,
     required final int state,
@@ -84,12 +91,14 @@ final class Alarm extends Entity {
     required final String floor,
     required final String object,
     required final String explanation,
-    required final String technique,
+    required final List<Fleet>? technique,
+    required final List<Fleet>? otherTechnique,
     required final double latitude,
     required final double longitude,
   }) =>
       Alarm._(
         id,
+        eventId: eventId,
         confirmedCount: Count.create(confirmCount),
         declinedCount: Count.create(declineCount),
         state: AlarmState.fromInt(state),
@@ -108,12 +117,11 @@ final class Alarm extends Entity {
         object: object,
         explanation: explanation,
         technique: technique,
+        otherTechnique: otherTechnique,
         location: LatLng(latitude, longitude),
       );
 
   @override
   String toString() =>
       'Alarm{id: $id, confirmedCount: $confirmedCount, declinedCount: $declinedCount, state: $state, title: $title, preview: $preview, unitName: $unitName, announcer: $announcer, announcerPhone: $announcerPhone, eventType: $eventType}';
-
-
 }

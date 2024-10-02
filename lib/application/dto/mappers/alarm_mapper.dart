@@ -14,6 +14,7 @@ final class AlarmMapper {
   AlarmMapper(this.alarm);
 
   AlarmDto toAlarmDetail() => AlarmDto(
+    eventId: alarm.eventId,
         unit: alarm.unitName,
         eventType: alarm.eventType,
         event: alarm.title,
@@ -25,7 +26,7 @@ final class AlarmMapper {
         floor: alarm.floor,
         explanation: alarm.explanation,
         lastUpdate: DateFormat.yMd().add_Hms().format(alarm.lastUpdate.toLocal()),
-        otherTechnique: '',
+        otherTechnique: alarm.otherTechnique,
         notifier: alarm.announcer,
         notifierNumber: alarm.announcerPhone,
         files: _mockedFiles,

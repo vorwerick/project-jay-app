@@ -1,6 +1,5 @@
 import 'package:app/application/bloc/alarms/active_alarm_bloc.dart';
 import 'package:app/application/dto/alarm_dto.dart';
-import 'package:app/infrastructure/services/text_to_speech_service.dart';
 import 'package:app/presentation/common/jay_colors.dart';
 import 'package:app/presentation/components/fab/jay_fab.dart';
 import 'package:app/presentation/components/jay_bottom_navigation_bar.dart';
@@ -16,7 +15,6 @@ import 'package:app/presentation/pages/widgets/app_bar_alarm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:get_it/get_it.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -85,7 +83,6 @@ class _HomePageState extends State<HomePage>
             body: BlocBuilder<ActiveAlarmBloc, ActiveAlarmState>(
               builder: (final context, final state) {
                 if (state is ActiveAlarmLoadSuccess) {
-
                   return PageView(
                     controller: _pageController,
                     physics: const NeverScrollableScrollPhysics(),
@@ -120,8 +117,6 @@ class _HomePageState extends State<HomePage>
         ),
       );
 
-
-
   void _onPageTap(final int index) {
     // Place where we can add transition animations
     setState(() {
@@ -148,11 +143,17 @@ class _HomePageState extends State<HomePage>
       orientation == Orientation.portrait
           ? [
               EventDetailsScreen(detail: detail),
-              ParticipantsScreen(),
-              const MapScreen(),
+              ParticipantsScreen(
+                detail: detail,
+                isHistory: false,
+              ),
+               MapScreen(detail: detail),
             ]
           : [
-              EventParticipantScreen(detail: detail),
-              const MapScreen(),
+              EventParticipantScreen(
+                detail: detail,
+                isHistory: false,
+              ),
+               MapScreen(detail: detail),
             ];
 }

@@ -8,22 +8,22 @@ class App extends StatelessWidget {
 
   const App({super.key, required this.routerConfig});
 
-  //TODO(Vojjta): create proper theme
   @override
-  Widget build(BuildContext context) => MaterialApp.router(
+  Widget build(final BuildContext context) => MaterialApp.router(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           elevatedButtonTheme: ElevatedButtonThemeData(
             style: ElevatedButton.styleFrom(
-              textStyle: const TextStyle(fontSize: 20,color: Colors.white),
+              textStyle: const TextStyle(fontSize: 20, color: Colors.white),
             ),
           ),
-        appBarTheme: AppBarTheme(backgroundColor: JayColors.primary,),
+          appBarTheme: const AppBarTheme(
+            backgroundColor: JayColors.primary,
+          ),
           colorScheme: ColorScheme.fromSeed(
-            error: Color(0xFF9d1b25),
-            errorContainer: Color(0xFFea858d),
-            seedColor: Color(0xFFd16014),
-
+            error: const Color(0xFF9d1b25),
+            errorContainer: const Color(0xFFea858d),
+            seedColor: const Color(0xFFd16014),
           ),
           useMaterial3: true,
         ),
@@ -34,10 +34,10 @@ class App extends StatelessWidget {
           GlobalCupertinoLocalizations.delegate,
         ],
         supportedLocales: const [
-          Locale('en'),
+          //Locale('en'),
           Locale('cs'),
         ],
-        builder: (context, child) => Material(
+        builder: (final context, final child) => Material(
           child: child,
         ),
         routerConfig: routerConfig,

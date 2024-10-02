@@ -6,8 +6,9 @@ import 'package:flutter/cupertino.dart';
 // This screen is used when the device is in portrait mode
 class EventParticipantScreen extends StatelessWidget {
   final AlarmDto detail;
+  final bool isHistory;
 
-  const EventParticipantScreen({super.key, required this.detail});
+  const EventParticipantScreen({super.key, required this.detail, required this.isHistory});
 
   @override
   Widget build(final BuildContext context) => Row(
@@ -18,7 +19,10 @@ class EventParticipantScreen extends StatelessWidget {
           Flexible(
             child: Padding(
               padding: const EdgeInsets.only(bottom: 8),
-              child: ParticipantsScreen(),
+              child: ParticipantsScreen(
+                isHistory: isHistory,
+                detail: detail,
+              ),
             ),
           ),
         ],

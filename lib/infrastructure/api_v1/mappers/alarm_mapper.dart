@@ -8,6 +8,7 @@ final class AlarmJsonMapper {
 
   entity.Alarm toEntity() => entity.Alarm.create(
         alarm.eventId,
+        eventId: alarm.eventId,
         confirmCount: alarm.confirmCount ?? 0,
         declineCount: alarm.declineCount ?? 0,
         state: alarm.alarmState,
@@ -25,7 +26,8 @@ final class AlarmJsonMapper {
         floor: alarm.floor,
         object: alarm.orderObject,
         explanation: alarm.whatHappened,
-        technique: alarm.technic,
+        technique: alarm.unitFleet,
+        otherTechnique: alarm.otherFleet,
         latitude: alarm.gps.x,
         longitude: alarm.gps.y,
       );

@@ -23,7 +23,7 @@ class MembersBloc extends Bloc<MembersEvent, MembersState> with L {
       emit(MembersLoadInProgress());
       final alarmRepository = GetIt.I<AlarmRepository>();
 
-      final result = await alarmRepository.getLast();
+      final result = await alarmRepository.getById(event.id);
 
       if (result.isFailure) {
         emit(MembersLoadFailure());

@@ -18,7 +18,7 @@ class AlarmGpsBloc extends Bloc<AlarmGpsEvent, AlarmGpsState> {
 
       final repository = GetIt.I<AlarmRepository>();
 
-      final result = await repository.getLast();
+      final result = await repository.getById(event.eventId);
 
       if (result.isFailure) {
         emit(AlarmGpsLoadFailure());

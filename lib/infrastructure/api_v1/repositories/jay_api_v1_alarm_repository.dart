@@ -24,7 +24,9 @@ final class JayApiV1AlarmRepository with DioApiV1 implements AlarmRepository {
         return Result.failure(AlarmRepositoryFailure());
       }
 
-      final alarms = result.data.alarms?.map((final a) => AlarmJsonMapper(a).toEntity()).toList();
+      final alarms = result.data.alarms
+          ?.map((final a) => AlarmJsonMapper(a).toEntity())
+          .toList();
 
       return Result.success(alarms ?? []);
     } on Exception catch (e) {
@@ -64,7 +66,8 @@ final class JayApiV1AlarmRepository with DioApiV1 implements AlarmRepository {
     try {
       final result = await client.getAlarmsById(id);
 
-      if (ApiResponseValidation(result).isNotValid || (result.data.alarm == null)) {
+      if (ApiResponseValidation(result).isNotValid ||
+          (result.data.alarm == null)) {
         return Result.failure(AlarmRepositoryFailure());
       }
 
@@ -86,9 +89,12 @@ final class JayApiV1AlarmRepository with DioApiV1 implements AlarmRepository {
         return Result.failure(AlarmRepositoryFailure());
       }
 
-      result.data.alarms?.sort((final a, final b) => a.orderUpdate.isAfter(b.orderUpdate) ? 1 : -1);
+      result.data.alarms?.sort(
+          (final a, final b) => a.orderUpdate.isAfter(b.orderUpdate) ? 1 : -1);
 
-      final alarms = result.data.alarms?.map((final a) => AlarmJsonMapper(a).toEntity()).toList();
+      final alarms = result.data.alarms
+          ?.map((final a) => AlarmJsonMapper(a).toEntity())
+          .toList();
 
       final lastAlarm = alarms?.lastOrNull;
 
@@ -109,12 +115,11 @@ final class JayApiV1AlarmRepository with DioApiV1 implements AlarmRepository {
 
     try {
       final result = await client.getAlarmList();
-
       if (ApiResponseValidation(result).isNotValid) {
         l.w('Server response is invalid');
-        return Result.failure(AlarmRepositoryFailure(message: 'Server response is invalid'));
+        return Result.failure(
+            AlarmRepositoryFailure(message: 'Server response is invalid'));
       }
-
       if (result.data.alarms?.isNotEmpty == true) {
         for (final alarm in result.data.alarms!) {
           final alarmEntity = AlarmJsonMapper(alarm).toEntity();
@@ -124,7 +129,6 @@ final class JayApiV1AlarmRepository with DioApiV1 implements AlarmRepository {
           }
         }
       }
-
       return Result.failure(AlarmNotFound());
     } on Exception catch (e) {
       l.e('Can not load active alarm', error: e);

@@ -55,12 +55,12 @@ class _EventDetailPageState extends State<EventDetailPage> {
       orientation == Orientation.portrait
           ? [
         EventDetailsScreen(detail: detail),
-        ParticipantsScreen(),
-        const MapScreen(),
+        ParticipantsScreen(detail: detail, isHistory: true,),
+         MapScreen(detail: detail),
       ]
           : [
-        EventParticipantScreen(detail: detail),
-        const MapScreen(),
+        EventParticipantScreen(detail: detail, isHistory: true,),
+        MapScreen(detail: detail),
       ];
 
   Widget _getBottomNavigationBar(final Orientation orientation) =>

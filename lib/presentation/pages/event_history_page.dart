@@ -1,5 +1,6 @@
 import 'package:app/application/bloc/alarms/alarm_history_bloc.dart';
 import 'package:app/configuration/navigation/app_routes.dart';
+import 'package:app/presentation/common/jay_colors.dart';
 import 'package:app/presentation/components/jay_container.dart';
 import 'package:app/presentation/components/jay_progress_indicator.dart';
 import 'package:app/presentation/components/jay_white_text.dart';
@@ -27,11 +28,34 @@ class EventHistoryPage extends StatelessWidget {
                   child: ListView.separated(
                     itemCount: state.events.length,
                     itemBuilder: (final context, final index) => ListTile(
-                    minVerticalPadding: 0,
-                      leading: const Icon(Icons.history),
-                      title: Text(
-                          DateFormat.yMd().format(state.events[index].date)),
-                      subtitle: Text(state.events[index].name),
+                      minVerticalPadding: 0,
+                      leading: DateTime.now().millisecondsSinceEpoch -
+                                  state.events[index].date
+                                      .millisecondsSinceEpoch >=
+                              600000
+                          ? Icon(Icons.history)
+                          : Icon(
+                              Icons.local_fire_department,
+                              color: JayColors.primary,
+                            ),
+                      title: Text(state.events[index].name),
+                      subtitle: Column(crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(DateFormat.yMd()
+                              .add_Hms()
+                              .format(state.events[index].date),),
+                          if (DateTime.now().millisecondsSinceEpoch -
+                                  state.events[index].date
+                                      .millisecondsSinceEpoch <=
+                              600000)
+                            Container(
+                              color: JayColors.primary,
+                              padding: EdgeInsets.symmetric(horizontal: 4),
+                              margin: EdgeInsets.all(4),
+                              child: Text("Aktivní",style: TextStyle(color: Colors.white)),
+                            )
+                        ],
+                      ),
                       onTap: () {
                         context.pushNamed(
                           AppRoutes.eventDetail.name,
