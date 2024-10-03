@@ -7,7 +7,7 @@ part of 'user_info.dart';
 // **************************************************************************
 
 UserData _$UserDataFromJson(Map<String, dynamic> json) => UserData(
-      json['ErrorCode'] as int,
+      (json['ErrorCode'] as num).toInt(),
       json['Description'] as String?,
       userData: UserInfo.fromJson(json['Data'] as Map<String, dynamic>),
     );
@@ -19,11 +19,12 @@ Map<String, dynamic> _$UserDataToJson(UserData instance) => <String, dynamic>{
     };
 
 UserInfo _$UserInfoFromJson(Map<String, dynamic> json) => UserInfo(
-      id: json['Id'] as int?,
+      id: (json['Id'] as num?)?.toInt(),
       name: json['Name'] as String,
       surname: json['Surname'] as String,
       title: json['Title'] as String,
       phoneNumber: json['PhoneNumber'] as String,
+      function: Func.fromJson(json['Function'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$UserInfoToJson(UserInfo instance) => <String, dynamic>{
@@ -32,4 +33,5 @@ Map<String, dynamic> _$UserInfoToJson(UserInfo instance) => <String, dynamic>{
       'Surname': instance.surname,
       'Title': instance.title,
       'PhoneNumber': instance.phoneNumber,
+      'Function': instance.function,
     };

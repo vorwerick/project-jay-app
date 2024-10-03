@@ -1,144 +1,163 @@
 import 'package:app/application/bloc/alarms/alarm_control_bloc.dart';
+import 'package:app/application/bloc/alarms/alarm_set_control_bloc.dart';
 import 'package:app/presentation/common/jay_colors.dart';
-import 'package:app/presentation/components/fab/action_button.dart';
-import 'package:app/presentation/components/fab/expandable_fab.dart';
+
 import 'package:app/presentation/components/jay_alarm_dialog.dart';
 import 'package:app/presentation/utils/snack_bar_utils.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class JayFabView extends StatefulWidget {
-  const JayFabView({super.key});
+  final int eventId;
+  final int memberId;
+
+  const JayFabView({super.key, required this.eventId, required this.memberId});
 
   @override
   State<JayFabView> createState() => _JayFabViewState();
 }
 
 class _JayFabViewState extends State<JayFabView> {
-
-  AlarmControlState state = AlarmControlEmpty();
+  bool? accepted = null;
 
   @override
   Widget build(final BuildContext context) =>
-      BlocListener<AlarmControlBloc, AlarmControlState>(
-          listener: (final context, final AlarmControlState state) {
-
-
-            setState(() {
-              this.state = state;
-            });
-          },
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-
-              if(state is AlarmControlRejected)
-                Container(
-                    decoration: BoxDecoration(
+      BlocBuilder<AlarmControlBloc, AlarmControlState>(
+          builder: (final context, final AlarmControlState state) {
+        if (state is AlarmControlStateLoading) {
+          return const CircularProgressIndicator();
+        }
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            if (state is AlarmControlStateSuccessRejected)
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: const BorderRadius.all(Radius.circular(16)),
+                  border: Border.all(color: JayColors.primary, width: 2),
+                ),
+                padding: const EdgeInsets.all(24),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      'Účast odmítnuta',
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
+                  ],
+                ),
+              ),
+            if (state is AlarmControlStateSuccessAccepted)
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: const BorderRadius.all(Radius.circular(16)),
+                  border: Border.all(color: JayColors.primary, width: 2),
+                ),
+                padding: const EdgeInsets.all(24),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      'Účast potvrzena',
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
+                  ],
+                ),
+              ),
+            if (state is AlarmControlStateSuccessNone)
+              BlocProvider(
+                create: (final context) => AlarmSetControlBloc()..add(AlarmSetControlIdle()),
+                child: BlocBuilder<AlarmSetControlBloc, AlarmSetControlState>(
+                  builder: (context, state) {
+                    if (state is AlarmControlStateFailed) {
+                      SnackBarUtils.showError(context, "Nezle odpovědět, zkontrolujte připojení.");
+                    }
+                    if (state is AlarmSetControlProcessing) {
+                      return CircularProgressIndicator();
+                    }
+                    if (state is AlarmSetControlSuccess) {
+                      context.read<AlarmControlBloc>().add(
+                          AlarmControlGetStateStarted(eventId: widget.eventId, memberId: widget.memberId),);
+                      return CircularProgressIndicator();
+                    }
+                    return Container(
+                      decoration: BoxDecoration(
                         color: Colors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(16)),
-                        border: Border.all(color: JayColors.primary, width: 2)),
-                    padding: EdgeInsets.all(24),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Text(
-                          "Účast odmítnuta",
-                          style: Theme.of(context).textTheme.titleLarge,
-                        ),
-                      ],
-                    )),
-              if(state is AlarmControlAccepted)
-                Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(16)),
-                        border: Border.all(color: JayColors.primary, width: 2)),
-                    padding: EdgeInsets.all(24),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Text(
-                          "Účast potvrzena",
-                          style: Theme.of(context).textTheme.titleLarge,
-                        ),
-                      ],
-                    )),
-              if (state is AlarmControlOpen || state is AlarmControlInitial || state is AlarmControlEmpty)
-                Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(16)),
-                        border: Border.all(color: JayColors.primary, width: 2)),
-                    padding: EdgeInsets.all(24),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Text(
-                          "Odpoveď na výjezd",
-                          style: Theme.of(context).textTheme.titleLarge,
-                        ),
-                        SizedBox(
-                          height: 16,
-                        ),
-                        FloatingActionButton.extended(
-                          heroTag: Key("decline"),
-                          label: Text(
-                            "Nejdu",
-                            style: TextStyle(color: Colors.white, fontSize: 26),
+                        borderRadius: const BorderRadius.all(Radius.circular(16)),
+                        border: Border.all(color: JayColors.primary, width: 2),
+                      ),
+                      padding: const EdgeInsets.all(24),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Text(
+                            'Odpoveď na výjezd',
+                            style: Theme.of(context).textTheme.titleLarge,
                           ),
-                          onPressed: () {
-                            // _notifier.value = JayFabEvent.closeWithNewParams(
-                            //   Icons.close,
-                            //   JayColors.red,
-                            //   AppLocalizations.of(context)!.rejected,
-                            // );
-                            context.read<AlarmControlBloc>().add(
-                                  AlarmControlRejectPressed(),
-                                );
-                          },
-                          icon: const Icon(
-                            Icons.close,
-                            color: Colors.white,
-                            size: 32,
+                          const SizedBox(
+                            height: 16,
                           ),
-                          backgroundColor: Colors.red,
-                        ),
-                        SizedBox(
-                          height: 16,
-                        ),
-                        FloatingActionButton.extended(
-                          heroTag: Key("accept"),
-                          onPressed: () {
-
-                            context.read<AlarmControlBloc>().add(
-                                  AlarmControlAcceptPressed(),
-                                );
-                          },
-                          icon: const Icon(
-                            Icons.directions_run,
-                            color: Colors.white,
-                            size: 32,
+                          FloatingActionButton.extended(
+                            heroTag: const Key('decline'),
+                            label: const Text(
+                              'Nejdu',
+                              style: TextStyle(color: Colors.white, fontSize: 26),
+                            ),
+                            onPressed: () {
+                              context.read<AlarmSetControlBloc>().add(
+                                    AlarmSetControlRejectPressed(
+                                      eventId: widget.eventId,
+                                    ),
+                                  );
+                            },
+                            icon: const Icon(
+                              Icons.close,
+                              color: Colors.white,
+                              size: 32,
+                            ),
+                            backgroundColor: Colors.red,
                           ),
-                          backgroundColor: JayColors.green,
-                          label: Text(
-                            "    Jdu",
-                            style: TextStyle(color: Colors.white, fontSize: 26),
+                          const SizedBox(
+                            height: 16,
                           ),
-                        ),
-                      ],
-                    ))
-            ],
-          ));
+                          FloatingActionButton.extended(
+                            heroTag: const Key('accept'),
+                            onPressed: () {
+                              context.read<AlarmSetControlBloc>().add(
+                                    AlarmSetControlAcceptPressed(
+                                      eventId: widget.eventId,
+                                    ),
+                                  );
+                            },
+                            icon: const Icon(
+                              Icons.directions_run,
+                              color: Colors.white,
+                              size: 32,
+                            ),
+                            backgroundColor: JayColors.green,
+                            label: const Text(
+                              '    Jdu',
+                              style: TextStyle(color: Colors.white, fontSize: 26),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              ),
+          ],
+        );
+      },);
 
   Future<void> _showAlarmDialog(final BuildContext context) async {
     await showDialog(
       context: context,
       builder: (final BuildContext builderContext) => JayAlarmDialog(
-        onAccept: () {
-
-        },
+        onAccept: () {},
       ),
     );
   }

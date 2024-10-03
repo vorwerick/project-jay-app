@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:app/application/dto/mappers/alarm_mapper.dart';
 import 'package:app/application/extensions/l.dart';
@@ -12,42 +11,45 @@ import 'package:bloc/bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:meta/meta.dart';
 
-part 'alarm_control_event.dart';
+part 'alarm_set_control_event.dart';
 
-part 'alarm_control_state.dart';
+part 'alarm_set_control_state.dart';
 
 /// Used for confirming alarm event
-class AlarmControlBloc extends Bloc<AlarmControlEvent, AlarmControlState>
+class AlarmSetControlBloc extends Bloc<AlarmSetControlEvent, AlarmSetControlState>
     with L {
-  final Alert _alert = GetIt.I<Alert>();
-
   StreamSubscription<AlarmEvents>? _alarmEventsSubscription;
 
-  AlarmControlBloc() : super(AlarmControlStateLoad()) {
-    on<AlarmControlGetStateStarted>((final event, final emit) async {
+  AlarmSetControlBloc() : super(AlarmSetControlInit()) {
+    on<AlarmSetControlIdle>((final event, final emit) async {
+
+    });
+    on<AlarmSetControlAcceptPressed>((final event, final emit) async {
+      emit(AlarmSetControlProcessing());
       final repository = GetIt.I<ConfirmationRepository>();
 
-      emit(AlarmControlStateLoading());
-
-      final result = await repository.getConfirmationState(event.eventId);
+      final result = await repository.confirm(event.eventId);
 
       if (result.isFailure) {
-        emit(AlarmControlStateFailed());
+        emit(AlarmSetControlFailed());
         return;
       }
-      var currentUserFound = result.success.alarmMembers
-          .any((final m) => event.memberId == m.memberId);
-      if (currentUserFound) {
-        final member = result.success.alarmMembers
-            .firstWhere((m) => m.memberId == event.memberId);
-        if (member.confirmAlarm) {
-          emit(AlarmControlStateSuccessAccepted());
-        } else {
-          emit(AlarmControlStateSuccessRejected());
-        }
-      } else {
-        emit(AlarmControlStateSuccessNone());
+
+      emit(AlarmSetControlSuccess());
+    });
+
+    on<AlarmSetControlRejectPressed>((final event, final emit) async {
+      emit(AlarmSetControlProcessing());
+      final repository = GetIt.I<ConfirmationRepository>();
+
+      final result = await repository.reject(event.eventId);
+
+      if (result.isFailure) {
+        emit(AlarmSetControlFailed());
+        return;
       }
+
+      emit(AlarmSetControlSuccess());
     });
   }
 

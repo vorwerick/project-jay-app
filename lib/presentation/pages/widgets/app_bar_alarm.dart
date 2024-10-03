@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:app/application/dto/alarm_dto.dart';
 import 'package:app/infrastructure/services/text_to_speech_service.dart';
 import 'package:app/presentation/common/jay_colors.dart';
@@ -14,18 +16,23 @@ class AppBarAlarm extends StatefulWidget {
 }
 
 class _AppBarAlarmState extends State<AppBarAlarm> {
+  Timer? timer;
 
   @override
   void initState() {
-    GetIt.I<TextToSpeechService>().setOnStopListener((){
-      if(mounted){
-        setState(() {
-
-        });
+    timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      if (mounted) {
+        setState(() {});
+      }
+    });
+    GetIt.I<TextToSpeechService>().setOnStopListener(() {
+      if (mounted) {
+        setState(() {});
       }
     });
     super.initState();
   }
+
   @override
   Widget build(final BuildContext context) => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -71,22 +78,18 @@ class _AppBarAlarmState extends State<AppBarAlarm> {
           IconButton(
             onPressed: () {
               if (isSpeaking) {
-                 GetIt.I<TextToSpeechService>().stop();
+                GetIt.I<TextToSpeechService>().stop();
               } else {
                 GetIt.I<TextToSpeechService>().start();
               }
-              setState(() {
-
-              });
+              setState(() {});
             },
             icon: Icon(isSpeaking ? Icons.pause : Icons.play_arrow),
           ),
           IconButton(
             onPressed: () {
               GetIt.I<TextToSpeechService>().setRepeating(!isRepeating);
-              setState(() {
-
-              });
+              setState(() {});
             },
             icon: Icon(isRepeating ? Icons.repeat_on : Icons.repeat),
           ),

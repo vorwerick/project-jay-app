@@ -7,7 +7,7 @@ part of 'alarms.dart';
 // **************************************************************************
 
 Alarms _$AlarmsFromJson(Map<String, dynamic> json) => Alarms(
-      json['ErrorCode'] as int,
+      (json['ErrorCode'] as num).toInt(),
       json['Description'] as String?,
       json['Alarm'] == null
           ? null

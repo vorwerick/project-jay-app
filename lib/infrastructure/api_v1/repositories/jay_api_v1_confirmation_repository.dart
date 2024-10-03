@@ -5,6 +5,7 @@ import 'package:app/domain/common/result.dart';
 import 'package:app/domain/common/status/repository_state.dart';
 import 'package:app/infrastructure/api_v1/common/dio_api_v1.dart';
 import 'package:app/infrastructure/api_v1/models/json/alarm_confirmation/alarm_confirmation.dart';
+import 'package:app/infrastructure/api_v1/models/json/alarm_confirmation/alarm_confirmation_detail.dart';
 import 'package:app/infrastructure/api_v1/validation/api_response_validation.dart';
 
 final class JayApiV1ConfirmationRepository with DioApiV1, L implements ConfirmationRepository {
@@ -19,7 +20,7 @@ final class JayApiV1ConfirmationRepository with DioApiV1, L implements Confirmat
   }
 
   @override
-  Future<Result<RemoteRepositoryState, AlarmState>> getConfirmationState(final int id) async {
+  Future<Result<RemoteRepositoryState, AlarmConfirmationInfo>> getConfirmationState(final int id) async {
     final client = await createClient();
 
     try {
@@ -30,7 +31,7 @@ final class JayApiV1ConfirmationRepository with DioApiV1, L implements Confirmat
         l.w(message);
         return Result.failure(RemoteRepositoryState.invalidResponse(message));
       }
-      return Result.success(AlarmState.fromInt(result.data.alarmConfirmation!.alarmState));
+      return Result.success(result.data.alarmConfirmation!);
     } on Exception catch (e) {
       l.e('Failed to fetch confirmation state', error: e);
       return Result.failure(RemoteRepositoryState.failure(e));

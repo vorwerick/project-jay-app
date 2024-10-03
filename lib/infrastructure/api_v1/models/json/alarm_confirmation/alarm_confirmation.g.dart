@@ -8,7 +8,7 @@ part of 'alarm_confirmation.dart';
 
 AlarmConfirmation _$AlarmConfirmationFromJson(Map<String, dynamic> json) =>
     AlarmConfirmation(
-      json['EventId'] as int,
+      (json['EventId'] as num).toInt(),
       json['Action'] as String,
     );
 

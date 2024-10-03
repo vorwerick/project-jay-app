@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:app/application/extensions/l.dart';
 import 'package:app/domain/user/repository/user_repository.dart';
 import 'package:bloc/bloc.dart';
@@ -17,9 +19,8 @@ class UserBloc extends Bloc<UserEvent, UserState> with L {
       final repository = GetIt.I.get<UserRepository>();
 
       final result = await repository.getUser();
-
       if (result.isSuccess) {
-        emit(UserLoadSuccess(result.success.fullNameWithTitle));
+        emit(UserLoadSuccess(result.success.fullNameWithTitle,result.success.id));
       } else {
         l.e('Getting user failure');
         emit(UserLoadFailure());

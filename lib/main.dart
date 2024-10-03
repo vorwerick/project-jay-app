@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:app/app.dart';
 import 'package:app/application/services/event_service.dart';
 import 'package:app/configuration/di/app_dependency_configuration.dart';
@@ -5,6 +7,7 @@ import 'package:app/configuration/navigation/routes_config.dart';
 import 'package:app/domain/alerts/alert.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
@@ -14,6 +17,9 @@ const ONE_SIGNAL_APP_ID = 'c1742112-083d-469c-adf1-6614fa33d5f6';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await SystemChrome.setPreferredOrientations(
+    [DeviceOrientation.portraitUp],
+  );
   OneSignal.initialize(ONE_SIGNAL_APP_ID);
 
   await OneSignal.Notifications.requestPermission(true);
@@ -59,10 +65,11 @@ Future<void> main() async {
 
     prefs.setString('notifications', sb.toString());
     final Alert alert = GetIt.I<Alert>();
+    final int eventId = event.notification.additionalData!['eventId'];
     if (event.result.actionId == 'accept') {
-      await alert.accept();
+      await alert.accept(eventId);
     } else if (event.result.actionId == 'decline') {
-      await alert.reject();
+      await alert.reject(eventId);
     }
   });
 }

@@ -9,7 +9,7 @@ part of 'device_configuration_detail.dart';
 DeviceConfigurationDetail _$DeviceConfigurationDetailFromJson(
         Map<String, dynamic> json) =>
     DeviceConfigurationDetail(
-      json['ErrorCode'] as int,
+      (json['ErrorCode'] as num).toInt(),
       json['Description'] as String?,
       (json['Items'] as List<dynamic>?)
           ?.map((e) => Item.fromJson(e as Map<String, dynamic>))

@@ -1,7 +1,7 @@
 name: app
 description: "The Jay app with flutter"
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-version: 2.0.2+439
+version: 2.0.3+440
 
 environment:
   sdk: '>=3.2.3 <4.0.0'
@@ -27,7 +27,7 @@ dependencies:
   shared_preferences: ^2.2.2
 
   # Maps
-  google_maps_flutter: ^2.5.3
+  google_maps_flutter: ^2.9.0
 
   # Navigation
   go_router: ^13.2.0
@@ -42,7 +42,7 @@ dependencies:
 
   # Utils
   url_launcher: ^6.2.4
-  package_info_plus: ^5.0.1
+  package_info_plus: ^8.0.2
   device_info_plus: ^9.1.2
   latlong2: ^0.9.0
   logger: ^2.0.2+1

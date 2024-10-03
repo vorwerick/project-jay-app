@@ -1,4 +1,5 @@
 import 'package:app/infrastructure/api_v1/models/json/api_response.dart';
+import 'package:app/infrastructure/api_v1/models/json/user/func.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'user_info.g.dart';
@@ -32,12 +33,16 @@ final class UserInfo {
   @JsonKey(name: 'PhoneNumber')
   final String phoneNumber;
 
+  @JsonKey(name: 'Function')
+  final Func function;
+
   UserInfo({
     required this.id,
     required this.name,
     required this.surname,
     required this.title,
     required this.phoneNumber,
+    required this.function,
   });
 
   factory UserInfo.fromJson(final Map<String, dynamic> json) => _$UserInfoFromJson(json);

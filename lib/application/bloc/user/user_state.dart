@@ -7,8 +7,9 @@ class UserInitial extends UserState {}
 
 final class UserLoadSuccess extends UserState with EquatableMixin {
   final String fullName;
+  final int memberId;
 
-  UserLoadSuccess(this.fullName);
+  UserLoadSuccess(this.fullName, this.memberId);
 
   @override
   List<Object?> get props => [fullName];

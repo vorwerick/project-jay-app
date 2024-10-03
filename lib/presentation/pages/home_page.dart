@@ -1,4 +1,5 @@
 import 'package:app/application/bloc/alarms/active_alarm_bloc.dart';
+import 'package:app/application/bloc/user/user_bloc.dart';
 import 'package:app/application/dto/alarm_dto.dart';
 import 'package:app/presentation/common/jay_colors.dart';
 import 'package:app/presentation/components/fab/jay_fab.dart';
@@ -29,6 +30,9 @@ class _HomePageState extends State<HomePage>
   late AnimationController _animationController;
   final PageController _pageController = PageController();
 
+  int? memberId = null;
+  String? memberName = null;
+
   @override
   void initState() {
     _animationController = AnimationController(
@@ -47,72 +51,116 @@ class _HomePageState extends State<HomePage>
 
   @override
   Widget build(final BuildContext context) => OrientationBuilder(
-        builder: (final context, final orientation) => BlocProvider(
-          create: (final context) => ActiveAlarmBloc()
-            ..add(
-              ActiveAlarmStarted(
-                enableLiveUpdate: true,
-              ),
+        builder: (final context, final orientation) => MultiBlocProvider(
+          providers: [
+            BlocProvider<UserBloc>(
+              create: (final context) => UserBloc()..add(UserStarted()),
             ),
-          child: Scaffold(
-            appBar: AppBar(
-              toolbarHeight: 124,
-              backgroundColor: JayColors.primary,
-              actions: [
-                FadeTransition(
-                  opacity: _animationController,
-                  child: const Padding(
-                    padding: EdgeInsets.all(12),
-                    child: Icon(
-                      Icons.warning,
-                      color: JayColors.secondary,
-                      size: 42,
-                    ),
+            BlocProvider(
+              create: (final context) => ActiveAlarmBloc()
+                ..add(
+                  ActiveAlarmStarted(
+                    enableLiveUpdate: true,
                   ),
-                )
-              ],
-              title: BlocBuilder<ActiveAlarmBloc, ActiveAlarmState>(
-                builder: (final context, final state) {
-                  if (state is ActiveAlarmLoadSuccess) {
-                    return AppBarAlarm(eventDetail: state.alarm);
-                  }
-                  return const SizedBox.shrink();
-                },
-              ),
+                ),
             ),
-            body: BlocBuilder<ActiveAlarmBloc, ActiveAlarmState>(
-              builder: (final context, final state) {
-                if (state is ActiveAlarmLoadSuccess) {
-                  return PageView(
-                    controller: _pageController,
-                    physics: const NeverScrollableScrollPhysics(),
-                    children: _getScreens(orientation, state.alarm),
-                  );
+          ],
+          child: BlocListener<UserBloc, UserState>(
+            listener: (final context, final state) {
+              if (state is UserLoadFailure) {
+                context.read<UserBloc>().add(UserStarted());
+              }
+              if (state is UserLoadSuccess) {
+                if (mounted) {
+                  setState(() {
+                    memberId = state.memberId;
+                    memberName = state.fullName;
+                  });
                 }
-                if (state is ActiveAlarmLoadInProgress) {
-                  return const JayProgressIndicator();
-                }
-                if (state is ActiveAlarmFailure) {
-                  return Center(
-                    child: JayWhiteText(
-                      AppLocalizations.of(context)!.checkConnection,
-                      fontSize: 24,
+              }
+            },
+            child: memberId != null
+                ? Scaffold(
+                    appBar: AppBar(
+                      toolbarHeight: 124,
+                      backgroundColor: JayColors.primary,
+                      actions: [
+                        FadeTransition(
+                          opacity: _animationController,
+                          child: const Padding(
+                            padding: EdgeInsets.all(12),
+                            child: Icon(
+                              Icons.warning,
+                              color: JayColors.secondary,
+                              size: 42,
+                            ),
+                          ),
+                        ),
+                      ],
+                      title: BlocBuilder<ActiveAlarmBloc, ActiveAlarmState>(
+                        builder: (final context, final state) {
+                          if (state is ActiveAlarmLoadSuccess) {
+                            return AppBarAlarm(eventDetail: state.alarm);
+                          }
+                          return const SizedBox.shrink();
+                        },
+                      ),
                     ),
-                  );
-                }
-                return const SizedBox.shrink();
-              },
-            ),
-            bottomNavigationBar: BlocBuilder<ActiveAlarmBloc, ActiveAlarmState>(
-              builder: (final context, final state) {
-                if (state is ActiveAlarmLoadSuccess) {
-                  return _getBottomNavigationBar(orientation);
-                }
-                return const SizedBox.shrink();
-              },
-            ),
-            drawer: const JayDrawer(),
-            floatingActionButton: const JayFab(),
+                    body: BlocBuilder<ActiveAlarmBloc, ActiveAlarmState>(
+                      builder: (final context, final state) {
+                        if (state is ActiveAlarmLoadSuccess) {
+                          return PageView(
+                            controller: _pageController,
+                            physics: const NeverScrollableScrollPhysics(),
+                            children: _getScreens(orientation, state.alarm),
+                          );
+                        }
+                        if (state is ActiveAlarmLoadInProgress) {
+                          return const JayProgressIndicator();
+                        }
+                        if (state is ActiveAlarmFailure) {
+                          return Center(
+                            child: JayWhiteText(
+                              AppLocalizations.of(context)!.checkConnection,
+                              fontSize: 24,
+                            ),
+                          );
+                        }
+                        return const SizedBox.shrink();
+                      },
+                    ),
+                    bottomNavigationBar:
+                        BlocBuilder<ActiveAlarmBloc, ActiveAlarmState>(
+                      builder: (final context, final state) {
+                        if (state is ActiveAlarmLoadSuccess) {
+                          return _getBottomNavigationBar(orientation);
+                        }
+                        return const SizedBox.shrink();
+                      },
+                    ),
+                    drawer: JayDrawer(name: memberName!, memberId: memberId!),
+                    floatingActionButton:
+                        BlocBuilder<ActiveAlarmBloc, ActiveAlarmState>(
+                      builder: (final context, final state) {
+                        if (state is ActiveAlarmLoadSuccess) {
+                          return JayFab(
+                            memberId: memberId!,
+                            eventId: state.alarm.eventId,
+                          );
+                        }
+                        return const SizedBox.shrink();
+                      },
+                    ),
+                  )
+                : const Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      CircularProgressIndicator(),
+                    ],
+                  )),
           ),
         ),
       );
@@ -139,7 +187,9 @@ class _HomePageState extends State<HomePage>
             );
 
   List<Widget> _getScreens(
-          final Orientation orientation, final AlarmDto detail) =>
+    final Orientation orientation,
+    final AlarmDto detail,
+  ) =>
       orientation == Orientation.portrait
           ? [
               EventDetailsScreen(detail: detail),
@@ -147,13 +197,13 @@ class _HomePageState extends State<HomePage>
                 detail: detail,
                 isHistory: false,
               ),
-               MapScreen(detail: detail),
+              MapScreen(detail: detail),
             ]
           : [
               EventParticipantScreen(
                 detail: detail,
                 isHistory: false,
               ),
-               MapScreen(detail: detail),
+              MapScreen(detail: detail),
             ];
 }

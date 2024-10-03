@@ -7,7 +7,7 @@ part of 'unit_detail.dart';
 // **************************************************************************
 
 UnitDetail _$UnitDetailFromJson(Map<String, dynamic> json) => UnitDetail(
-      json['ErrorCode'] as int,
+      (json['ErrorCode'] as num).toInt(),
       json['Description'] as String?,
       json['unitDetail'] == null
           ? null
@@ -22,7 +22,7 @@ Map<String, dynamic> _$UnitDetailToJson(UnitDetail instance) =>
     };
 
 Detail _$DetailFromJson(Map<String, dynamic> json) => Detail(
-      json['Id'] as int,
+      (json['Id'] as num).toInt(),
       json['GroupName'] as String,
       json['GroupNumber'] as String,
       Gps.fromJson(json['FiraStationGps'] as Map<String, dynamic>),

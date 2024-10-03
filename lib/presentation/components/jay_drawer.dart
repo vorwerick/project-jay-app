@@ -18,7 +18,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 // TODO(vojjta): implement params for drawer
 class JayDrawer extends StatelessWidget {
-  const JayDrawer({super.key});
+
+  final String name;
+  final int memberId;
+
+  const JayDrawer({super.key, required this.name, required this.memberId});
 
   @override
   Widget build(final BuildContext context) => MultiBlocProvider(
@@ -28,8 +32,6 @@ class JayDrawer extends StatelessWidget {
                   AppVersionBloc()..add(AppVersionStarted())),
           BlocProvider<AlertBloc>(
               create: (final context) => AlertBloc()..add(AlertStarted())),
-          BlocProvider<UserBloc>(
-              create: (final context) => UserBloc()..add(UserStarted())),
           BlocProvider<LogoutCubit>(create: (final context) => LogoutCubit()),
         ],
         child: SafeArea(

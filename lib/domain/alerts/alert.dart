@@ -48,7 +48,7 @@ final class Alert {
       return;
     }
 
-    _alarmState = confirmationResult.success;
+    _alarmState = AlarmState.fromInt(confirmationResult.success.alarmState);
   }
 
   Future<void> setCurrentEvent(final Event event) async {
@@ -73,7 +73,7 @@ final class Alert {
       return;
     }
 
-    _alarmState = result.success;
+    _alarmState = AlarmState.fromInt(result.success.alarmState);
     DomainBus.I.emit(AlarmEvents.added(event));
   }
 
@@ -83,10 +83,10 @@ final class Alert {
     return _eventsStorageRepository.deleteEvent();
   }
 
-  Future<void> accept() async {
+  Future<void> accept(int eventId) async {
     assert(_event.isNotEmpty, 'Provide valid alarm_event to accept');
 
-    final result = await _confirmationRepository.confirm(_event.id);
+    final result = await _confirmationRepository.confirm(eventId);
     if (result.isSuccess && result.success) {
       DomainBus.I.emit(AlarmEvents.confirmed(_event));
     } else {
@@ -94,9 +94,9 @@ final class Alert {
     }
   }
 
-  Future<void> reject() async {
+  Future<void> reject(int eventId) async {
     assert(_event.isNotEmpty, 'Provide valid alarm_event to reject');
-    final result = await _confirmationRepository.reject(_event.id);
+    final result = await _confirmationRepository.reject(eventId);
     if (result.isSuccess && result.success) {
       DomainBus.I.emit(AlarmEvents.rejected(_event));
     } else {

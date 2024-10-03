@@ -9,7 +9,7 @@ part of 'device_registration_detail.dart';
 DeviceRegistrationDetail _$DeviceRegistrationDetailFromJson(
         Map<String, dynamic> json) =>
     DeviceRegistrationDetail(
-      json['ErrorCode'] as int,
+      (json['ErrorCode'] as num).toInt(),
       json['Description'] as String?,
       json['topic'] as String?,
     );

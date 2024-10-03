@@ -8,8 +8,8 @@ part of 'alarm_notification.dart';
 
 AlarmNotification _$AlarmNotificationFromJson(Map<String, dynamic> json) =>
     AlarmNotification(
-      eventId: json['EventId'] as int,
-      notificationType: json['NotificationType'] as int,
+      eventId: (json['EventId'] as num).toInt(),
+      notificationType: (json['NotificationType'] as num).toInt(),
       deviceKey: json['DeviceKey'] as String,
     );
 

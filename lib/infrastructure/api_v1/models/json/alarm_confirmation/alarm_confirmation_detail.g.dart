@@ -9,7 +9,7 @@ part of 'alarm_confirmation_detail.dart';
 AlarmConfirmationDetail _$AlarmConfirmationDetailFromJson(
         Map<String, dynamic> json) =>
     AlarmConfirmationDetail(
-      json['ErrorCode'] as int,
+      (json['ErrorCode'] as num).toInt(),
       json['Description'] as String?,
       json['AlarmConfirmation'] == null
           ? null
@@ -28,8 +28,8 @@ Map<String, dynamic> _$AlarmConfirmationDetailToJson(
 AlarmConfirmationInfo _$AlarmConfirmationInfoFromJson(
         Map<String, dynamic> json) =>
     AlarmConfirmationInfo(
-      json['EventId'] as int,
-      json['AlarmState'] as int,
+      (json['EventId'] as num).toInt(),
+      (json['AlarmState'] as num).toInt(),
       (json['AlarmMembers'] as List<dynamic>)
           .map((e) => AlarmMember.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -44,10 +44,10 @@ Map<String, dynamic> _$AlarmConfirmationInfoToJson(
     };
 
 AlarmMember _$AlarmMemberFromJson(Map<String, dynamic> json) => AlarmMember(
-      json['MemberId'] as int,
+      (json['MemberId'] as num).toInt(),
       json['FirstName'] as String,
       json['LastName'] as String,
-      json['MemberFunction'] as int,
+      (json['MemberFunction'] as num).toInt(),
       json['MemberFunctionText'] as String,
       DateTime.parse(json['ConfirmDate'] as String),
       json['ConfirmAlarm'] as bool,
