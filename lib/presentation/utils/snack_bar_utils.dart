@@ -8,7 +8,16 @@ final class SnackBarUtils {
   static void show(final BuildContext context, final String message, final Color backgroundColor) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: JayWhiteText(message),
+        content: Text(
+          message,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
+
+          ),
+        ),
         backgroundColor: backgroundColor,
         showCloseIcon: true,
         elevation: 5,

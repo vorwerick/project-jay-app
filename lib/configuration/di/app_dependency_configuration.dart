@@ -3,10 +3,6 @@ import 'dart:developer';
 import 'package:app/application/services/alarm/alarm_notification_service.dart';
 import 'package:app/application/services/alarm/alarm_service.dart';
 import 'package:app/application/services/event_service.dart';
-import 'package:app/application/services/tts_service.dart';
-import 'package:app/application/shared/device_information.dart';
-import 'package:app/application/shared/device_information_factory.dart';
-import 'package:app/configuration/navigation/routes_config.dart';
 import 'package:app/domain/alerts/alert.dart';
 import 'package:app/domain/domain_repositories.dart';
 import 'package:app/infrastructure/api_v1/repositories/jay_api_v1_repositories.dart';
@@ -17,7 +13,6 @@ import 'package:app/infrastructure/services/alarm/simple_alarm_service.dart';
 import 'package:app/infrastructure/services/notification/firebase_alarm_notification_service.dart';
 import 'package:app/infrastructure/services/simple_event_service.dart';
 import 'package:app/infrastructure/services/text_to_speech_service.dart';
-import 'package:app/infrastructure/shared/info_plus_device_information_service.dart';
 import 'package:get_it/get_it.dart';
 import 'package:logger/logger.dart';
 
@@ -81,8 +76,6 @@ final class AppDependencyConfiguration {
       () => FirebaseAlarmNotificationService(),
     );
 
-    // Routing
-    getIt.registerSingleton(RoutesConfig(getIt<EventService>()));
   }
 
   static void initBackground() {

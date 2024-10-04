@@ -8,6 +8,7 @@ import 'package:get_it/get_it.dart';
 import 'package:meta/meta.dart';
 
 part 'user_event.dart';
+
 part 'user_state.dart';
 
 class UserBloc extends Bloc<UserEvent, UserState> with L {
@@ -20,10 +21,18 @@ class UserBloc extends Bloc<UserEvent, UserState> with L {
 
       final result = await repository.getUser();
       if (result.isSuccess) {
-        emit(UserLoadSuccess(result.success.fullNameWithTitle,result.success.id));
+        emit(UserLoadSuccess(
+            result.success.fullNameWithTitle, result.success.id));
       } else {
         l.e('Getting user failure');
-        emit(UserLoadFailure());
+        if (result.failure is UserRepositoryBadResponse) {
+          final resp = result.failure as UserRepositoryBadResponse;
+          emit(UserLoadFailure(resp.value.toString()));
+        }
+        if (result.failure is UserRepositoryError) {
+          final resp = result.failure as UserRepositoryError;
+          emit(UserLoadFailure(''));
+        }
       }
     });
   }

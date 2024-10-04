@@ -1,17 +1,14 @@
 import 'package:app/application/cubit/file/file_cubit.dart';
 import 'package:app/application/cubit/phone/dial_number_cubit.dart';
 import 'package:app/application/dto/alarm_dto.dart';
-import 'package:app/configuration/navigation/app_routes.dart';
 import 'package:app/presentation/common/jay_colors.dart';
 import 'package:app/presentation/components/jay_container.dart';
 import 'package:app/presentation/pages/widgets/announcer.dart';
-import 'package:app/presentation/pages/widgets/list/list_file_item.dart';
 import 'package:app/presentation/pages/widgets/list/list_pair.dart';
 import 'package:app/presentation/utils/snack_bar_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:go_router/go_router.dart';
 
 class EventDetailsScreen extends StatelessWidget {
   final AlarmDto detail;
@@ -28,12 +25,15 @@ class EventDetailsScreen extends StatelessWidget {
         create: (final context) => FileCubit(),
         child: BlocListener<FileCubit, FileState>(
           listener: (final context, final state) {
+            /*
             if (state is FileLocalSuccess) {
               context.pushNamed(
                 AppRoutes.pdf.name,
                 pathParameters: {'filePath': state.filePath},
               );
             }
+
+             */
             if (state is FileExternallySuccess) {
               SnackBarUtils.showSuccess(context, state.fileName);
             }
@@ -50,6 +50,7 @@ class EventDetailsScreen extends StatelessWidget {
                 Expanded(
                   child: Container(
                     child: Scrollbar(
+
                       thumbVisibility: true,
                       trackVisibility: true,
                       thickness: 12,
@@ -74,7 +75,7 @@ class EventDetailsScreen extends StatelessWidget {
                           ),
                           ListPair(
                             title: AppLocalizations.of(context)!.technique,
-                            value: detail.technique?.map((t) => t.fleetName).join(', '),
+                            value: detail.technique?.map((final t) => t.fleetName).join(', '),
                             background: JayColors.secondaryLight,
                           ),
                           ListPair(
@@ -114,7 +115,7 @@ class EventDetailsScreen extends StatelessWidget {
                           ),
                           ListPair(
                             title: AppLocalizations.of(context)!.otherTechnique,
-                            value: detail.otherTechnique?.map((t) => t.fleetName).join(', '),
+                            value: detail.otherTechnique?.map((final t) => t.fleetName).join(', '),
                             background: JayColors.secondaryLight,
                           ),
                           ListPairAction(
@@ -154,7 +155,7 @@ class EventDetailsScreen extends StatelessWidget {
           children: detail.files
               .map(
                 (final e) => ListPairAction(
-                  onTap: (filepath) {
+                  onTap: (final filepath) {
                     context.read<FileCubit>().openFile(e);
                   },
                   icon: Icon(

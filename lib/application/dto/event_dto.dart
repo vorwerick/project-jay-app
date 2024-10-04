@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 final class EventDto extends Equatable {
-  final String eventId;
+  final int eventId;
   final String name;
 
   final DateTime date;

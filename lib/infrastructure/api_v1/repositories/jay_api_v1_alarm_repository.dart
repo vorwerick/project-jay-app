@@ -37,7 +37,7 @@ final class JayApiV1AlarmRepository with DioApiV1 implements AlarmRepository {
 
   @override
   Future<Result<AlarmRepositoryState, bool>> hasActiveAlarm() async {
-    final result = await getActiveAlarm();
+    final result = await getAnnouncedAlarms();
 
     if (result.isSuccess) {
       return Result.success(true);
@@ -70,7 +70,10 @@ final class JayApiV1AlarmRepository with DioApiV1 implements AlarmRepository {
           (result.data.alarm == null)) {
         return Result.failure(AlarmRepositoryFailure());
       }
-
+      log("Fleet test");
+      result.data.alarm!.unitFleet?.forEach((f){
+        log("+ "+f.fleetName.toString());
+      });
       return Result.success(AlarmJsonMapper(result.data.alarm!).toEntity());
     } on Exception catch (e) {
       l.e('Can not load alarm by id: $id', error: e);
@@ -110,7 +113,7 @@ final class JayApiV1AlarmRepository with DioApiV1 implements AlarmRepository {
   }
 
   @override
-  Future<Result<AlarmRepositoryState, Alarm>> getActiveAlarm() async {
+  Future<Result<AlarmRepositoryState, List<Alarm>>> getAnnouncedAlarms() async {
     final client = await createClient();
 
     try {
@@ -121,13 +124,15 @@ final class JayApiV1AlarmRepository with DioApiV1 implements AlarmRepository {
             AlarmRepositoryFailure(message: 'Server response is invalid'));
       }
       if (result.data.alarms?.isNotEmpty == true) {
+        final List<Alarm> announcedAlarms = [];
         for (final alarm in result.data.alarms!) {
           final alarmEntity = AlarmJsonMapper(alarm).toEntity();
           log(result.data.toString());
           if (alarmEntity.state is Announced) {
-            return Result.success(alarmEntity);
+            announcedAlarms.add(alarmEntity);
           }
         }
+        return Result.success(announcedAlarms);
       }
       return Result.failure(AlarmNotFound());
     } on Exception catch (e) {

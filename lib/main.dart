@@ -1,9 +1,7 @@
 import 'dart:developer';
 
 import 'package:app/app.dart';
-import 'package:app/application/services/event_service.dart';
 import 'package:app/configuration/di/app_dependency_configuration.dart';
-import 'package:app/configuration/navigation/routes_config.dart';
 import 'package:app/domain/alerts/alert.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -29,13 +27,7 @@ Future<void> main() async {
 
   AppDependencyConfiguration.init();
 
-  Future.delayed(Duration(milliseconds: 10000), () async {
-    await GetIt.I<EventService>().startPolling();
-  });
 
-  final routerConfig = await GetIt.I<RoutesConfig>().create();
-
-  var start2 = DateTime.now().millisecondsSinceEpoch;
   await SentryFlutter.init(
     (final options) {
       options.dsn =
@@ -48,12 +40,14 @@ Future<void> main() async {
       options.profilesSampleRate = 1.0;
     },
     appRunner: () => runApp(
-      App(
-        routerConfig: routerConfig,
-      ),
+      const App(),
     ),
   );
+  OneSignal.Notifications.addForegroundWillDisplayListener((event){
 
+    log("onFORE");
+    log(event.notification.title.toString());
+  });
   OneSignal.Notifications.addClickListener((final event) async {
     final prefs = await SharedPreferences.getInstance();
     StringBuffer sb = StringBuffer();
@@ -65,6 +59,10 @@ Future<void> main() async {
 
     prefs.setString('notifications', sb.toString());
     final Alert alert = GetIt.I<Alert>();
+    log('NOTOTOT');
+    log(event.notification.body.toString());
+    log(event.notification.additionalData.toString());
+    log(event.notification.rawPayload.toString());
     final int eventId = event.notification.additionalData!['eventId'];
     if (event.result.actionId == 'accept') {
       await alert.accept(eventId);

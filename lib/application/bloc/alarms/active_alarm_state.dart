@@ -10,12 +10,12 @@ final class ActiveAlarmFailure extends ActiveAlarmState {}
 final class ActiveAlarmLoadInProgress extends ActiveAlarmState {}
 
 final class ActiveAlarmLoadSuccess extends ActiveAlarmState with EquatableMixin {
-  final AlarmDto alarm;
+  final List<AlarmDto> alarms;
 
-  ActiveAlarmLoadSuccess(this.alarm);
+  ActiveAlarmLoadSuccess(this.alarms);
 
   @override
-  List<Object?> get props => [alarm];
+  List<Object?> get props => [alarms];
 
   @override
   bool? get stringify => true;

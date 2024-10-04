@@ -1,11 +1,10 @@
 import 'package:app/application/bloc/device/device_registration_bloc.dart';
-import 'package:app/configuration/navigation/app_routes.dart';
+import 'package:app/application/cubit/login/login_cubit.dart';
 import 'package:app/presentation/components/jay_text_form_field.dart';
 import 'package:app/presentation/utils/snack_bar_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:go_router/go_router.dart';
 
 class RegisterDevicePage extends StatefulWidget {
   const RegisterDevicePage({super.key});
@@ -24,14 +23,14 @@ class _RegisterDevicePageState extends State<RegisterDevicePage> {
           body: BlocListener<DeviceRegistrationBloc, DeviceRegistrationState>(
             listener: (final context, final state) {
               if (state is DeviceRegistrationSuccess) {
-                context.go(AppRoutes.home.path);
+                context.read<LoginCubit>().checkAuth();
               }
               if (state is DeviceRegistrationFailure) {
-                SnackBarUtils.showError(context, 'registration failed');
+                SnackBarUtils.showError(context, 'Zadaný klíč vypršel nebo je nesprávný');
               }
 
               if (state is DeviceRegistrationInvalid) {
-                SnackBarUtils.showWarning(context, 'invalid input');
+                SnackBarUtils.showWarning(context, 'Zadejte platný klíč');
               }
             },
             child: SafeArea(
@@ -41,7 +40,7 @@ class _RegisterDevicePageState extends State<RegisterDevicePage> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Image.asset("assets/jay-logo.png",width: 128,),
+                      Image.asset('assets/jay-logo.png',width: 96,),
                       SizedBox(height: 64,),
                       JayTextFormField(
                         controller: _deviceKeyController,

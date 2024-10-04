@@ -9,8 +9,6 @@ final class ActiveAlarmStarted extends ActiveAlarmEvent {
   ActiveAlarmStarted({this.enableLiveUpdate = false});
 }
 
-final class ActiveAlarmRefreshed extends ActiveAlarmEvent {
-  final Alarm alarm;
+final class ActiveAlarmSilentRefresh extends ActiveAlarmEvent {
 
-  ActiveAlarmRefreshed(this.alarm);
 }

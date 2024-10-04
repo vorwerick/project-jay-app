@@ -28,7 +28,7 @@ class AlarmHistoryBloc extends Bloc<AlarmHistoryEvent, AlarmHistoryState> with L
       final events = result.success
           .map(
             (final a) => EventDto(
-              '${a.id}',
+              a.id,
               a.title,
               a.lastUpdate.toLocal(),
             ),

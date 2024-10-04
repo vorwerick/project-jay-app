@@ -1,0 +1,26 @@
+import 'dart:async';
+import 'dart:developer';
+
+import 'package:app/application/extensions/l.dart';
+import 'package:bloc/bloc.dart';
+import 'package:meta/meta.dart';
+
+part 'pooling_state.dart';
+
+class PoolingCubit extends Cubit<PoolingState> with L {
+
+  PoolingCubit() : super(PoolingStarted());
+
+  Timer? timer;
+
+  void start() async {
+    timer = Timer.periodic(const Duration(seconds: 5), (final count) {
+      log("refetch");
+      emit(PoolingFetched());
+    });
+  }
+  void dispose(){
+    timer?.cancel();
+    timer = null;
+  }
+}

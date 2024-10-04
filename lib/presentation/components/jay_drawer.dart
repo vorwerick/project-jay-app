@@ -1,13 +1,11 @@
 import 'package:app/application/bloc/alarms/alert_bloc.dart';
 import 'package:app/application/bloc/settings/version/app_version_bloc.dart';
 import 'package:app/application/bloc/user/user_bloc.dart';
+import 'package:app/application/cubit/login/login_cubit.dart';
 import 'package:app/application/cubit/logout/logout_cubit.dart';
-import 'package:app/application/shared/device_information.dart';
-import 'package:app/configuration/navigation/app_routes.dart';
-import 'package:app/infrastructure/shared/info_plus_device_information_service.dart';
 import 'package:app/presentation/common/jay_colors.dart';
-import 'package:app/presentation/components/jay_white_text.dart';
-import 'package:app/presentation/pages/widgets/list/drawer_unit_item.dart';
+import 'package:app/presentation/pages/event_history_list.dart';
+import 'package:app/presentation/pages/settings_page.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,7 +16,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 // TODO(vojjta): implement params for drawer
 class JayDrawer extends StatelessWidget {
-
   final String name;
   final int memberId;
 
@@ -148,16 +145,24 @@ class JayDrawer extends StatelessWidget {
                     title: Text(AppLocalizations.of(context)!.eventHistory),
                     onTap: () {
                       // close the drawer
-                      context.pop();
-                      context.push(AppRoutes.eventHistory.path);
+                      Navigator.of(context, rootNavigator: true).pop();
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (final context) => const EventHistoryList(),
+                        ),
+                      );
                     },
                   ),
                   const Divider(),
                   ListTile(
                     title: Text(AppLocalizations.of(context)!.settings),
                     onTap: () {
-                      context.pop();
-                      context.pushNamed(AppRoutes.settings.name);
+                      Navigator.of(context, rootNavigator: true).pop();
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (final context) => const SettingsPage(),
+                        ),
+                      );
                     },
                   ),
                   ListTile(
@@ -165,7 +170,7 @@ class JayDrawer extends StatelessWidget {
                     onTap: () {
                       showDialog(
                           context: context,
-                          builder: (context) {
+                          builder: (final context) {
                             return Dialog(
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
@@ -224,20 +229,18 @@ class JayDrawer extends StatelessWidget {
                     onTap: () {
                       showDialog(
                           context: context,
-                          builder: (context) => AlertDialog(
-                            title:   Container(
-                              margin: const EdgeInsets.all(24),
-                              child: Text(
-                                "Podmínky použití",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .titleLarge,
-                              ),
-                            ),
-                            scrollable: true,
+                          builder: (final context) => AlertDialog(
+                                title: Container(
+                                  margin: const EdgeInsets.all(24),
+                                  child: Text(
+                                    "Podmínky použití",
+                                    style:
+                                        Theme.of(context).textTheme.titleLarge,
+                                  ),
+                                ),
+                                scrollable: true,
                                 content: Column(
                                   children: [
-
                                     Container(
                                       margin: const EdgeInsets.only(
                                           left: 24, right: 24, bottom: 24),
@@ -309,7 +312,7 @@ Pro jakékoliv dotazy nebo problémy týkající se těchto podmínek nebo aplik
                       listener: (final context, final state) {
                         if (state is LogoutSuccess) {
                           context.pop();
-                          context.go(AppRoutes.deviceRegistration.path);
+                          context.read<LoginCubit>().checkAuth();
                         }
                       },
                       child: ListTile(

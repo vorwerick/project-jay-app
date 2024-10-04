@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:app/application/dto/alarm_dto.dart';
 import 'package:app/application/dto/mappers/alarm_mapper.dart';
@@ -13,68 +14,77 @@ import 'package:get_it/get_it.dart';
 import 'package:meta/meta.dart';
 
 part 'active_alarm_event.dart';
+
 part 'active_alarm_state.dart';
 
 class ActiveAlarmBloc extends Bloc<ActiveAlarmEvent, ActiveAlarmState> with L {
-  StreamSubscription<Alarm>? _activeAlarmSubscription;
-
   ActiveAlarmBloc() : super(ActiveAlarmInitial()) {
     on<ActiveAlarmStarted>((final event, final emit) async {
       l.d('Load active alarm requested');
-      if (event.enableLiveUpdate) {
-        _startActiveAlarmStream();
-      }
 
       final repository = GetIt.I<AlarmRepository>();
 
-      final result = await repository.getActiveAlarm();
+      final result = await repository.getAnnouncedAlarms();
 
       if (result.isFailure) {
         emit(ActiveAlarmFailure());
         return;
       }
-      final mapper = AlarmMapper(result.success);
-      final alarm = mapper.toAlarmDetail();
-      GetIt.I<TextToSpeechService>().loadText(mapper.toSpeechText());
-      GetIt.I<TextToSpeechService>().start();
-      emit(ActiveAlarmLoadSuccess(alarm));
+      final alarmDTOs = result.success.map((final a) {
+        final mapper = AlarmMapper(a);
+        final alarm = mapper.toAlarmDetail();
+        return alarm;
+      }).toList();
+
+      final first = alarmDTOs.firstOrNull;
+      if(first != null){
+        GetIt.I<TextToSpeechService>().loadText(first.toSpeechText());
+        if(GetIt.I<TextToSpeechService>().isRepeating()){
+          GetIt.I<TextToSpeechService>().start();
+        }
+      }
+
+      emit(ActiveAlarmLoadSuccess(alarmDTOs));
     });
+    on<ActiveAlarmSilentRefresh>((final event, final emit) async {
+      log("Start pooling");
+      final repository = GetIt.I<AlarmRepository>();
+      log("TACK CO");
+      final result = await repository.getAnnouncedAlarms();
 
-    on<ActiveAlarmRefreshed>((final event, final emit) async {
-      l.d('Refreshed alarm received');
+      if (result.isFailure) {
+        emit(ActiveAlarmFailure());
+        return;
+      }
+      final alarmDTOs = result.success.map((final a) {
+        final mapper = AlarmMapper(a);
+        final alarm = mapper.toAlarmDetail();
+        return alarm;
+      }).toList();
 
-      final alarm = AlarmMapper(event.alarm).toAlarmDetail();
 
-      emit(ActiveAlarmLoadSuccess(alarm));
+      final first = alarmDTOs.firstOrNull;
+      if(first != null){
+        GetIt.I<TextToSpeechService>().loadText(first.toSpeechText());
+        if(GetIt.I<TextToSpeechService>().isRepeating()){
+          GetIt.I<TextToSpeechService>().start();
+        }
+      }
+
+      emit(ActiveAlarmLoadSuccess(alarmDTOs));
+
+
+      // GetIt.I<TextToSpeechService>().loadText(mapper.toSpeechText());
+      // GetIt.I<TextToSpeechService>().start();
+
     });
   }
 
   @override
   Future<void> close() {
     l.d('Closing');
-    _activeAlarmSubscription?.cancel();
-    _activeAlarmSubscription = null;
     return super.close();
   }
 
-  void _startActiveAlarmStream() {
-    if (_activeAlarmSubscription != null) {
-      l.w('Active alarm subscription is already active');
-      return;
-    }
 
-    _activeAlarmSubscription = GetIt.I<AlarmService>().stream.listen(
-          _onActiveEventUpdate,
-        );
-    GetIt.I<AlarmService>().startPolling();
-  }
-
-  void _onActiveEventUpdate(final Alarm alarm) {
-    l.d('Active alarm updated, id: ${alarm.id}');
-    if (!isClosed) {
-      add(ActiveAlarmRefreshed(alarm));
-    } else {
-      l.w('Bloc is closed');
-    }
-  }
 }

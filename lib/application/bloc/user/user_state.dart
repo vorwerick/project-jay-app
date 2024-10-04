@@ -17,4 +17,7 @@ final class UserLoadSuccess extends UserState with EquatableMixin {
 
 final class UserLoadInProgress extends UserState {}
 
-final class UserLoadFailure extends UserState {}
+final class UserLoadFailure extends UserState {
+   final String statusCode;
+    UserLoadFailure(this.statusCode);
+}

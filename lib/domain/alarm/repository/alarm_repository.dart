@@ -4,7 +4,7 @@ import 'package:app/domain/common/result.dart';
 abstract interface class AlarmRepository {
   Future<Result<AlarmRepositoryState, bool>> hasActiveAlarm();
 
-  Future<Result<AlarmRepositoryState, Alarm>> getActiveAlarm();
+  Future<Result<AlarmRepositoryState, List<Alarm>>> getAnnouncedAlarms();
 
   Future<Result<AlarmRepositoryState, List<Alarm>>> getAll();
 

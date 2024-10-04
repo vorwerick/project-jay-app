@@ -1,17 +1,17 @@
 import 'package:app/application/bloc/alarms/alarm_history_bloc.dart';
-import 'package:app/configuration/navigation/app_routes.dart';
 import 'package:app/presentation/common/jay_colors.dart';
 import 'package:app/presentation/components/jay_container.dart';
 import 'package:app/presentation/components/jay_progress_indicator.dart';
 import 'package:app/presentation/components/jay_white_text.dart';
+import 'package:app/presentation/pages/event_page_history.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
-class EventHistoryPage extends StatelessWidget {
-  const EventHistoryPage({super.key});
+class EventHistoryList extends StatelessWidget {
+  const EventHistoryList({super.key});
 
   @override
   Widget build(final BuildContext context) => BlocProvider<AlarmHistoryBloc>(
@@ -57,11 +57,10 @@ class EventHistoryPage extends StatelessWidget {
                         ],
                       ),
                       onTap: () {
-                        context.pushNamed(
-                          AppRoutes.eventDetail.name,
-                          pathParameters: {
-                            'eventId': state.events[index].eventId
-                          },
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (final context) =>  EventPageHistory(eventId: state.events[index].eventId,title: state.events[index].name,),
+                          ),
                         );
                       },
                     ),
@@ -77,7 +76,7 @@ class EventHistoryPage extends StatelessWidget {
                 );
               }
               if (state is AlarmHistoryLoadInProgress) {
-                return const Center(child: JayProgressIndicator());
+                return const Center(child: JayProgressIndicator(text: "Stahuji historii událostí"));
               }
               if (state is AlarmHistoryLoadFailure) {
                 return Center(

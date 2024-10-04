@@ -61,4 +61,7 @@ final class AlarmDto extends Equatable {
 
   @override
   bool? get stringify => true;
+
+  String toSpeechText() =>
+      'Vyhlášen poplach pro jednotku ${this.unit}.Typ události ${this.eventType}. Kraj ${this.region}. Město ${this.municipality}. Ulice ${this.street}. Budova ${this.object}. Podlaží ${this.floor}. Popis ${this.explanation}.';
 }

@@ -41,7 +41,7 @@ class SettingsPage extends StatelessWidget {
                       ],
                     );
                   }
-                  return const JayProgressIndicator();
+                  return const JayProgressIndicator(text: "Načítám nastavení");
                 },
               ),  BlocBuilder<AppVersionBloc, AppVersionState>(
                 builder: (final context, final state) {
