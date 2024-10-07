@@ -50,7 +50,7 @@ class _EventPageState extends State<EventPage>
         length: 3,
         key: const Key('home-tab-bar'),
         child: Scaffold(
-          body: TabBarView(children: _getScreens(widget.alarmDto)),
+          body: TabBarView(children: _getScreens(widget.alarmDto),physics: const NeverScrollableScrollPhysics(),),
           appBar: const TabBar(tabs: [
             Tab(
               text: 'Přehled',

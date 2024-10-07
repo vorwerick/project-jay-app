@@ -23,12 +23,12 @@ class App extends StatelessWidget {
             ),
           ),
           appBarTheme: const AppBarTheme(
-            backgroundColor: JayColors.primary,
+            backgroundColor: JayColors.primaryLight,
           ),
           colorScheme: ColorScheme.fromSeed(
             error: const Color(0xFF9d1b25),
             errorContainer: const Color(0xFFea858d),
-            seedColor: const Color(0xFFd16014),
+            seedColor: JayColors.primaryLight,
           ),
           useMaterial3: true,
         ),

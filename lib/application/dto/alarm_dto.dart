@@ -17,6 +17,8 @@ final class AlarmDto extends Equatable {
   final String lastUpdate;
   final List<Fleet>? otherTechnique;
   final String notifier;
+  final String? num1;
+  final String? num2;
 
   final String notifierNumber;
 
@@ -38,6 +40,8 @@ final class AlarmDto extends Equatable {
       required this.otherTechnique,
       required this.notifier,
       required this.notifierNumber,
+      required this.num1,
+      required this.num2,
       required this.files});
 
   @override

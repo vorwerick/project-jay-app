@@ -17,8 +17,7 @@ class EventDetailsScreen extends StatelessWidget {
     thickness: 1,
   );
 
-  const EventDetailsScreen({final Key? key, required this.detail})
-      : super(key: key);
+  const EventDetailsScreen({super.key, required this.detail});
 
   @override
   Widget build(final BuildContext context) => BlocProvider(
@@ -50,7 +49,6 @@ class EventDetailsScreen extends StatelessWidget {
                 Expanded(
                   child: Container(
                     child: Scrollbar(
-
                       thumbVisibility: true,
                       trackVisibility: true,
                       thickness: 12,
@@ -61,8 +59,7 @@ class EventDetailsScreen extends StatelessWidget {
                           ListPair(
                             title: AppLocalizations.of(context)!.unit,
                             value: detail.unit,
-                            background: JayColors.primaryLight,
-                          ),
+                            background: Colors.transparent,                          ),
                           ListPair(
                             title: AppLocalizations.of(context)!.eventType,
                             value: detail.eventType,
@@ -71,17 +68,18 @@ class EventDetailsScreen extends StatelessWidget {
                           ListPair(
                             title: AppLocalizations.of(context)!.event,
                             value: detail.event,
-                            background: JayColors.primaryLight,
-                          ),
+                            background: Colors.transparent,                          ),
                           ListPair(
                             title: AppLocalizations.of(context)!.technique,
-                            value: detail.technique?.map((final t) => t.fleetName).join(', '),
+                            value: detail.technique
+                                ?.map((final t) => t.fleetName)
+                                .join(', '),
                             background: JayColors.secondaryLight,
                           ),
                           ListPair(
                             title: AppLocalizations.of(context)!.region,
                             value: detail.region,
-                            background: JayColors.primaryLight,
+                            background: Colors.transparent,
                           ),
                           ListPair(
                             title: AppLocalizations.of(context)!.municipality,
@@ -90,9 +88,9 @@ class EventDetailsScreen extends StatelessWidget {
                           ),
                           ListPair(
                             title: AppLocalizations.of(context)!.street,
-                            value: detail.street,
-                            background: JayColors.primaryLight,
-                          ),
+                            value:
+                                '${detail.street} ${detail.num1 != null ? (detail.num2 != null ? ('${detail.num1!}/${detail.num2!}') : detail.num1!) : ''}',
+                            background: Colors.transparent,                          ),
                           ListPair(
                             title: AppLocalizations.of(context)!.object,
                             value: detail.object,
@@ -101,8 +99,7 @@ class EventDetailsScreen extends StatelessWidget {
                           ListPair(
                             title: AppLocalizations.of(context)!.floor,
                             value: detail.floor,
-                            background: JayColors.primaryLight,
-                          ),
+                            background: Colors.transparent,                          ),
                           ListPair(
                             title: AppLocalizations.of(context)!.explanation,
                             value: detail.explanation,
@@ -111,19 +108,19 @@ class EventDetailsScreen extends StatelessWidget {
                           ListPair(
                             title: AppLocalizations.of(context)!.lastUpdate,
                             value: detail.lastUpdate,
-                            background: JayColors.primaryLight,
-                          ),
+                            background: Colors.transparent,                          ),
                           ListPair(
                             title: AppLocalizations.of(context)!.otherTechnique,
-                            value: detail.otherTechnique?.map((final t) => t.fleetName).join(', '),
+                            value: detail.otherTechnique
+                                ?.map((final t) => t.fleetName)
+                                .join(', '),
                             background: JayColors.secondaryLight,
                           ),
                           ListPairAction(
                             title: AppLocalizations.of(context)!.notifier,
                             name: detail.notifier,
-                            number: 'tel: ' + detail.notifierNumber,
-                            background: JayColors.primaryLight,
-                            icon: Icon(
+                            number: 'tel: ${detail.notifierNumber}',
+                            background: Colors.transparent,                            icon: Icon(
                               color: Colors.white,
                               Icons.phone,
                             ),
@@ -134,8 +131,7 @@ class EventDetailsScreen extends StatelessWidget {
                           ListPair(
                             title: '\n\n\n\n\n\n\n\n\n\n\n',
                             value: '',
-                            background: JayColors.primaryLight,
-                          ),
+                            background: Colors.transparent,                          ),
                           SizedBox(
                             height: 72,
                           ),

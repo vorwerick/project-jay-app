@@ -76,7 +76,7 @@ class _EventPageHistoryState extends State<EventPageHistory>
                         ),
                       ],
                     ),
-                    body: TabBarView(children: _getScreens(state.alarm),),
+                    body: TabBarView(children: _getScreens(state.alarm),physics: const NeverScrollableScrollPhysics(),),
                   );
                 }
 

@@ -10,6 +10,7 @@ import 'package:app/presentation/components/jay_progress_indicator.dart';
 import 'package:app/presentation/components/jay_white_text.dart';
 import 'package:app/presentation/pages/event_page.dart';
 import 'package:app/presentation/pages/widgets/app_bar_alarm.dart';
+import 'package:app/presentation/pages/widgets/custom_app_bar.dart';
 import 'package:app/presentation/pages/widgets/event_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -120,14 +121,15 @@ class _MainPageState extends State<MainPage>
               );
             }
             if (userState is UserLoadInProgress) {
-              return Material(
-                child: const JayProgressIndicator(
-                    text: 'Stahuji informace o uživateli'),
+              return const Material(
+                child:
+                    JayProgressIndicator(text: 'Stahuji informace o uživateli'),
               );
             }
             if (userState is UserLoadSuccess) {
               return BlocListener<PoolingCubit, PoolingState>(
-                listener: (BuildContext context, PoolingState state) {
+                listener:
+                    (final BuildContext context, final PoolingState state) {
                   if (state is PoolingFetched) {
                     context
                         .read<ActiveAlarmBloc>()
@@ -135,24 +137,8 @@ class _MainPageState extends State<MainPage>
                   }
                 },
                 child: Scaffold(
-                  appBar: AppBar(
-                    toolbarHeight: 80,
-                    backgroundColor: JayColors.primary,
-                    title: BlocBuilder<ActiveAlarmBloc, ActiveAlarmState>(
-                      builder: (final context, final state) {
-                        if (state is ActiveAlarmLoadSuccess) {
-                          if (state.alarms.isEmpty) {
-                            return const Text('Žádný aktivní poplach');
-                          } else {
-                            return AppBarAlarm(
-                              eventDetail: state.alarms[_currentPageIndex],
-                            );
-                          }
-                        }
-                        return const SizedBox.shrink();
-                      },
-                    ),
-                    //bottom: TextToSpeechControlPanel(),
+                  appBar: CustomAppBar(
+                    currentPageIndex: _currentPageIndex,
                   ),
                   body: BlocBuilder<ActiveAlarmBloc, ActiveAlarmState>(
                     builder: (final context, final state) {
@@ -163,7 +149,7 @@ class _MainPageState extends State<MainPage>
                             physics: const NeverScrollableScrollPhysics(),
                             children: state.alarms
                                 .map<Widget>(
-                                  (a) => EventPage(
+                                  (final a) => EventPage(
                                     memberId: userState.memberId,
                                     eventId: a.eventId,
                                     alarmDto: a,

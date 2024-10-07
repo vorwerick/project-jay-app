@@ -8,13 +8,12 @@ final class AlarmMapper {
 
   final List<FilePairDto> _mockedFiles = [
     const FilePairDto(name: 'Plan domu test', path: 'assets/plan-domu.pdf'),
-
   ];
 
   AlarmMapper(this.alarm);
 
   AlarmDto toAlarmDetail() => AlarmDto(
-    eventId: alarm.eventId,
+        eventId: alarm.eventId,
         unit: alarm.unitName,
         eventType: alarm.eventType,
         event: alarm.title,
@@ -25,12 +24,13 @@ final class AlarmMapper {
         object: alarm.object,
         floor: alarm.floor,
         explanation: alarm.explanation,
-        lastUpdate: DateFormat.yMd().add_Hms().format(alarm.lastUpdate.toLocal()),
+        lastUpdate:
+            DateFormat.yMd().add_Hms().format(alarm.lastUpdate.toLocal()),
         otherTechnique: alarm.otherTechnique,
         notifier: alarm.announcer,
         notifierNumber: alarm.announcerPhone,
         files: _mockedFiles,
+        num1: alarm.num1,
+        num2: alarm.num2,
       );
-
-
 }

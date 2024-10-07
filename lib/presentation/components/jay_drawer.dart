@@ -39,7 +39,7 @@ class JayDrawer extends StatelessWidget {
                   DrawerHeader(
                       padding: const EdgeInsets.all(0),
                       decoration: const BoxDecoration(
-                        color: JayColors.primary,
+                        color: JayColors.primaryLight,
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
