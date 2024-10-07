@@ -32,5 +32,6 @@ final class AlarmMapper {
         files: _mockedFiles,
         num1: alarm.num1,
         num2: alarm.num2,
+        clarification: alarm.clarification,
       );
 }

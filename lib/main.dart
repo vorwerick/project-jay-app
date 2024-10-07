@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:app/app.dart';
 import 'package:app/configuration/di/app_dependency_configuration.dart';
+import 'package:app/domain/alarm/repository/confirmation_repository.dart';
 import 'package:app/domain/alerts/alert.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -58,16 +59,17 @@ Future<void> main() async {
         '${DateTime.now().toString()} priority: ${event.notification.priority}');
 
     prefs.setString('notifications', sb.toString());
-    final Alert alert = GetIt.I<Alert>();
     log('NOTOTOT');
     log(event.notification.body.toString());
     log(event.notification.additionalData.toString());
     log(event.notification.rawPayload.toString());
     final int eventId = event.notification.additionalData!['eventId'];
+
+    final confirmationRepository = GetIt.I.get<ConfirmationRepository>();
     if (event.result.actionId == 'accept') {
-      await alert.accept(eventId);
+      await confirmationRepository.confirm(eventId);
     } else if (event.result.actionId == 'decline') {
-      await alert.reject(eventId);
+      await confirmationRepository.reject(eventId);
     }
   });
 }

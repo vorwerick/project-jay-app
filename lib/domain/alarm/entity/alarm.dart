@@ -48,6 +48,8 @@ final class Alarm extends Entity {
 
   final String? num2;
 
+  final String? clarification;
+
   bool get isActive => state is Announced;
 
   Alarm._(
@@ -75,6 +77,7 @@ final class Alarm extends Entity {
     required this.location,
     required this.num1,
     required this.num2,
+    required this.clarification,
   });
 
   factory Alarm.create(
@@ -101,8 +104,9 @@ final class Alarm extends Entity {
     required final List<Fleet>? otherTechnique,
     required final double latitude,
     required final double longitude,
-    required final String num1,
-    required final String num2,
+    required final String? num1,
+    required final String? num2,
+        required final String? clarification,
   }) =>
       Alarm._(
         id,
@@ -129,6 +133,7 @@ final class Alarm extends Entity {
         location: LatLng(latitude, longitude),
         num1: num1,
         num2: num2,
+        clarification: clarification,
       );
 
   @override

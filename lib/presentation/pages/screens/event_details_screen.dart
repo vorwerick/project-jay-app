@@ -106,21 +106,26 @@ class EventDetailsScreen extends StatelessWidget {
                             background: JayColors.secondaryLight,
                           ),
                           ListPair(
+                            title: 'Upřesnění',
+                            value: detail.clarification,
+                            background: Colors.transparent,
+                          ),
+                          ListPair(
                             title: AppLocalizations.of(context)!.lastUpdate,
                             value: detail.lastUpdate,
-                            background: Colors.transparent,                          ),
+                            background: JayColors.secondaryLight,                          ),
                           ListPair(
                             title: AppLocalizations.of(context)!.otherTechnique,
                             value: detail.otherTechnique
                                 ?.map((final t) => t.fleetName)
                                 .join(', '),
-                            background: JayColors.secondaryLight,
+                            background: Colors.transparent,
                           ),
                           ListPairAction(
                             title: AppLocalizations.of(context)!.notifier,
                             name: detail.notifier,
                             number: 'tel: ${detail.notifierNumber}',
-                            background: Colors.transparent,                            icon: Icon(
+                            background: JayColors.secondaryLight,                            icon: Icon(
                               color: Colors.white,
                               Icons.phone,
                             ),

@@ -1,4 +1,3 @@
-import 'package:app/configuration/navigation/app_routes.dart';
 import 'package:app/presentation/components/jay_text_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -28,7 +27,7 @@ class LoginPage extends StatelessWidget {
                 height: 30,
               ),
               ElevatedButton(
-                onPressed: () => {context.go(AppRoutes.home.path)},
+                onPressed: () => {},
                 child: Text(AppLocalizations.of(context)!.login),
               )
             ],

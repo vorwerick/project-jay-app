@@ -28,6 +28,7 @@ final class AlarmJsonMapper {
         explanation: alarm.whatHappened,
         technique: alarm.unitFleet,
         otherTechnique: alarm.otherFleet,
+        clarification: alarm.clarification,
         latitude: alarm.gps.x,
         longitude: alarm.gps.y, num1: alarm.num1,num2: alarm.num2
       );

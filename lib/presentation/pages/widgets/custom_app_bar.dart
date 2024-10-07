@@ -26,9 +26,15 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               );
             }
           }
+          if((state is ActiveAlarmLoadInProgress)){
+            AppBar(
+              backgroundColor: JayColors.primaryLight,
+              title: Text('Načítám..'),
+            );
+          }
           return AppBar(
             backgroundColor: JayColors.primaryLight,
-            title: const Text('Žádný aktivní poplach'),
+            title: Text('Žádný aktivní poplach'),
           );
         });
 

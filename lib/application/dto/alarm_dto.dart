@@ -19,30 +19,33 @@ final class AlarmDto extends Equatable {
   final String notifier;
   final String? num1;
   final String? num2;
+  final String? clarification;
 
   final String notifierNumber;
 
   final List<FilePairDto> files;
 
-  const AlarmDto(
-      {required this.eventId,
-      required this.unit,
-      required this.eventType,
-      required this.event,
-      required this.technique,
-      required this.region,
-      required this.municipality,
-      required this.street,
-      required this.object,
-      required this.floor,
-      required this.explanation,
-      required this.lastUpdate,
-      required this.otherTechnique,
-      required this.notifier,
-      required this.notifierNumber,
-      required this.num1,
-      required this.num2,
-      required this.files});
+  const AlarmDto({
+    required this.eventId,
+    required this.unit,
+    required this.eventType,
+    required this.event,
+    required this.technique,
+    required this.region,
+    required this.municipality,
+    required this.street,
+    required this.object,
+    required this.floor,
+    required this.explanation,
+    required this.lastUpdate,
+    required this.otherTechnique,
+    required this.notifier,
+    required this.notifierNumber,
+    required this.num1,
+    required this.num2,
+    required this.clarification,
+    required this.files,
+  });
 
   @override
   List<Object?> get props => [
@@ -60,6 +63,10 @@ final class AlarmDto extends Equatable {
         lastUpdate,
         otherTechnique,
         notifier,
+        otherTechnique,
+        num1,
+        num2,
+        clarification,
         List.of(files),
       ];
 
