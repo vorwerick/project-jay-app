@@ -56,12 +56,14 @@ class EventHistoryList extends StatelessWidget {
                             )
                         ],
                       ),
-                      onTap: () {
-                        Navigator.of(context).push(
+                      onTap: () async{
+                        final bloc = context.read<AlarmHistoryBloc>();
+                        Object? result = await Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (final context) =>  EventPageHistory(eventId: state.events[index].eventId,title: state.events[index].name,),
                           ),
                         );
+                        bloc.add(AlarmHistoryStarted());
                       },
                     ),
                     separatorBuilder:

@@ -51,6 +51,9 @@ class AlarmSetControlBloc extends Bloc<AlarmSetControlEvent, AlarmSetControlStat
 
       emit(AlarmSetControlSuccess());
     });
+    on<AlarmSetControlMinimizePressed>((final event, final emit) async {
+      emit(AlarmSetControlSkip());
+    });
   }
 
   /*

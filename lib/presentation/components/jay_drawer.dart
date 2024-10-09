@@ -13,6 +13,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 // TODO(vojjta): implement params for drawer
 class JayDrawer extends StatelessWidget {
@@ -25,10 +26,12 @@ class JayDrawer extends StatelessWidget {
   Widget build(final BuildContext context) => MultiBlocProvider(
         providers: [
           BlocProvider<AppVersionBloc>(
-              create: (final context) =>
-                  AppVersionBloc()..add(AppVersionStarted())),
+            create: (final context) =>
+                AppVersionBloc()..add(AppVersionStarted()),
+          ),
           BlocProvider<AlertBloc>(
-              create: (final context) => AlertBloc()..add(AlertStarted())),
+            create: (final context) => AlertBloc()..add(AlertStarted()),
+          ),
           BlocProvider<LogoutCubit>(create: (final context) => LogoutCubit()),
         ],
         child: SafeArea(
@@ -37,63 +40,62 @@ class JayDrawer extends StatelessWidget {
               child: Column(
                 children: [
                   DrawerHeader(
-                      padding: const EdgeInsets.all(0),
-                      decoration: const BoxDecoration(
-                        color: JayColors.primaryLight,
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          BlocBuilder<UserBloc, UserState>(
-                            builder: (final context, final state) {
-                              if (state is UserLoadSuccess) {
-                                return Container(
-                                  margin: const EdgeInsets.all(16),
-                                  child: Row(
-                                    children: [
-                                      CircleAvatar(
-                                        radius: 24,
-                                        child: SvgPicture.asset(
-                                          'assets/firefighter-avatar.svg',
-                                          semanticsLabel: 'Firefighter avatar',
+                    padding: const EdgeInsets.all(0),
+                    decoration: const BoxDecoration(
+                      color: JayColors.primaryLight,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        BlocBuilder<UserBloc, UserState>(
+                          builder: (final context, final state) {
+                            if (state is UserLoadSuccess) {
+                              return Container(
+                                margin: const EdgeInsets.all(16),
+                                child: Row(
+                                  children: [
+                                    CircleAvatar(
+                                      radius: 24,
+                                      child: SvgPicture.asset(
+                                        'assets/firefighter-avatar.svg',
+                                        semanticsLabel: 'Firefighter avatar',
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      width: 8,
+                                    ),
+                                    Column(
+                                      children: [
+                                        Text(
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .headlineSmall!
+                                              .copyWith(),
+                                          state.fullName,
                                         ),
-                                      ),
-                                      const SizedBox(
-                                        width: 8,
-                                      ),
-                                      Column(
-                                        children: [
-                                          Text(
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .headlineSmall!
-                                                .copyWith(),
-                                            state.fullName,
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              }
-                              if (state is UserLoadFailure) {
-                                return Center(
-                                  child: Text(
-                                    AppLocalizations.of(context)!
-                                        .checkConnection,
-                                  ),
-                                );
-                              }
-
-                              return const Center(
-                                child: CircularProgressIndicator(),
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               );
-                            },
-                          ),
-                          const SizedBox(
-                            height: 16,
-                          ),
-                          /*
+                            }
+                            if (state is UserLoadFailure) {
+                              return Center(
+                                child: Text(
+                                  AppLocalizations.of(context)!.checkConnection,
+                                ),
+                              );
+                            }
+
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          },
+                        ),
+                        const SizedBox(
+                          height: 16,
+                        ),
+                        /*
                           BlocBuilder<AlertBloc, AlertState>(
                             builder: (final context, final state) {
                               if (state is CurrentAlertsState) {
@@ -139,8 +141,9 @@ class JayDrawer extends StatelessWidget {
                               );
                             },
                           ),*/
-                        ],
-                      )),
+                      ],
+                    ),
+                  ),
                   ListTile(
                     title: Text(AppLocalizations.of(context)!.eventHistory),
                     onTap: () {
@@ -169,29 +172,31 @@ class JayDrawer extends StatelessWidget {
                     title: const Text("O aplikaci"),
                     onTap: () {
                       showDialog(
-                          context: context,
-                          builder: (final context) {
-                            return Dialog(
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Container(
-                                    margin: const EdgeInsets.all(24),
-                                    child: Text(
-                                      "O aplikaci",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleLarge,
-                                    ),
+                        context: context,
+                        builder: (final context) {
+                          return Dialog(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Container(
+                                  margin: const EdgeInsets.all(24),
+                                  child: Text(
+                                    "O aplikaci",
+                                    style:
+                                        Theme.of(context).textTheme.titleLarge,
                                   ),
-                                  Container(
-                                    margin: const EdgeInsets.only(
-                                        left: 24, right: 24, bottom: 24),
-                                    child: const Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        /*
+                                ),
+                                Container(
+                                  margin: const EdgeInsets.only(
+                                    left: 24,
+                                    right: 24,
+                                    bottom: 24,
+                                  ),
+                                  child: const Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      /*
                                         Row(
                                           children: [
                                             Image.network(
@@ -213,42 +218,45 @@ class JayDrawer extends StatelessWidget {
                                         SizedBox(
                                           height: 12,
                                         ),*/
-                                        Text(
-                                            "Aplikace slouží k rychlému svolávání a informování jednotek JSDH v rámci systému JAY. Je určena výhradně pro hasičské jednotky integrované v tomto systému. Pro správnou funkčnost je nutné ji registrovat v systému JAY a nastavit v mobilním zařízení. Funkčnost se může lišit podle typu telefonu a operačního systému.\n\nAplikaci vyvinula společnost TELwork, s.r.o.\n\nPro technickou podporu kontaktujte:\ne-mail: info@telwork.cz\ntelefon: +420\u{00A0}773\u{00A0}319\u{00A0}297.")
-                                      ],
-                                    ),
-                                  )
-                                ],
-                              ),
-                            );
-                          });
+                                      Text(
+                                        "Aplikace slouží k rychlému svolávání a informování jednotek JSDH v rámci systému JAY. Je určena výhradně pro hasičské jednotky integrované v tomto systému. Pro správnou funkčnost je nutné ji registrovat v systému JAY a nastavit v mobilním zařízení. Funkčnost se může lišit podle typu telefonu a operačního systému.\n\nAplikaci vyvinula společnost TELwork, s.r.o.\n\nPro technickou podporu kontaktujte:\ne-mail: info@telwork.cz\ntelefon: +420\u{00A0}773\u{00A0}319\u{00A0}297.",
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      );
                     },
                   ),
                   ListTile(
                     title: const Text("Podmínky použití"),
                     onTap: () {
                       showDialog(
-                          context: context,
-                          builder: (final context) => AlertDialog(
-                                title: Container(
-                                  margin: const EdgeInsets.all(24),
-                                  child: Text(
-                                    "Podmínky použití",
-                                    style:
-                                        Theme.of(context).textTheme.titleLarge,
-                                  ),
+                        context: context,
+                        builder: (final context) => AlertDialog(
+                          title: Container(
+                            margin: const EdgeInsets.all(24),
+                            child: Text(
+                              "Podmínky použití",
+                              style: Theme.of(context).textTheme.titleLarge,
+                            ),
+                          ),
+                          scrollable: true,
+                          content: Column(
+                            children: [
+                              Container(
+                                margin: const EdgeInsets.only(
+                                  left: 24,
+                                  right: 24,
+                                  bottom: 24,
                                 ),
-                                scrollable: true,
-                                content: Column(
+                                child: const Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Container(
-                                      margin: const EdgeInsets.only(
-                                          left: 24, right: 24, bottom: 24),
-                                      child: const Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          /*
+                                    /*
                                         Row(
                                           children: [
                                             Image.network(
@@ -270,7 +278,7 @@ class JayDrawer extends StatelessWidget {
                                         SizedBox(
                                           height: 12,
                                         ),*/
-                                          Text("""
+                                    Text("""
 1. Použití aplikace
 Aplikace je poskytována výhradně pro účely, ke kterým byla určena. Jste povinni používat aplikaci v souladu s těmito podmínkami a platnými právními předpisy. Jakékoliv neoprávněné použití aplikace je zakázáno, včetně, ale ne omezeno na, zpětnou analýzu, dekompilaci nebo jakýkoli jiný pokus o získání zdrojového kódu aplikace.
 
@@ -297,15 +305,93 @@ Poskytovatel si vyhrazuje právo kdykoli změnit tyto podmínky použití. O jak
 
 9. Kontaktní informace
 Pro jakékoliv dotazy nebo problémy týkající se těchto podmínek nebo aplikace nás kontaktujte na e-mailové adrese info@telwork.cz nebo na telefonním čísle +420\u{00A0}773\u{00A0}319\u{00A0}297.
-                                            """)
-                                        ],
-                                      ),
-                                    )
+                                            """),
                                   ],
                                 ),
-                              ));
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
                     },
                   ),
+                  if (false)
+                    ListTile(
+                      title: Text("Zpětná vazba"),
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (final context) {
+                            TextEditingController controller =
+                                TextEditingController();
+                            return SimpleDialog(
+                              title: const Text('Odeslat zpětnou vazbu'),
+                              children: [
+                                SizedBox(
+                                  height: 16,
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(
+                                      left: 20, right: 20, bottom: 0),
+                                  child: Column(
+                                    children: [
+                                      TextFormField(
+                                        controller: controller,
+                                        maxLines: 5,
+                                        decoration: InputDecoration(
+                                          border: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
+                                          labelText: "Text",
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 16,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: [
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.of(
+                                                context,
+                                                rootNavigator: true,
+                                              ).pop();
+                                            },
+                                            child: const Text('Zavřít'),
+                                          ),
+                                          TextButton(
+                                            onPressed: () async {
+                                              Navigator.of(
+                                                context,
+                                                rootNavigator: true,
+                                              ).pop();
+                                              final Uri _emailLaunchUri = Uri(
+                                                  scheme: 'mailto',
+                                                  path: 'info@appwizards.cz',
+                                                  queryParameters: {
+                                                    'subject':
+                                                        'Zpětná vazba z aplikace JAY',
+                                                  });
+
+// ...
+                                              await launchUrl(_emailLaunchUri);
+                                            },
+                                            child: const Text('Odeslat'),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
+                    ),
                   Builder(
                     builder: (final context) =>
                         BlocListener<LogoutCubit, LogoutState>(
@@ -318,7 +404,55 @@ Pro jakékoliv dotazy nebo problémy týkající se těchto podmínek nebo aplik
                       child: ListTile(
                         title: Text(AppLocalizations.of(context)!.logout),
                         onTap: () {
-                          context.read<LogoutCubit>().logout();
+                          showDialog(
+                            context: context,
+                            builder: (final context) => SimpleDialog(
+                              title: const Text('Odhlášení'),
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.only(
+                                      left: 20, right: 20, bottom: 0),
+                                  child: Column(
+                                    children: [
+                                      const Text(
+                                        'Opravdu chcete toto zařízení odhlásit?',
+                                      ),
+                                      SizedBox(
+                                        height: 16,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: [
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.of(
+                                                context,
+                                                rootNavigator: true,
+                                              ).pop();
+                                            },
+                                            child: const Text('Zavřít'),
+                                          ),
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.of(
+                                                context,
+                                                rootNavigator: true,
+                                              ).pop();
+                                              context
+                                                  .read<LogoutCubit>()
+                                                  .logout();
+                                            },
+                                            child: const Text('Odhlásit'),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
                         },
                       ),
                     ),
@@ -330,12 +464,15 @@ Pro jakékoliv dotazy nebo problémy týkající se těchto podmínek nebo aplik
                         final prefs = await SharedPreferences.getInstance();
 
                         String g = prefs.getString('notifications') ?? '';
-                        showAboutDialog(context: context, children: [
-                          Text(
-                            g,
-                            style: const TextStyle(fontSize: 12),
-                          ),
-                        ]);
+                        showAboutDialog(
+                          context: context,
+                          children: [
+                            Text(
+                              g,
+                              style: const TextStyle(fontSize: 12),
+                            ),
+                          ],
+                        );
                       },
                     ),
                 ],

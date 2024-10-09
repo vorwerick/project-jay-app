@@ -9,7 +9,9 @@ final class AlarmControlStateLoading extends AlarmControlState {}
 
 final class AlarmControlStateSuccessAccepted extends AlarmControlState {}
 
-final class AlarmControlStateSuccessNone extends AlarmControlState {}
+final class AlarmControlStateSuccessNoneMaximized extends AlarmControlState {}
+
+final class AlarmControlStateSuccessNoneMinimized extends AlarmControlState {}
 
 final class AlarmControlStateSuccessRejected extends AlarmControlState {}
 

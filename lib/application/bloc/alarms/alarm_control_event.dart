@@ -6,6 +6,10 @@ sealed class AlarmControlEvent {}
 final class AlarmControlEdit extends AlarmControlEvent{
 
 }
+
+final class AlarmControlMinimize extends AlarmControlEvent{
+
+}
 final class AlarmControlGetStateStarted extends AlarmControlEvent {
   final int eventId;
   final int memberId;

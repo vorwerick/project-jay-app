@@ -20,4 +20,8 @@ final class AlarmSetControlRejectPressed extends AlarmSetControlEvent {
   AlarmSetControlRejectPressed({required this.eventId});
 }
 
+final class AlarmSetControlMinimizePressed extends AlarmSetControlEvent {
+
+}
+
 //final class AlarmControlDelayPressed extends AlarmControlEvent {}

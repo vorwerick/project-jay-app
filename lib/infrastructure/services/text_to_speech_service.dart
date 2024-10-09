@@ -14,7 +14,7 @@ final class TextToSpeechService with L implements TTSService {
 
   bool _isTTSEnabled = false;
   bool _isSpeaking = false;
-  bool _isRepeating = true;
+  bool _isRepeating = false;
   String? _currentText = null;
   Function? _onStopListener = null;
 

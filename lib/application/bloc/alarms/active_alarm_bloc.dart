@@ -47,6 +47,8 @@ class ActiveAlarmBloc extends Bloc<ActiveAlarmEvent, ActiveAlarmState> with L {
       emit(ActiveAlarmLoadSuccess(alarmDTOs));
     });
     on<ActiveAlarmSilentRefresh>((final event, final emit) async {
+
+
       log("Start pooling");
       final repository = GetIt.I<AlarmRepository>();
       log("TACK CO");

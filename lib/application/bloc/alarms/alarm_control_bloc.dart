@@ -46,11 +46,14 @@ class AlarmControlBloc extends Bloc<AlarmControlEvent, AlarmControlState>
           emit(AlarmControlStateSuccessRejected());
         }
       } else {
-        emit(AlarmControlStateSuccessNone());
+        emit(AlarmControlStateSuccessNoneMaximized());
       }
     });
     on<AlarmControlEdit>((final event, final emit) async {
-      emit(AlarmControlStateSuccessNone());
+      emit(AlarmControlStateSuccessNoneMaximized());
+    });
+    on<AlarmControlMinimize>((final event, final emit) async {
+      emit(AlarmControlStateSuccessNoneMinimized());
     });
   }
 

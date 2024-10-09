@@ -9,4 +9,6 @@ final class AlarmSetControlProcessing extends AlarmSetControlState {}
 
 final class AlarmSetControlSuccess extends AlarmSetControlState {}
 
+final class AlarmSetControlSkip extends AlarmSetControlState {}
+
 final class AlarmSetControlFailed extends AlarmSetControlState {}

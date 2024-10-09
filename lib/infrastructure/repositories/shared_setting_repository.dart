@@ -65,7 +65,7 @@ final class SharedSettingRepository with RepositoryStreamer<Setting> implements 
   Future<Setting> _createSettingEntity() async {
     final prefs = await SharedPreferences.getInstance();
     return Setting.createNew(
-      prefs.getBool(_isTTSEnabledKey) ?? true,
+      prefs.getBool(_isTTSEnabledKey) ?? false,
       prefs.getBool(_isRegisteredKey) ?? false,
     );
   }
