@@ -6,12 +6,16 @@ import 'package:app/application/cubit/logout/logout_cubit.dart';
 import 'package:app/presentation/common/jay_colors.dart';
 import 'package:app/presentation/pages/event_history_list.dart';
 import 'package:app/presentation/pages/settings_page.dart';
+import 'package:app/presentation/utils/snack_bar_utils.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -169,7 +173,7 @@ class JayDrawer extends StatelessWidget {
                     },
                   ),
                   ListTile(
-                    title: const Text("O aplikaci"),
+                    title: const Text('O aplikaci'),
                     onTap: () {
                       showDialog(
                         context: context,
@@ -181,7 +185,7 @@ class JayDrawer extends StatelessWidget {
                                 Container(
                                   margin: const EdgeInsets.all(24),
                                   child: Text(
-                                    "O aplikaci",
+                                    'O aplikaci',
                                     style:
                                         Theme.of(context).textTheme.titleLarge,
                                   ),
@@ -219,7 +223,7 @@ class JayDrawer extends StatelessWidget {
                                           height: 12,
                                         ),*/
                                       Text(
-                                        "Aplikace slouží k rychlému svolávání a informování jednotek JSDH v rámci systému JAY. Je určena výhradně pro hasičské jednotky integrované v tomto systému. Pro správnou funkčnost je nutné ji registrovat v systému JAY a nastavit v mobilním zařízení. Funkčnost se může lišit podle typu telefonu a operačního systému.\n\nAplikaci vyvinula společnost TELwork, s.r.o.\n\nPro technickou podporu kontaktujte:\ne-mail: info@telwork.cz\ntelefon: +420\u{00A0}773\u{00A0}319\u{00A0}297.",
+                                        'Aplikace slouží k rychlému svolávání a informování jednotek JSDH v rámci systému JAY. Je určena výhradně pro hasičské jednotky integrované v tomto systému. Pro správnou funkčnost je nutné ji registrovat v systému JAY a nastavit v mobilním zařízení. Funkčnost se může lišit podle typu telefonu a operačního systému.\n\nAplikaci vyvinula společnost TELwork, s.r.o.\n\nPro technickou podporu kontaktujte:\ne-mail: info@telwork.cz\ntelefon: +420\u{00A0}773\u{00A0}319\u{00A0}297.',
                                       ),
                                     ],
                                   ),
@@ -232,7 +236,7 @@ class JayDrawer extends StatelessWidget {
                     },
                   ),
                   ListTile(
-                    title: const Text("Podmínky použití"),
+                    title: const Text('Podmínky použití'),
                     onTap: () {
                       showDialog(
                         context: context,
@@ -240,7 +244,7 @@ class JayDrawer extends StatelessWidget {
                           title: Container(
                             margin: const EdgeInsets.all(24),
                             child: Text(
-                              "Podmínky použití",
+                              'Podmínky použití',
                               style: Theme.of(context).textTheme.titleLarge,
                             ),
                           ),
@@ -278,7 +282,7 @@ class JayDrawer extends StatelessWidget {
                                         SizedBox(
                                           height: 12,
                                         ),*/
-                                    Text("""
+                                    Text('''
 1. Použití aplikace
 Aplikace je poskytována výhradně pro účely, ke kterým byla určena. Jste povinni používat aplikaci v souladu s těmito podmínkami a platnými právními předpisy. Jakékoliv neoprávněné použití aplikace je zakázáno, včetně, ale ne omezeno na, zpětnou analýzu, dekompilaci nebo jakýkoli jiný pokus o získání zdrojového kódu aplikace.
 
@@ -305,7 +309,7 @@ Poskytovatel si vyhrazuje právo kdykoli změnit tyto podmínky použití. O jak
 
 9. Kontaktní informace
 Pro jakékoliv dotazy nebo problémy týkající se těchto podmínek nebo aplikace nás kontaktujte na e-mailové adrese info@telwork.cz nebo na telefonním čísle +420\u{00A0}773\u{00A0}319\u{00A0}297.
-                                            """),
+                                            '''),
                                   ],
                                 ),
                               ),
@@ -315,83 +319,80 @@ Pro jakékoliv dotazy nebo problémy týkající se těchto podmínek nebo aplik
                       );
                     },
                   ),
-                  if (false)
-                    ListTile(
-                      title: Text("Zpětná vazba"),
-                      onTap: () {
-                        showDialog(
-                          context: context,
-                          builder: (final context) {
-                            TextEditingController controller =
-                                TextEditingController();
-                            return SimpleDialog(
-                              title: const Text('Odeslat zpětnou vazbu'),
-                              children: [
-                                SizedBox(
-                                  height: 16,
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(
-                                      left: 20, right: 20, bottom: 0),
-                                  child: Column(
-                                    children: [
-                                      TextFormField(
-                                        controller: controller,
-                                        maxLines: 5,
-                                        decoration: InputDecoration(
-                                          border: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                          ),
-                                          labelText: "Text",
+                  ListTile(
+                    title: Text('Zpětná vazba'),
+                    onTap: () {
+                      Navigator.pop(context);
+                      showDialog(
+                        context: context,
+                        builder: (final context) {
+                          TextEditingController controller =
+                              TextEditingController();
+                          return SimpleDialog(
+                            title: const Text('Odeslat zpětnou vazbu'),
+                            children: [
+                              SizedBox(
+                                height: 16,
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(
+                                    left: 20, right: 20, bottom: 0),
+                                child: Column(
+                                  children: [
+                                    TextFormField(
+                                      controller: controller,
+                                      maxLines: 5,
+                                      decoration: InputDecoration(
+                                        border: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
                                         ),
+                                        labelText: 'Text',
                                       ),
-                                      SizedBox(
-                                        height: 16,
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        children: [
-                                          TextButton(
-                                            onPressed: () {
-                                              Navigator.of(
-                                                context,
-                                                rootNavigator: true,
-                                              ).pop();
-                                            },
-                                            child: const Text('Zavřít'),
-                                          ),
-                                          TextButton(
-                                            onPressed: () async {
-                                              Navigator.of(
-                                                context,
-                                                rootNavigator: true,
-                                              ).pop();
-                                              final Uri _emailLaunchUri = Uri(
-                                                  scheme: 'mailto',
-                                                  path: 'info@appwizards.cz',
-                                                  queryParameters: {
-                                                    'subject':
-                                                        'Zpětná vazba z aplikace JAY',
-                                                  });
-
-// ...
-                                              await launchUrl(_emailLaunchUri);
-                                            },
-                                            child: const Text('Odeslat'),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
+                                    ),
+                                    SizedBox(
+                                      height: 16,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.of(
+                                              context,
+                                              rootNavigator: true,
+                                            ).pop();
+                                          },
+                                          child: const Text('Zavřít'),
+                                        ),
+                                        TextButton(
+                                          onPressed: () async {
+                                            Navigator.of(
+                                              context,
+                                              rootNavigator: true,
+                                            ).pop();
+                                            await Sentry.captureUserFeedback(
+                                                SentryUserFeedback(
+                                                    eventId: SentryId.newId(),
+                                                    comments: controller.text,
+                                                    name: '$name ($memberId)',
+                                                    email: OneSignal.User
+                                                        .pushSubscription.id));
+                                            SnackBarUtils.show(context,"Děkujeme za zpětnou vazbu!",Colors.blueAccent);
+                                          },
+                                          child: const Text('Odeslat'),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            );
-                          },
-                        );
-                      },
-                    ),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    },
+                  ),
                   Builder(
                     builder: (final context) =>
                         BlocListener<LogoutCubit, LogoutState>(
@@ -459,7 +460,7 @@ Pro jakékoliv dotazy nebo problémy týkající se těchto podmínek nebo aplik
                   ),
                   if (kDebugMode)
                     ListTile(
-                      title: const Text("Debug"),
+                      title: const Text('Debug'),
                       onTap: () async {
                         final prefs = await SharedPreferences.getInstance();
 

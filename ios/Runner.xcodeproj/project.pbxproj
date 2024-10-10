@@ -13,8 +13,6 @@
 		3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */; };
 		74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74858FAE1ED2DC5600515810 /* AppDelegate.swift */; };
 		7868908D2CAD261500311677 /* fire_siren.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 7868908C2CAD261500311677 /* fire_siren.aiff */; };
-		7868908F2CB52FA700311677 /* fire_siren_8bit.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 7868908E2CB52FA700311677 /* fire_siren_8bit.aiff */; };
-		786890912CB52FAF00311677 /* fire_siren_8bit.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 786890902CB52FAF00311677 /* fire_siren_8bit.aiff */; };
 		788A03F72C9CCA8D008D0C22 /* fire_siren.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 788A03F62C9CCA8D008D0C22 /* fire_siren.aiff */; };
 		78D2A4512C81E2AA00F3CF38 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 78D2A4502C81E2AA00F3CF38 /* GoogleService-Info.plist */; };
 		906D3604BFCA05428AE21AAB /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2AD9746213EA76E99753D4C9 /* Pods_Runner.framework */; };
@@ -60,8 +58,6 @@
 		74858FAD1ED2DC5600515810 /* Runner-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Runner-Bridging-Header.h"; sourceTree = "<group>"; };
 		74858FAE1ED2DC5600515810 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7868908C2CAD261500311677 /* fire_siren.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; name = fire_siren.aiff; path = ../../../Downloads/fire_siren.aiff; sourceTree = "<group>"; };
-		7868908E2CB52FA700311677 /* fire_siren_8bit.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = fire_siren_8bit.aiff; sourceTree = "<group>"; };
-		786890902CB52FAF00311677 /* fire_siren_8bit.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = fire_siren_8bit.aiff; sourceTree = "<group>"; };
 		788A03F62C9CCA8D008D0C22 /* fire_siren.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; name = fire_siren.aiff; path = ../../../../Downloads/fire_siren.aiff; sourceTree = "<group>"; };
 		788B7EAC2C9C434A00727F59 /* Runner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Runner.entitlements; sourceTree = "<group>"; };
 		78D2A4502C81E2AA00F3CF38 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -129,7 +125,6 @@
 		97C146E51CF9000F007C117D = {
 			isa = PBXGroup;
 			children = (
-				786890902CB52FAF00311677 /* fire_siren_8bit.aiff */,
 				7868908C2CAD261500311677 /* fire_siren.aiff */,
 				9740EEB11CF90186004384FC /* Flutter */,
 				97C146F01CF9000F007C117D /* Runner */,
@@ -152,7 +147,6 @@
 		97C146F01CF9000F007C117D /* Runner */ = {
 			isa = PBXGroup;
 			children = (
-				7868908E2CB52FA700311677 /* fire_siren_8bit.aiff */,
 				788A03F62C9CCA8D008D0C22 /* fire_siren.aiff */,
 				788B7EAC2C9C434A00727F59 /* Runner.entitlements */,
 				97C146FA1CF9000F007C117D /* Main.storyboard */,
@@ -281,8 +275,6 @@
 				3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */,
 				78D2A4512C81E2AA00F3CF38 /* GoogleService-Info.plist in Resources */,
 				7868908D2CAD261500311677 /* fire_siren.aiff in Resources */,
-				786890912CB52FAF00311677 /* fire_siren_8bit.aiff in Resources */,
-				7868908F2CB52FA700311677 /* fire_siren_8bit.aiff in Resources */,
 				788A03F72C9CCA8D008D0C22 /* fire_siren.aiff in Resources */,
 				97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */,
 				97C146FC1CF9000F007C117D /* Main.storyboard in Resources */,

@@ -9,9 +9,9 @@ final class Func {
   @JsonKey(name: 'FunctionName')
   final String functionName;
   @JsonKey(name: 'FireSystem')
-  final bool fireSystem;
+  final bool? fireSystem;
   @JsonKey(name: 'FunctionIndex')
-  final int functionIndex;
+  final int? functionIndex;
 
   Func({required this.id, required this.functionName, required this.fireSystem,required this.functionIndex});
 
