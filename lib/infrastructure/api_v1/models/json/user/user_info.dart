@@ -11,7 +11,8 @@ final class UserData extends ApiResponse {
 
   UserData(super.errorCode, super.description, {required this.userData});
 
-  factory UserData.fromJson(final Map<String, dynamic> json) => _$UserDataFromJson(json);
+  factory UserData.fromJson(final Map<String, dynamic> json) =>
+      _$UserDataFromJson(json);
 
   Map<String, dynamic> toJson() => _$UserDataToJson(this);
 }
@@ -36,6 +37,9 @@ final class UserInfo {
   @JsonKey(name: 'Function')
   final Func function;
 
+  @JsonKey(name: 'EmailAlarm')
+  final String email;
+
   UserInfo({
     required this.id,
     required this.name,
@@ -43,9 +47,11 @@ final class UserInfo {
     required this.title,
     required this.phoneNumber,
     required this.function,
+    required this.email,
   });
 
-  factory UserInfo.fromJson(final Map<String, dynamic> json) => _$UserInfoFromJson(json);
+  factory UserInfo.fromJson(final Map<String, dynamic> json) =>
+      _$UserInfoFromJson(json);
 
   Map<String, dynamic> toJson() => _$UserInfoToJson(this);
 }

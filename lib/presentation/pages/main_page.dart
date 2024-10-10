@@ -71,50 +71,54 @@ class _MainPageState extends State<MainPage>
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Container(
-                          padding: const EdgeInsets.all(32),
-                          child: Column(
-                            children: [
-                              const Icon(
-                                Icons.error,
-                                size: 96,
-                                color: Colors.red,
-                              ),
-                              const SizedBox(
-                                height: 32,
-                              ),
-                              const Text(
-                                'Uživatel nebyl nalezen',
-                                style: TextStyle(fontSize: 24),
-                                textAlign: TextAlign.center,
-                              ),
-                              const SizedBox(
-                                height: 32,
-                              ),
-                              const Text(
-                                'Zkuste akci opakovat nebo proveďte novou registraci.',
-                                style: TextStyle(fontSize: 16),
-                                textAlign: TextAlign.center,
-                              ),
-                              const SizedBox(
-                                height: 32,
-                              ),
-                              ElevatedButton(
-                                  onPressed: () {
-                                    BlocProvider.of<UserBloc>(context,
-                                            listen: false)
-                                        .add(UserStarted());
-                                  },
-                                  child: const Text('Opakovat')),
-                              const SizedBox(
-                                height: 16,
-                              ),
-                              ElevatedButton(
-                                  onPressed: () {
-                                    context.read<LoginCubit>().logout();
-                                  },
-                                  child: const Text('Nová registrace'))
-                            ],
-                          ))
+                        padding: const EdgeInsets.all(32),
+                        child: Column(
+                          children: [
+                            const Icon(
+                              Icons.error,
+                              size: 96,
+                              color: Colors.red,
+                            ),
+                            const SizedBox(
+                              height: 32,
+                            ),
+                            const Text(
+                              'Uživatel nebyl nalezen',
+                              style: TextStyle(fontSize: 24),
+                              textAlign: TextAlign.center,
+                            ),
+                            const SizedBox(
+                              height: 32,
+                            ),
+                            const Text(
+                              'Zkuste akci opakovat nebo proveďte novou registraci.',
+                              style: TextStyle(fontSize: 16),
+                              textAlign: TextAlign.center,
+                            ),
+                            const SizedBox(
+                              height: 32,
+                            ),
+                            ElevatedButton(
+                              onPressed: () {
+                                BlocProvider.of<UserBloc>(
+                                  context,
+                                  listen: false,
+                                ).add(UserStarted());
+                              },
+                              child: const Text('Opakovat'),
+                            ),
+                            const SizedBox(
+                              height: 16,
+                            ),
+                            ElevatedButton(
+                              onPressed: () {
+                                context.read<LoginCubit>().logout();
+                              },
+                              child: const Text('Nová registrace'),
+                            ),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -194,7 +198,8 @@ class _MainPageState extends State<MainPage>
                       }
                       if (state is ActiveAlarmLoadInProgress) {
                         return const JayProgressIndicator(
-                            text: 'Stahuji aktuální poplach');
+                          text: 'Stahuji aktuální poplach',
+                        );
                       }
                       if (state is ActiveAlarmFailure) {
                         return const Center(
@@ -205,7 +210,8 @@ class _MainPageState extends State<MainPage>
                         );
                       }
                       return const JayProgressIndicator(
-                          text: 'Stahuji aktuální poplach');
+                        text: 'Stahuji aktuální poplach',
+                      );
                     },
                   ),
                   bottomNavigationBar:
@@ -223,7 +229,11 @@ class _MainPageState extends State<MainPage>
                     },
                   ),
                   drawer: JayDrawer(
-                      name: userState.fullName, memberId: userState.memberId),
+                    email: userState.email,
+                    name: userState.fullName.replaceAll('.', ''),
+                    memberId: userState.memberId,
+                    functionName: userState.functionName,
+                  ),
                 ),
               );
             }

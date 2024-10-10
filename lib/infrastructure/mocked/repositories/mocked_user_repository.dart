@@ -7,7 +7,7 @@ final class MockedUserRepository implements UserRepository {
   @override
   Future<Result<UserRepositoryState, User>> getUser() async {
     try {
-      return Result.success(User.createNew(name: 'John', surname: 'Doe', academicTitle: 'ing'));
+      return Result.success(User.createNew(name: 'John', surname: 'Doe', academicTitle: 'ing', email: "john.doe@doe.com",functionName: "Hasič"));
     } on InvalidValueException catch (e) {
       return Result.failure(UserRepositoryError(e));
     }

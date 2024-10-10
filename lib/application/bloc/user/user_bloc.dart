@@ -22,7 +22,7 @@ class UserBloc extends Bloc<UserEvent, UserState> with L {
       final result = await repository.getUser();
       if (result.isSuccess) {
         emit(UserLoadSuccess(
-            result.success.fullNameWithTitle, result.success.id));
+            result.success.fullNameWithTitle, result.success.id,result.success.email, result.success.functionName));
       } else {
         l.e('Getting user failure');
         if (result.failure is UserRepositoryBadResponse) {
