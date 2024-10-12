@@ -64,7 +64,7 @@ Future<void> main() async {
     log(event.notification.additionalData.toString());
     log(event.notification.rawPayload.toString());
     final int eventId = event.notification.additionalData!['eventId'];
-
+    log("EVENTUS: " + eventId.toString());
     final confirmationRepository = GetIt.I.get<ConfirmationRepository>();
     if (event.result.actionId == 'accept') {
       await confirmationRepository.confirm(eventId);

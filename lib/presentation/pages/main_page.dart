@@ -36,7 +36,7 @@ class _MainPageState extends State<MainPage>
   @override
   void dispose() {
     _pageController.dispose();
-    context.read<PoolingCubit>().close();
+    //context.read<PoolingCubit>().close();
     super.dispose();
   }
 
@@ -229,7 +229,7 @@ class _MainPageState extends State<MainPage>
                     },
                   ),
                   drawer: JayDrawer(
-                    email: userState.email,
+                    email: userState.email ?? "",
                     name: userState.fullName.replaceAll('.', ''),
                     memberId: userState.memberId,
                     functionName: userState.functionName,

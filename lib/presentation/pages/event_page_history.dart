@@ -100,7 +100,7 @@ class _EventPageHistoryState extends State<EventPageHistory>
     final AlarmDto detail,
   ) =>
       [
-        EventDetailsScreen(detail: detail),
+        EventDetailsScreen(alarmDto: detail),
         ParticipantsScreen(
           detail: detail,
           isHistory: false,

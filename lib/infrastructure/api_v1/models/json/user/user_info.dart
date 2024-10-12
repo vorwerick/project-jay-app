@@ -32,13 +32,13 @@ final class UserInfo {
   final String title;
 
   @JsonKey(name: 'PhoneNumber')
-  final String phoneNumber;
+  final String? phoneNumber;
 
   @JsonKey(name: 'Function')
   final Func function;
 
   @JsonKey(name: 'EmailAlarm')
-  final String email;
+  final String? email;
 
   UserInfo({
     required this.id,

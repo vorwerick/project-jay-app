@@ -14,7 +14,7 @@ class EventParticipantScreen extends StatelessWidget {
   Widget build(final BuildContext context) => Row(
         children: [
           Flexible(
-            child: EventDetailsScreen(detail: detail),
+            child: EventDetailsScreen(alarmDto: detail),
           ),
           Flexible(
             child: Padding(

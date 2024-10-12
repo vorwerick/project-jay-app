@@ -23,9 +23,9 @@ UserInfo _$UserInfoFromJson(Map<String, dynamic> json) => UserInfo(
       name: json['Name'] as String,
       surname: json['Surname'] as String,
       title: json['Title'] as String,
-      phoneNumber: json['PhoneNumber'] as String,
+      phoneNumber: json['PhoneNumber'] as String?,
       function: Func.fromJson(json['Function'] as Map<String, dynamic>),
-      email: json['EmailAlarm'] as String,
+      email: json['EmailAlarm'] as String?,
     );
 
 Map<String, dynamic> _$UserInfoToJson(UserInfo instance) => <String, dynamic>{

@@ -8,7 +8,7 @@ class UserInitial extends UserState {}
 final class UserLoadSuccess extends UserState with EquatableMixin {
   final String fullName;
   final int memberId;
-  final String email;
+  final String? email;
   final String? functionName;
 
   UserLoadSuccess(this.fullName, this.memberId, this.email, this.functionName);

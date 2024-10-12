@@ -50,7 +50,10 @@ class _EventPageState extends State<EventPage>
         length: 3,
         key: const Key('home-tab-bar'),
         child: Scaffold(
-          body: TabBarView(children: _getScreens(widget.alarmDto),physics: const NeverScrollableScrollPhysics(),),
+          body: TabBarView(
+            children: _getScreens(widget.alarmDto),
+            physics: const NeverScrollableScrollPhysics(),
+          ),
           appBar: const TabBar(tabs: [
             Tab(
               text: 'Přehled',
@@ -65,7 +68,6 @@ class _EventPageState extends State<EventPage>
               icon: Icon(Icons.pin_drop),
             )
           ]),
-
           floatingActionButton: JayFab(
             memberId: widget.memberId,
             eventId: widget.eventId,
@@ -83,12 +85,11 @@ class _EventPageState extends State<EventPage>
     });
   }
 
-
   List<Widget> _getScreens(
     final AlarmDto detail,
   ) =>
       [
-        EventDetailsScreen(detail: detail),
+        EventDetailsScreen(alarmDto: detail),
         ParticipantsScreen(
           detail: detail,
           isHistory: false,
