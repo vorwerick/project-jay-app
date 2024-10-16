@@ -24,41 +24,71 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage>
-    with SingleTickerProviderStateMixin {
+    with SingleTickerProviderStateMixin, WidgetsBindingObserver {
   int _currentPageIndex = 0;
+  ActiveAlarmBloc? _alarmBlocReference;
   final PageController _pageController = PageController();
 
   @override
   void initState() {
+    WidgetsBinding.instance.addObserver(this);
     super.initState();
   }
 
   @override
   void dispose() {
     _pageController.dispose();
+    _alarmBlocReference = null;
+    WidgetsBinding.instance.removeObserver(this);
     //context.read<PoolingCubit>().close();
     super.dispose();
   }
 
   @override
-  Widget build(final BuildContext context) => MultiBlocProvider(
+  void didChangeAppLifecycleState(final AppLifecycleState state) {
+    switch (state) {
+      case AppLifecycleState.resumed:
+        print("app in resumed");
+        _alarmBlocReference?.add(ActiveAlarmStarted());
+        break;
+      case AppLifecycleState.inactive:
+        print("app in inactive");
+        break;
+      case AppLifecycleState.paused:
+        print("app in paused");
+        break;
+      case AppLifecycleState.detached:
+        print("app in detached");
+        break;
+      case AppLifecycleState.hidden:
+        print("app in hidden");
+    }
+  }
+
+  @override
+  Widget build(final BuildContext context) =>
+      MultiBlocProvider(
         providers: [
-          BlocProvider<UserBloc>(
-            create: (final context) => UserBloc()..add(UserStarted()),
-          ),
-          BlocProvider(
+          BlocProvider<ActiveAlarmBloc>(
             create: (final context) {
-              final bloc = ActiveAlarmBloc();
-              bloc.add(
+              _alarmBlocReference = ActiveAlarmBloc();
+              _alarmBlocReference!.add(
                 ActiveAlarmStarted(
                   enableLiveUpdate: true,
                 ),
               );
-              return bloc;
+              return _alarmBlocReference!;
             },
           ),
+          BlocProvider<UserBloc>(
+            create: (final context) =>
+            UserBloc()
+              ..add(UserStarted()),
+          ),
           BlocProvider(
-            create: (final context) => PoolingCubit()..start(),
+            create: (final context) =>
+            PoolingCubit()
+              ..start(),
           ),
         ],
         child: BlocBuilder<UserBloc, UserState>(
@@ -85,6 +115,14 @@ class _MainPageState extends State<MainPage>
                             const Text(
                               'Uživatel nebyl nalezen',
                               style: TextStyle(fontSize: 24),
+                              textAlign: TextAlign.center,
+                            ),
+                            const SizedBox(
+                              height: 8,
+                            ),
+                            Text(
+                              'Chyba: ' + userState.statusCode,
+                              style: const TextStyle(fontSize: 14),
                               textAlign: TextAlign.center,
                             ),
                             const SizedBox(
@@ -127,7 +165,7 @@ class _MainPageState extends State<MainPage>
             if (userState is UserLoadInProgress) {
               return const Material(
                 child:
-                    JayProgressIndicator(text: 'Stahuji informace o uživateli'),
+                JayProgressIndicator(text: 'Stahuji informace o uživateli'),
               );
             }
             if (userState is UserLoadSuccess) {
@@ -153,12 +191,13 @@ class _MainPageState extends State<MainPage>
                             physics: const NeverScrollableScrollPhysics(),
                             children: state.alarms
                                 .map<Widget>(
-                                  (final a) => EventPage(
+                                  (final a) =>
+                                  EventPage(
                                     memberId: userState.memberId,
                                     eventId: a.eventId,
                                     alarmDto: a,
                                   ),
-                                )
+                            )
                                 .toList(),
                           );
                         } else {
@@ -215,10 +254,14 @@ class _MainPageState extends State<MainPage>
                     },
                   ),
                   bottomNavigationBar:
-                      BlocBuilder<ActiveAlarmBloc, ActiveAlarmState>(
+                  BlocBuilder<ActiveAlarmBloc, ActiveAlarmState>(
                     builder: (final context, final state) {
                       if (state is ActiveAlarmLoadSuccess &&
                           state.alarms.isNotEmpty) {
+                        if (!state.isSilent) {
+                          Navigator.of(context).popUntil((route) =>
+                          route.isFirst);
+                        }
                         return JayBottomNavigationBar(
                           alarms: state.alarms,
                           currentPageIndex: _currentPageIndex,

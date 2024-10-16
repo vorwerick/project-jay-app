@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:app/application/extensions/l.dart';
 import 'package:app/domain/user/repository/user_repository.dart';
 import 'package:bloc/bloc.dart';
+import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:get_it/get_it.dart';
 import 'package:meta/meta.dart';
@@ -22,16 +23,24 @@ class UserBloc extends Bloc<UserEvent, UserState> with L {
       final result = await repository.getUser();
       if (result.isSuccess) {
         emit(UserLoadSuccess(
-            result.success.fullNameWithTitle, result.success.id,result.success.email, result.success.functionName));
+            result.success.fullNameWithTitle,
+            result.success.id,
+            result.success.email,
+            result.success.functionName));
       } else {
         l.e('Getting user failure');
         if (result.failure is UserRepositoryBadResponse) {
           final resp = result.failure as UserRepositoryBadResponse;
-          emit(UserLoadFailure(resp.value.toString()));
+          emit(UserLoadFailure("HTTP_STATUS_" + resp.value.toString()));
         }
         if (result.failure is UserRepositoryError) {
           final resp = result.failure as UserRepositoryError;
-          emit(UserLoadFailure(''));
+          if (resp.exception is DioException) {
+            emit(UserLoadFailure(
+                (resp.exception as DioException).message ?? "unknown"));
+          } else {
+            emit(UserLoadFailure(resp.exception.toString()));
+          }
         }
       }
     });

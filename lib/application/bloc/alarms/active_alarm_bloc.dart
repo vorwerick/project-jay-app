@@ -37,18 +37,16 @@ class ActiveAlarmBloc extends Bloc<ActiveAlarmEvent, ActiveAlarmState> with L {
       }).toList();
 
       final first = alarmDTOs.firstOrNull;
-      if(first != null){
+      if (first != null) {
         GetIt.I<TextToSpeechService>().loadText(first.toSpeechText());
-        if(GetIt.I<TextToSpeechService>().isRepeating()){
+        if (GetIt.I<TextToSpeechService>().isRepeating()) {
           GetIt.I<TextToSpeechService>().start();
         }
       }
 
-      emit(ActiveAlarmLoadSuccess(alarmDTOs));
+      emit(ActiveAlarmLoadSuccess(alarmDTOs, false));
     });
     on<ActiveAlarmSilentRefresh>((final event, final emit) async {
-
-
       log("Start pooling");
       final repository = GetIt.I<AlarmRepository>();
       log("TACK CO");
@@ -64,21 +62,18 @@ class ActiveAlarmBloc extends Bloc<ActiveAlarmEvent, ActiveAlarmState> with L {
         return alarm;
       }).toList();
 
-
       final first = alarmDTOs.firstOrNull;
-      if(first != null){
+      if (first != null) {
         GetIt.I<TextToSpeechService>().loadText(first.toSpeechText());
-        if(GetIt.I<TextToSpeechService>().isRepeating()){
+        if (GetIt.I<TextToSpeechService>().isRepeating()) {
           GetIt.I<TextToSpeechService>().start();
         }
       }
 
-      emit(ActiveAlarmLoadSuccess(alarmDTOs));
-
+      emit(ActiveAlarmLoadSuccess(alarmDTOs, true));
 
       // GetIt.I<TextToSpeechService>().loadText(mapper.toSpeechText());
       // GetIt.I<TextToSpeechService>().start();
-
     });
   }
 
@@ -87,6 +82,4 @@ class ActiveAlarmBloc extends Bloc<ActiveAlarmEvent, ActiveAlarmState> with L {
     l.d('Closing');
     return super.close();
   }
-
-
 }

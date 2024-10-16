@@ -16,8 +16,11 @@ mixin DioApiV1 {
     log("HEADERS: CLIENT " + (_client != null).toString());
 
     Dio dio = Dio();
+    dio.options.receiveTimeout = const Duration(seconds: 20);
+    dio.options.sendTimeout = const Duration(seconds: 20);
     log("HEADERS: DIO");
-    final deviceInfo = await InfoPlusDeviceInformationService().createDeviceInformation();
+    final deviceInfo =
+        await InfoPlusDeviceInformationService().createDeviceInformation();
 
     dio.options.headers['Content-Type'] = 'application/json';
     dio.options.headers['JAY-AUTH'] = deviceInfo!.firebaseToken;
@@ -27,7 +30,7 @@ mixin DioApiV1 {
     dio.options.headers['BUILD_NUMBER'] = deviceInfo.buildNumber;
     dio.options.headers['SDK'] = deviceInfo.sdk;
 
-    log("HEADERS: "+dio.options.headers.toString());
+    log("HEADERS: " + dio.options.headers.toString());
     _client = RestApiV1Client(dio);
     return _client!;
   }

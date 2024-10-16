@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:app/application/bloc/alarms/alarm_detail_bloc.dart';
 import 'package:app/application/cubit/file/file_cubit.dart';
 import 'package:app/application/cubit/phone/dial_number_cubit.dart';
@@ -121,14 +123,16 @@ class EventDetailsScreen extends StatelessWidget {
                     ListPairAction(
                       title: AppLocalizations.of(context)!.notifier,
                       name: detail.notifier,
-                      number: 'tel: ${detail.notifierNumber}',
+                      number: '${detail.notifierNumber}',
                       background: JayColors.secondaryLight,
                       icon: const Icon(
                         color: Colors.white,
                         Icons.phone,
                       ),
-                      onTap: (final phoneNumber) =>
-                          DialNumberCubit().dialNumber(phoneNumber),
+                      onTap: (final phoneNumber) {
+                        log("NUMBERO: " + phoneNumber);
+                        DialNumberCubit().dialNumber(phoneNumber,"+420");
+                      }
                     ),
                     //_documentsWidget(),
                     const ListPair(

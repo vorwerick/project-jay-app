@@ -11,8 +11,9 @@ final class ActiveAlarmLoadInProgress extends ActiveAlarmState {}
 
 final class ActiveAlarmLoadSuccess extends ActiveAlarmState with EquatableMixin {
   final List<AlarmDto> alarms;
+  final bool isSilent;
 
-  ActiveAlarmLoadSuccess(this.alarms);
+  ActiveAlarmLoadSuccess(this.alarms, this.isSilent);
 
   @override
   List<Object?> get props => [alarms];

@@ -1,9 +1,14 @@
+import 'dart:async';
+import 'dart:developer';
+import 'dart:io';
+
 import 'package:app/application/extensions/l.dart';
 import 'package:app/domain/common/result.dart';
 import 'package:app/domain/user/entity/user.dart';
 import 'package:app/domain/user/repository/user_repository.dart';
 import 'package:app/infrastructure/api_v1/common/dio_api_v1.dart';
 import 'package:app/infrastructure/api_v1/mappers/user_info_mapper.dart';
+import 'package:dio/dio.dart';
 
 final class JayApiV1UserRepository with DioApiV1, L implements UserRepository {
   @override
@@ -11,17 +16,21 @@ final class JayApiV1UserRepository with DioApiV1, L implements UserRepository {
     final client = await createClient();
 
     try {
+      log("GOLIA "+"START");
       final result = await client.getUserInfo();
-
-      if (result.response.statusCode != 200) {
-        Result.failure(UserRepositoryBadResponse<int?>(result.response.statusCode));
+      log("GOLIA BOBO");
+      if (result.response.statusCode == 200) {
+        final user = UserInfoJsonMapper(result.data.userData).toEntity();
+        log("GOLIA "+"FETER");
+        return Result.success(user);
       }
-      final user = UserInfoJsonMapper(result.data.userData).toEntity();
+      log("GOLIA "+"BEBEo");
+      return Result.failure(UserRepositoryBadResponse<int?>(result.response.statusCode));
 
-      return Result.success(user);
-    } on Exception catch (e) {
+    } on DioException catch (e) {
       l.e('Failed to get user', error: e);
       return Result.failure(UserRepositoryError(e));
     }
+
   }
 }

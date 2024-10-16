@@ -11,19 +11,22 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
 class EventHistoryList extends StatelessWidget {
-  const EventHistoryList({super.key});
+  final int memberId;
+
+  const EventHistoryList({super.key, required this.memberId});
 
   @override
   Widget build(final BuildContext context) => BlocProvider<AlarmHistoryBloc>(
         create: (final BuildContext context) =>
             AlarmHistoryBloc()..add(AlarmHistoryStarted()),
-        child: Scaffold(
-          appBar: AppBar(
-            title: JayWhiteText(AppLocalizations.of(context)!.eventHistory),
-          ),
-          body: BlocBuilder<AlarmHistoryBloc, AlarmHistoryState>(
-            builder: (final context, final state) {
-              if (state is AlarmHistoryLoadSuccess && state.events.isNotEmpty) {
+        child: BlocBuilder<AlarmHistoryBloc, AlarmHistoryState>(
+          builder: (final context, final state) {
+            if (state is AlarmHistoryLoadSuccess) {
+              state.events.removeWhere((e) =>
+                  DateTime.now().millisecondsSinceEpoch -
+                      e.date.millisecondsSinceEpoch <=
+                  600000);
+              if (state.events.isNotEmpty) {
                 return JayContainer(
                   child: ListView.separated(
                     itemCount: state.events.length,
@@ -33,37 +36,110 @@ class EventHistoryList extends StatelessWidget {
                                   state.events[index].date
                                       .millisecondsSinceEpoch >=
                               600000
-                          ? Icon(Icons.history)
-                          : Icon(
+                          ? const Icon(Icons.history)
+                          : const Icon(
                               Icons.local_fire_department,
                               color: JayColors.primary,
                             ),
                       title: Text(state.events[index].name),
-                      subtitle: Column(crossAxisAlignment: CrossAxisAlignment.start,
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(DateFormat.yMd()
-                              .add_Hms()
-                              .format(state.events[index].date),),
+                          Text(
+                            DateFormat.yMd()
+                                .add_Hms()
+                                .format(state.events[index].date),
+                          ),
                           if (DateTime.now().millisecondsSinceEpoch -
                                   state.events[index].date
                                       .millisecondsSinceEpoch <=
                               600000)
                             Container(
                               color: JayColors.primary,
-                              padding: EdgeInsets.symmetric(horizontal: 4),
-                              margin: EdgeInsets.all(4),
-                              child: Text("Aktivní",style: TextStyle(color: Colors.white)),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 4),
+                              margin: const EdgeInsets.all(4),
+                              child: const Text("Aktivní",
+                                  style: TextStyle(color: Colors.white)),
                             )
                         ],
                       ),
-                      onTap: () async{
+                      onTap: () async {
+                        Navigator.of(context, rootNavigator: true).pop();
                         final bloc = context.read<AlarmHistoryBloc>();
+                        showModalBottomSheet(
+                            enableDrag: true,
+                            backgroundColor: Colors.transparent,
+                            isScrollControlled: true,
+                            context: context,
+                            builder: (context) {
+                              return Container(
+                                decoration: new BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: new BorderRadius.only(
+                                    topLeft: const Radius.circular(25.0),
+                                    topRight: const Radius.circular(25.0),
+                                  ),
+                                ),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        IconButton(
+                                            padding: EdgeInsets.all(12),
+                                            onPressed: () {
+                                              Navigator.of(context,
+                                                      rootNavigator: true)
+                                                  .pop();
+                                            },
+                                            icon: Icon(
+                                              Icons.close,
+                                              size: 32,
+                                            )),
+                                        Row(mainAxisSize: MainAxisSize.min,mainAxisAlignment:MainAxisAlignment.center,children: [
+                                          Text(state.events[index].name,style: TextStyle(fontSize: 20),)
+                                        ]),
+                                      ],
+                                    ),
+                                    Container(
+                                      padding: EdgeInsets.only(top: 8),
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.90,
+                                      child: EventPageHistory(
+                                          eventId: state.events[index].eventId,
+                                          title: state.events[index].name,
+                                          memberId: memberId,
+                                          isActive: DateTime.now()
+                                                      .millisecondsSinceEpoch -
+                                                  state.events[index].date
+                                                      .millisecondsSinceEpoch <=
+                                              600000),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            });
+                        /*
                         Object? result = await Navigator.of(context).push(
                           MaterialPageRoute(
-                            builder: (final context) =>  EventPageHistory(eventId: state.events[index].eventId,title: state.events[index].name,),
+                            builder: (final context) => EventPageHistory(
+                                eventId: state.events[index].eventId,
+                                title: state.events[index].name,
+                                memberId: memberId,
+                                isActive:
+                                    DateTime.now().millisecondsSinceEpoch -
+                                            state.events[index].date
+                                                .millisecondsSinceEpoch <=
+                                        600000),
                           ),
                         );
+
+
                         bloc.add(AlarmHistoryStarted());
+                            */
                       },
                     ),
                     separatorBuilder:
@@ -72,24 +148,26 @@ class EventHistoryList extends StatelessWidget {
                   ),
                 );
               }
-              if (state is AlarmHistoryLoadSuccess && state.events.isEmpty) {
-                return Center(
-                  child: Text(AppLocalizations.of(context)!.eventEmpty),
-                );
-              }
-              if (state is AlarmHistoryLoadInProgress) {
-                return const Center(child: JayProgressIndicator(text: "Stahuji historii událostí"));
-              }
-              if (state is AlarmHistoryLoadFailure) {
-                return Center(
-                  child: JayWhiteText(
-                      AppLocalizations.of(context)!.checkConnection,
-                      fontSize: 20),
-                );
-              }
-              return const SizedBox.shrink();
-            },
-          ),
+            }
+            if (state is AlarmHistoryLoadSuccess && state.events.isEmpty) {
+              return Center(
+                child: Text(AppLocalizations.of(context)!.eventEmpty),
+              );
+            }
+            if (state is AlarmHistoryLoadInProgress) {
+              return const Center(
+                  child:
+                      JayProgressIndicator(text: "Stahuji historii událostí"));
+            }
+            if (state is AlarmHistoryLoadFailure) {
+              return Center(
+                child: JayWhiteText(
+                    AppLocalizations.of(context)!.checkConnection,
+                    fontSize: 20),
+              );
+            }
+            return const SizedBox.shrink();
+          },
         ),
       );
 }

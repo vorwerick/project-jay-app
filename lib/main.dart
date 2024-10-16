@@ -1,9 +1,10 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:app/app.dart';
 import 'package:app/configuration/di/app_dependency_configuration.dart';
 import 'package:app/domain/alarm/repository/confirmation_repository.dart';
-import 'package:app/domain/alerts/alert.dart';
+import 'package:disable_battery_optimization/disable_battery_optimization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -28,7 +29,6 @@ Future<void> main() async {
 
   AppDependencyConfiguration.init();
 
-
   await SentryFlutter.init(
     (final options) {
       options.dsn =
@@ -44,9 +44,39 @@ Future<void> main() async {
       const App(),
     ),
   );
-  OneSignal.Notifications.addForegroundWillDisplayListener((event){
-
-    log("onFORE");
+  if (Platform.isAndroid) {
+    bool? isAutoStartEnabled =
+        await DisableBatteryOptimization.isAutoStartEnabled;
+    if (true) {
+      await DisableBatteryOptimization.showEnableAutoStartSettings(
+          'Povolení funkce Auto Start',
+          'Pro správné fungování aplikace je potřeba povolit funkce Auto-start');
+    }
+    bool? isBatteryOptimizationDisabled =
+        await DisableBatteryOptimization.isBatteryOptimizationDisabled;
+    if (true) {
+      await DisableBatteryOptimization.showDisableBatteryOptimizationSettings();
+    }
+    bool? isManBatteryOptimizationDisabled = await DisableBatteryOptimization
+        .isManufacturerBatteryOptimizationDisabled;
+    if (true) {
+      await DisableBatteryOptimization
+          .showDisableManufacturerBatteryOptimizationSettings(
+              'Optimalizace baterie',
+              'Pro správné fungování aplikace je potřeba zakázat optimalizaci baterie');
+    }
+    bool? isAllOptimizationDisabled =
+        await DisableBatteryOptimization.isAllBatteryOptimizationDisabled;
+    if (true) {
+      await DisableBatteryOptimization.showDisableAllOptimizationsSettings(
+          'Povolení funkce Auto Start',
+          'Pro správné fungování aplikace je potřeba povolit funkce Auto-start',
+          'Optimalizace baterie',
+          'Pro správné fungování aplikace je potřeba zakázat optimalizaci baterie');
+    }
+  }
+  OneSignal.Notifications.addForegroundWillDisplayListener((event) {
+    log('onFORE');
     log(event.notification.title.toString());
   });
   OneSignal.Notifications.addClickListener((final event) async {
@@ -64,7 +94,7 @@ Future<void> main() async {
     log(event.notification.additionalData.toString());
     log(event.notification.rawPayload.toString());
     final int eventId = event.notification.additionalData!['eventId'];
-    log("EVENTUS: " + eventId.toString());
+    log('EVENTUS: ' + eventId.toString());
     final confirmationRepository = GetIt.I.get<ConfirmationRepository>();
     if (event.result.actionId == 'accept') {
       await confirmationRepository.confirm(eventId);
