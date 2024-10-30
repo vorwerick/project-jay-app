@@ -7,7 +7,7 @@ class TextToSpeechControlPanel extends StatefulWidget implements PreferredSizeWi
   State<TextToSpeechControlPanel> createState() => _TextToSpeechControlPanelState();
 
   @override
-  Size get preferredSize => Size(0, 42);
+  Size get preferredSize => Size(0, 32);
 }
 
 class _TextToSpeechControlPanelState extends State<TextToSpeechControlPanel> {
@@ -18,7 +18,7 @@ class _TextToSpeechControlPanelState extends State<TextToSpeechControlPanel> {
     final isSpeaking = GetIt.I<TextToSpeechService>().isSpeaking();
     final isRepeating = GetIt.I<TextToSpeechService>().isRepeating();
     return Container(
-      height: 42,
+      height: 32,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -26,8 +26,9 @@ class _TextToSpeechControlPanelState extends State<TextToSpeechControlPanel> {
             "Přeříkávání",
             style: TextStyle(fontSize: 15),
           ),
-          IconButton(
-            onPressed: () {
+          SizedBox(width: 16,),
+          InkWell(
+            onTap: () {
               if (isSpeaking) {
                 GetIt.I<TextToSpeechService>().stop();
               } else {
@@ -35,14 +36,16 @@ class _TextToSpeechControlPanelState extends State<TextToSpeechControlPanel> {
               }
               setState(() {});
             },
-            icon: Icon(isSpeaking ? Icons.pause : Icons.play_arrow),
+            child: Icon(isSpeaking ? Icons.pause : Icons.play_arrow),
           ),
-          IconButton(
-            onPressed: () {
+          SizedBox(width: 16,),
+
+          InkWell(
+            onTap: () {
               GetIt.I<TextToSpeechService>().setRepeating(!isRepeating);
               setState(() {});
             },
-            icon: Icon(isRepeating ? Icons.repeat_on : Icons.repeat),
+            child: Icon(isRepeating ? Icons.repeat_on : Icons.repeat),
           ),
         ],
       ),

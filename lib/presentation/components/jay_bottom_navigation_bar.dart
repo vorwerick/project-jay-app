@@ -24,10 +24,14 @@ class JayBottomNavigationBar extends StatelessWidget {
           onTap: onTap,
           items: [
             ...alarms
-                .map((a) => BottomNavigationBarItem(
-                      label: '${a.event}\njednotka ${a.unit}',
-                      icon: Icon(Icons.notifications_active),
-                    ))
+                .map((a) {
+                  final index = alarms.indexOf(a);
+
+                  return BottomNavigationBarItem(
+                    label: '${a.event}\njednotka ${a.unit}',
+                    icon: Icon(Icons.notifications_sharp),
+                  );
+                })
                 .toList()
           ],
         );

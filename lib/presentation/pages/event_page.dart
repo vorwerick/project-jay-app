@@ -1,5 +1,6 @@
 import 'package:app/application/bloc/alarms/active_alarm_bloc.dart';
 import 'package:app/application/dto/alarm_dto.dart';
+import 'package:app/presentation/components/custom_tab_bar.dart';
 import 'package:app/presentation/components/fab/jay_fab.dart';
 import 'package:app/presentation/components/jay_bottom_navigation_bar.dart';
 import 'package:app/presentation/pages/screens/event_details_screen.dart';
@@ -47,33 +48,19 @@ class _EventPageState extends State<EventPage>
 
   @override
   Widget build(final BuildContext context) => DefaultTabController(
-        length: 3,
-        key: const Key('home-tab-bar'),
-        child: Scaffold(
-          body: TabBarView(
-            children: _getScreens(widget.alarmDto),
-            physics: const NeverScrollableScrollPhysics(),
-          ),
-          appBar: const TabBar(tabs: [
-            Tab(
-              text: 'Přehled',
-              icon: Icon(Icons.info),
-            ),
-            Tab(
-              text: 'Účastníci',
-              icon: Icon(Icons.people),
-            ),
-            Tab(
-              text: 'Mapa',
-              icon: Icon(Icons.pin_drop),
-            )
-          ]),
-          floatingActionButton: JayFab(
-            memberId: widget.memberId,
-            eventId: widget.eventId,
-          ),
+      length: 3,
+      key: const Key('home-tab-bar'),
+      child: Scaffold(
+        body: TabBarView(
+          children: _getScreens(widget.alarmDto),
+          physics: const NeverScrollableScrollPhysics(),
         ),
-      );
+        appBar: CustomTabBar(),
+        floatingActionButton: JayFab(
+          memberId: widget.memberId,
+          eventId: widget.eventId,
+        ),
+      ));
 
   void _onPageTap(final int index) {
     // Place where we can add transition animations

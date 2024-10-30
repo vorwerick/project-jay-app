@@ -7,8 +7,9 @@ class AppVersionInitial extends AppVersionState {}
 
 final class AppVersionLoadSuccess extends AppVersionState with EquatableMixin {
   final String appVersion;
+  final int buildNumber;
 
-  AppVersionLoadSuccess(this.appVersion);
+  AppVersionLoadSuccess(this.appVersion, this.buildNumber);
 
   @override
   List<Object?> get props => [appVersion];

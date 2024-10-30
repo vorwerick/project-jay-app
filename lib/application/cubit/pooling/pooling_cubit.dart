@@ -8,18 +8,18 @@ import 'package:meta/meta.dart';
 part 'pooling_state.dart';
 
 class PoolingCubit extends Cubit<PoolingState> with L {
-
   PoolingCubit() : super(PoolingStarted());
 
   Timer? timer;
 
-  void start() async {
-    timer = Timer.periodic(const Duration(seconds: 5), (final count) {
+  void start(final Duration duration) async {
+    timer = Timer.periodic(duration, (final count) {
       log("refetch");
       emit(PoolingFetched());
     });
   }
-  void dispose(){
+
+  void dispose() {
     timer?.cancel();
     timer = null;
   }

@@ -18,6 +18,7 @@ final class AlarmJsonMapper {
         announcer: alarm.announced,
         announcerPhone: alarm.announcedPhone,
         eventType: alarm.eventType,
+        orderSent: alarm.orderSent,
         lastUpdate: alarm.orderUpdate,
         region: alarm.region,
         district: alarm.district,

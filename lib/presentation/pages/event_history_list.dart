@@ -65,15 +65,14 @@ class EventHistoryList extends StatelessWidget {
                         ],
                       ),
                       onTap: () async {
-                        Navigator.of(context, rootNavigator: true).pop();
+                       // Navigator.of(context, rootNavigator: true).pop();
                         final bloc = context.read<AlarmHistoryBloc>();
                         showModalBottomSheet(
-                            enableDrag: true,
+                            enableDrag: false,
                             backgroundColor: Colors.transparent,
                             isScrollControlled: true,
                             context: context,
-                            builder: (context) {
-                              return Container(
+                            builder: (context) => Container(
                                 decoration: new BoxDecoration(
                                   color: Colors.white,
                                   borderRadius: new BorderRadius.only(
@@ -95,7 +94,7 @@ class EventHistoryList extends StatelessWidget {
                                                   .pop();
                                             },
                                             icon: Icon(
-                                              Icons.close,
+                                              Icons.arrow_back,
                                               size: 32,
                                             )),
                                         Row(mainAxisSize: MainAxisSize.min,mainAxisAlignment:MainAxisAlignment.center,children: [
@@ -120,8 +119,7 @@ class EventHistoryList extends StatelessWidget {
                                     ),
                                   ],
                                 ),
-                              );
-                            });
+                              ));
                         /*
                         Object? result = await Navigator.of(context).push(
                           MaterialPageRoute(

@@ -1,11 +1,8 @@
 import 'package:app/application/bloc/alarms/alarm_control_bloc.dart';
 import 'package:app/application/bloc/alarms/alarm_set_control_bloc.dart';
-import 'package:app/application/cubit/alarm/alarm_minimize_cubit.dart';
 import 'package:app/presentation/common/jay_colors.dart';
-
 import 'package:app/presentation/components/jay_alarm_dialog.dart';
 import 'package:app/presentation/utils/snack_bar_utils.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -53,7 +50,10 @@ class _JayFabViewState extends State<JayFabView> {
                               .read<AlarmControlBloc>()
                               .add(AlarmControlEdit());
                         },
-                        icon: Icon(Icons.arrow_drop_up,size: 42,),
+                        icon: Icon(
+                          Icons.arrow_drop_up,
+                          size: 42,
+                        ),
                       ),
                     ],
                   ),
@@ -81,13 +81,13 @@ class _JayFabViewState extends State<JayFabView> {
                         },
                         icon: Icon(
                           Icons.arrow_drop_up,
-                            size: 42,
+                          size: 42,
                         ),
                       ),
                     ],
                   ),
                 ),
-              if(state is AlarmControlStateSuccessNoneMinimized)
+              if (state is AlarmControlStateSuccessNoneMinimized)
                 Container(
                   decoration: BoxDecoration(
                     color: Colors.white,
@@ -95,7 +95,7 @@ class _JayFabViewState extends State<JayFabView> {
                     border: Border.all(color: JayColors.primary, width: 2),
                   ),
                   padding: const EdgeInsets.only(left: 16),
-                  child:  Row(
+                  child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
@@ -141,9 +141,9 @@ class _JayFabViewState extends State<JayFabView> {
                         return CircularProgressIndicator();
                       }
                       if (state is AlarmSetControlSkip) {
-                        context.read<AlarmControlBloc>().add(
-                            AlarmControlMinimize()
-                        );
+                        context
+                            .read<AlarmControlBloc>()
+                            .add(AlarmControlMinimize());
                       }
                       return Container(
                         decoration: BoxDecoration(
@@ -153,7 +153,7 @@ class _JayFabViewState extends State<JayFabView> {
                           border:
                               Border.all(color: JayColors.primary, width: 2),
                         ),
-                        padding: const EdgeInsets.all(24),
+                        padding: const EdgeInsets.all(8),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
@@ -177,58 +177,66 @@ class _JayFabViewState extends State<JayFabView> {
                                 ),
                               ],
                             ),
-                            const SizedBox(
-                              height: 16,
-                            ),
-                            FloatingActionButton.extended(
-                              heroTag: const Key('decline'),
-                              label: const Text(
-                                'Nejdu',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 26,
-                                ),
-                              ),
-                              onPressed: () {
-                                context.read<AlarmSetControlBloc>().add(
-                                      AlarmSetControlRejectPressed(
-                                        eventId: widget.eventId,
+                            Container(
+                              margin: EdgeInsets.all(4),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                              
+                              
+                                  FloatingActionButton.extended(
+                                    heroTag: const Key('accept'),
+                                    onPressed: () {
+                                      context.read<AlarmSetControlBloc>().add(
+                                            AlarmSetControlAcceptPressed(
+                                              eventId: widget.eventId,
+                                            ),
+                                          );
+                                    },
+                                    icon: const Icon(
+                                      Icons.directions_run,
+                                      color: Colors.white,
+                                      size: 28,
+                                    ),
+                                    backgroundColor: JayColors.green,
+                                    label: const Text(
+                                      'Jdu',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 22,
                                       ),
-                                    );
-                              },
-                              icon: const Icon(
-                                Icons.close,
-                                color: Colors.white,
-                                size: 32,
-                              ),
-                              backgroundColor: Colors.red,
-                            ),
-                            const SizedBox(
-                              height: 16,
-                            ),
-                            FloatingActionButton.extended(
-                              heroTag: const Key('accept'),
-                              onPressed: () {
-                                context.read<AlarmSetControlBloc>().add(
-                                      AlarmSetControlAcceptPressed(
-                                        eventId: widget.eventId,
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 8,
+                                  ),
+                                  FloatingActionButton.extended(
+                                    heroTag: const Key('decline'),
+                                    label: const Text(
+                                      'Nejdu',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 22,
                                       ),
-                                    );
-                              },
-                              icon: const Icon(
-                                Icons.directions_run,
-                                color: Colors.white,
-                                size: 32,
+                                    ),
+                                    onPressed: () {
+                                      context.read<AlarmSetControlBloc>().add(
+                                        AlarmSetControlRejectPressed(
+                                          eventId: widget.eventId,
+                                        ),
+                                      );
+                                    },
+                                    icon: const Icon(
+                                      Icons.close,
+                                      color: Colors.white,
+                                      size: 28,
+                                    ),
+                                    backgroundColor: Colors.red,
+                                  ),
+                                ],
                               ),
-                              backgroundColor: JayColors.green,
-                              label: const Text(
-                                '    Jdu',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 26,
-                                ),
-                              ),
-                            ),
+                            )
                           ],
                         ),
                       );

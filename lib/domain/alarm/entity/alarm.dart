@@ -50,6 +50,8 @@ final class Alarm extends Entity {
 
   final String? clarification;
 
+  final DateTime orderSent;
+
   bool get isActive => state is Announced;
 
   Alarm._(
@@ -64,6 +66,7 @@ final class Alarm extends Entity {
     required this.announcer,
     required this.announcerPhone,
     required this.eventType,
+    required this.orderSent,
     required this.lastUpdate,
     required this.region,
     required this.district,
@@ -92,6 +95,7 @@ final class Alarm extends Entity {
     required final String announcer,
     required final String announcerPhone,
     required final String eventType,
+    required final DateTime orderSent,
     required final DateTime lastUpdate,
     required final String region,
     required final String district,
@@ -106,7 +110,7 @@ final class Alarm extends Entity {
     required final double longitude,
     required final String? num1,
     required final String? num2,
-        required final String? clarification,
+    required final String? clarification,
   }) =>
       Alarm._(
         id,
@@ -120,6 +124,7 @@ final class Alarm extends Entity {
         announcer: announcer,
         announcerPhone: announcerPhone,
         eventType: eventType,
+        orderSent: orderSent,
         lastUpdate: lastUpdate,
         region: region,
         district: district,

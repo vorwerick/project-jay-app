@@ -29,8 +29,8 @@ final class InfoPlusDeviceInformationService with L {
       IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
 
       deviceInformation = InfoPlusDeviceInformation(
-        device: iosInfo.model,
-        manufacturer: iosInfo.identifierForVendor.toString(),
+        device: '${iosInfo.name} ${iosInfo.systemName}',
+        manufacturer: iosInfo.model,
         version: packageInfo.version,
         sdk: 0,
         buildNumber: int.tryParse(packageInfo.buildNumber) ?? -1,

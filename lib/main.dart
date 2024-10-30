@@ -44,37 +44,7 @@ Future<void> main() async {
       const App(),
     ),
   );
-  if (Platform.isAndroid) {
-    bool? isAutoStartEnabled =
-        await DisableBatteryOptimization.isAutoStartEnabled;
-    if (true) {
-      await DisableBatteryOptimization.showEnableAutoStartSettings(
-          'Povolení funkce Auto Start',
-          'Pro správné fungování aplikace je potřeba povolit funkce Auto-start');
-    }
-    bool? isBatteryOptimizationDisabled =
-        await DisableBatteryOptimization.isBatteryOptimizationDisabled;
-    if (true) {
-      await DisableBatteryOptimization.showDisableBatteryOptimizationSettings();
-    }
-    bool? isManBatteryOptimizationDisabled = await DisableBatteryOptimization
-        .isManufacturerBatteryOptimizationDisabled;
-    if (true) {
-      await DisableBatteryOptimization
-          .showDisableManufacturerBatteryOptimizationSettings(
-              'Optimalizace baterie',
-              'Pro správné fungování aplikace je potřeba zakázat optimalizaci baterie');
-    }
-    bool? isAllOptimizationDisabled =
-        await DisableBatteryOptimization.isAllBatteryOptimizationDisabled;
-    if (true) {
-      await DisableBatteryOptimization.showDisableAllOptimizationsSettings(
-          'Povolení funkce Auto Start',
-          'Pro správné fungování aplikace je potřeba povolit funkce Auto-start',
-          'Optimalizace baterie',
-          'Pro správné fungování aplikace je potřeba zakázat optimalizaci baterie');
-    }
-  }
+
   OneSignal.Notifications.addForegroundWillDisplayListener((event) {
     log('onFORE');
     log(event.notification.title.toString());

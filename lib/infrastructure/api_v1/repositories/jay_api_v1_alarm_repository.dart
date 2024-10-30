@@ -128,7 +128,8 @@ final class JayApiV1AlarmRepository with DioApiV1 implements AlarmRepository {
         for (final alarm in result.data.alarms!) {
           final alarmEntity = AlarmJsonMapper(alarm).toEntity();
           log(result.data.toString());
-          if (alarmEntity.state is Announced) {
+
+          if (DateTime.now().millisecondsSinceEpoch - alarmEntity.orderSent.millisecondsSinceEpoch < 600000) {
             announcedAlarms.add(alarmEntity);
           }
         }

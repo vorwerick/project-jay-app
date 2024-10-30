@@ -66,11 +66,21 @@ class EventDetailsScreen extends StatelessWidget {
                       background: Colors.transparent,
                     ),
                     ListPair(
+                      title: "Co se stalo",
+                      value: detail.explanation,
+                      background: JayColors.secondaryLight,
+                    ),
+                    ListPair(
+                      title: 'Dopřesnění',
+                      value: detail.clarification,
+                      background: Colors.transparent,
+                    ),
+                    ListPair(
                       title: AppLocalizations.of(context)!.technique,
                       value: detail.technique
                           ?.map((final t) => t.fleetName)
                           .join(', '),
-                      background: JayColors.secondaryLight,
+                      background:  JayColors.secondaryLight,
                     ),
                     ListPair(
                       title: AppLocalizations.of(context)!.region,
@@ -96,16 +106,6 @@ class EventDetailsScreen extends StatelessWidget {
                     ListPair(
                       title: AppLocalizations.of(context)!.floor,
                       value: detail.floor,
-                      background: Colors.transparent,
-                    ),
-                    ListPair(
-                      title: AppLocalizations.of(context)!.explanation,
-                      value: detail.explanation,
-                      background: JayColors.secondaryLight,
-                    ),
-                    ListPair(
-                      title: 'Upřesnění',
-                      value: detail.clarification,
                       background: Colors.transparent,
                     ),
                     ListPair(
@@ -135,13 +135,9 @@ class EventDetailsScreen extends StatelessWidget {
                       }
                     ),
                     //_documentsWidget(),
-                    const ListPair(
-                      title: '\n\n\n\n\n\n\n\n\n\n\n',
-                      value: '',
-                      background: Colors.transparent,
-                    ),
+
                     const SizedBox(
-                      height: 72,
+                      height: 128,
                     ),
                   ],
                 ),

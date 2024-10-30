@@ -2,21 +2,16 @@ import 'package:app/application/bloc/alarms/active_alarm_bloc.dart';
 import 'package:app/application/bloc/user/user_bloc.dart';
 import 'package:app/application/cubit/login/login_cubit.dart';
 import 'package:app/application/cubit/pooling/pooling_cubit.dart';
-import 'package:app/domain/user/entity/user.dart';
-import 'package:app/presentation/common/jay_colors.dart';
 import 'package:app/presentation/components/jay_bottom_navigation_bar.dart';
 import 'package:app/presentation/components/jay_drawer.dart';
 import 'package:app/presentation/components/jay_progress_indicator.dart';
 import 'package:app/presentation/components/jay_white_text.dart';
 import 'package:app/presentation/pages/event_page.dart';
-import 'package:app/presentation/pages/widgets/app_bar_alarm.dart';
 import 'package:app/presentation/pages/widgets/custom_app_bar.dart';
 import 'package:app/presentation/pages/widgets/event_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
-import '../../application/cubit/logout/logout_cubit.dart';
 
 class MainPage extends StatefulWidget {
   @override
@@ -26,8 +21,9 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage>
     with SingleTickerProviderStateMixin, WidgetsBindingObserver {
   int _currentPageIndex = 0;
+  int _currentPagesCount = 0;
   ActiveAlarmBloc? _alarmBlocReference;
-  final PageController _pageController = PageController();
+  PageController _pageController = PageController();
 
   @override
   void initState() {
@@ -66,8 +62,7 @@ class _MainPageState extends State<MainPage>
   }
 
   @override
-  Widget build(final BuildContext context) =>
-      MultiBlocProvider(
+  Widget build(final BuildContext context) => MultiBlocProvider(
         providers: [
           BlocProvider<ActiveAlarmBloc>(
             create: (final context) {
@@ -81,14 +76,11 @@ class _MainPageState extends State<MainPage>
             },
           ),
           BlocProvider<UserBloc>(
-            create: (final context) =>
-            UserBloc()
-              ..add(UserStarted()),
+            create: (final context) => UserBloc()..add(UserStarted()),
           ),
           BlocProvider(
             create: (final context) =>
-            PoolingCubit()
-              ..start(),
+                PoolingCubit()..start(Duration(seconds: 10)),
           ),
         ],
         child: BlocBuilder<UserBloc, UserState>(
@@ -120,11 +112,12 @@ class _MainPageState extends State<MainPage>
                             const SizedBox(
                               height: 8,
                             ),
-                            Text(
-                              'Chyba: ' + userState.statusCode,
-                              style: const TextStyle(fontSize: 14),
-                              textAlign: TextAlign.center,
-                            ),
+                            if (false)
+                              Text(
+                                'Chyba: ' + userState.statusCode,
+                                style: const TextStyle(fontSize: 14),
+                                textAlign: TextAlign.center,
+                              ),
                             const SizedBox(
                               height: 32,
                             ),
@@ -165,7 +158,7 @@ class _MainPageState extends State<MainPage>
             if (userState is UserLoadInProgress) {
               return const Material(
                 child:
-                JayProgressIndicator(text: 'Stahuji informace o uživateli'),
+                    JayProgressIndicator(text: 'Stahuji informace o uživateli'),
               );
             }
             if (userState is UserLoadSuccess) {
@@ -178,104 +171,120 @@ class _MainPageState extends State<MainPage>
                         .add(ActiveAlarmSilentRefresh());
                   }
                 },
-                child: Scaffold(
-                  appBar: CustomAppBar(
-                    currentPageIndex: _currentPageIndex,
-                  ),
-                  body: BlocBuilder<ActiveAlarmBloc, ActiveAlarmState>(
-                    builder: (final context, final state) {
-                      if (state is ActiveAlarmLoadSuccess) {
-                        if (state.alarms.isNotEmpty) {
-                          return PageView(
-                            controller: _pageController,
-                            physics: const NeverScrollableScrollPhysics(),
-                            children: state.alarms
-                                .map<Widget>(
-                                  (final a) =>
-                                  EventPage(
-                                    memberId: userState.memberId,
-                                    eventId: a.eventId,
-                                    alarmDto: a,
-                                  ),
-                            )
-                                .toList(),
-                          );
-                        } else {
-                          return Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              SvgPicture.asset(
-                                'assets/sleeping.svg',
-                                width: 128,
-                              ),
-                              const SizedBox(height: 16),
-                              const EventHeader(
-                                title: 'Nic se neděje',
-                              ),
-                              const Padding(
-                                padding: EdgeInsets.all(16),
-                                child: JayWhiteText(
-                                  'V tuto chvíli není pro tvoji jednotku zvolán žádný poplach.',
-                                  fontSize: 16,
+                child: BlocListener<ActiveAlarmBloc, ActiveAlarmState>(
+                  listener: (final BuildContext context, final state) {
+                    if (state is ActiveAlarmLoadSuccess) {
+                      int previousCount = _currentPagesCount;
+                      _currentPagesCount = state.alarms.length;
+                      if (previousCount != state.alarms.length) {
+                        _pageController = PageController(initialPage: 0);
+
+                        context
+                            .read<ActiveAlarmBloc>()
+                            .add(ActiveAlarmStarted());
+                      }
+                    }
+                  },
+                  child: Scaffold(
+                    appBar: CustomAppBar(
+                      currentPageIndex: _currentPageIndex,
+                    ),
+                    body: BlocBuilder<ActiveAlarmBloc, ActiveAlarmState>(
+                      builder: (final context, final state) {
+                        if (state is ActiveAlarmLoadSuccess) {
+                          if (state.alarms.isNotEmpty) {
+                            return PageView(
+                              controller: _pageController,
+                              physics: const NeverScrollableScrollPhysics(),
+                              children: state.alarms
+                                  .map<Widget>(
+                                    (final a) => EventPage(
+                                      key: Key("event-" + a.eventId.toString()),
+                                      memberId: userState.memberId,
+                                      eventId: a.eventId,
+                                      alarmDto: a,
+                                    ),
+                                  )
+                                  .toList(),
+                            );
+                          } else {
+                            return Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                SvgPicture.asset(
+                                  'assets/sleeping.svg',
+                                  width: 128,
                                 ),
-                              ),
-                              const SizedBox(height: 10),
-                              /*
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: ElevatedButton(
-                    onPressed: () {
-                      context.pushNamed(AppRoutes.eventHistory.name);
-                    },
-                    child: Text(AppLocalizations.of(context)!.history),
-                  ),
-                ),*/
-                            ],
+                                const SizedBox(height: 16),
+                                const EventHeader(
+                                  title: 'Nic se neděje',
+                                ),
+                                const Padding(
+                                  padding: EdgeInsets.all(16),
+                                  child: JayWhiteText(
+                                    'V tuto chvíli není pro tvoji jednotku zvolán žádný poplach.',
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                const SizedBox(height: 10),
+                                /*
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        context.pushNamed(AppRoutes.eventHistory.name);
+                      },
+                      child: Text(AppLocalizations.of(context)!.history),
+                    ),
+                  ),*/
+                              ],
+                            );
+                          }
+                        }
+                        if (state is ActiveAlarmLoadInProgress) {
+                          return const JayProgressIndicator(
+                            text: 'Stahuji aktuální poplach',
                           );
                         }
-                      }
-                      if (state is ActiveAlarmLoadInProgress) {
+                        if (state is ActiveAlarmFailure) {
+                          return const Center(
+                            child: JayWhiteText(
+                              'Zkontrolujte připojení',
+                              fontSize: 24,
+                            ),
+                          );
+                        }
                         return const JayProgressIndicator(
                           text: 'Stahuji aktuální poplach',
                         );
-                      }
-                      if (state is ActiveAlarmFailure) {
-                        return const Center(
-                          child: JayWhiteText(
-                            'Zkontrolujte připojení',
-                            fontSize: 24,
-                          ),
-                        );
-                      }
-                      return const JayProgressIndicator(
-                        text: 'Stahuji aktuální poplach',
-                      );
-                    },
-                  ),
-                  bottomNavigationBar:
-                  BlocBuilder<ActiveAlarmBloc, ActiveAlarmState>(
-                    builder: (final context, final state) {
-                      if (state is ActiveAlarmLoadSuccess &&
-                          state.alarms.isNotEmpty) {
-                        if (!state.isSilent) {
-                          Navigator.of(context).popUntil((route) =>
-                          route.isFirst);
+                      },
+                    ),
+                    bottomNavigationBar:
+                        BlocBuilder<ActiveAlarmBloc, ActiveAlarmState>(
+                      builder: (final context, final state) {
+                        if (state is ActiveAlarmLoadSuccess &&
+                            state.alarms.isNotEmpty) {
+                          if (!state.isSilent) {
+                            Navigator.of(context)
+                                .popUntil((final route) => route.isFirst);
+                          }
+
+                          return JayBottomNavigationBar(
+                            alarms: state.alarms,
+                            currentPageIndex: _currentPageIndex,
+                            onTap: _onPageTap,
+                          );
                         }
-                        return JayBottomNavigationBar(
-                          alarms: state.alarms,
-                          currentPageIndex: _currentPageIndex,
-                          onTap: _onPageTap,
-                        );
-                      }
-                      return const SizedBox.shrink();
-                    },
-                  ),
-                  drawer: JayDrawer(
-                    email: userState.email ?? "",
-                    name: userState.fullName.replaceAll('.', ''),
-                    memberId: userState.memberId,
-                    functionName: userState.functionName,
+                        return const SizedBox.shrink();
+                      },
+                    ),
+                    drawer: JayDrawer(
+                      email: userState.email ?? "",
+                      name: userState.fullName.replaceAll('.', ''),
+                      memberId: userState.memberId,
+                      functionName: userState.functionName,
+                    ),
                   ),
                 ),
               );

@@ -116,7 +116,7 @@ class _EventPageHistoryState extends State<EventPageHistory>
         EventDetailsScreen(alarmDto: detail),
         ParticipantsScreen(
           detail: detail,
-          isHistory: false,
+          isHistory: true,
         ),
         MapScreen(detail: detail),
       ];

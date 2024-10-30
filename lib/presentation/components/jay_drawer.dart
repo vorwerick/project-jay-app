@@ -32,20 +32,26 @@ class JayDrawer extends StatelessWidget {
   });
 
   @override
-  Widget build(final BuildContext context) => MultiBlocProvider(
+  Widget build(final BuildContext context) =>
+      MultiBlocProvider(
         providers: [
           BlocProvider<AppVersionBloc>(
             create: (final context) =>
-                AppVersionBloc()..add(AppVersionStarted()),
+            AppVersionBloc()
+              ..add(AppVersionStarted()),
           ),
           BlocProvider<AlertBloc>(
-            create: (final context) => AlertBloc()..add(AlertStarted()),
+            create: (final context) =>
+            AlertBloc()
+              ..add(AlertStarted()),
           ),
           BlocProvider<LogoutCubit>(create: (final context) => LogoutCubit()),
         ],
         child: SafeArea(
           child: Drawer(
+
             child: Column(
+              mainAxisSize: MainAxisSize.max,
               children: [
                 DrawerHeader(
                   padding: const EdgeInsets.all(0),
@@ -69,20 +75,20 @@ class JayDrawer extends StatelessWidget {
                                     semanticsLabel: 'Firefighter avatar',
                                   ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 8,
                                 ),
                                 Column(
                                   children: [
                                     Text(
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           fontSize: 20,
                                           fontWeight: FontWeight.w500),
                                       name,
                                     ),
                                     if (functionName != null)
                                       Text(
-                                        style: TextStyle(fontSize: 16),
+                                        style: const TextStyle(fontSize: 16),
                                         functionName!,
                                       ),
                                   ],
@@ -105,7 +111,8 @@ class JayDrawer extends StatelessWidget {
                         backgroundColor: Colors.transparent,
                         isScrollControlled: true,
                         context: context,
-                        builder: (context) => Container(
+                        builder: (context) =>
+                            Container(
                               decoration: new BoxDecoration(
                                 color: Colors.white,
                                 borderRadius: new BorderRadius.only(
@@ -115,36 +122,33 @@ class JayDrawer extends StatelessWidget {
                               ),
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
                                 children: [
                                   Row(
                                     children: [
                                       IconButton(
-                                          padding: EdgeInsets.all(12),
+                                          padding: const EdgeInsets.all(12),
                                           onPressed: () {
                                             Navigator.of(context,
-                                                    rootNavigator: true)
+                                                rootNavigator: true)
                                                 .pop();
                                           },
-                                          icon: Icon(
+                                          icon: const Icon(
                                             Icons.close,
                                             size: 32,
                                           )),
-                                      Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                              "Historie událostí",
-                                              style: TextStyle(fontSize: 20),
-                                            )
-                                          ]),
+                                      const Text(
+                                        "Historie událostí",
+                                        style: TextStyle(fontSize: 20),
+                                      ),
                                     ],
                                   ),
                                   Container(
-                                    padding: EdgeInsets.only(top: 8),
-                                    height: MediaQuery.of(context).size.height *
+                                    padding: const EdgeInsets.only(top: 8),
+                                    height: MediaQuery
+                                        .of(context)
+                                        .size
+                                        .height *
                                         0.75,
                                     child: EventHistoryList(
                                       memberId: memberId,
@@ -182,27 +186,32 @@ class JayDrawer extends StatelessWidget {
                   onTap: () {
                     showDialog(
                       context: context,
-                      builder: (final context) => Dialog(
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Container(
-                              margin: const EdgeInsets.all(24),
-                              child: Text(
-                                'O aplikaci',
-                                style: Theme.of(context).textTheme.titleLarge,
-                              ),
-                            ),
-                            Container(
-                              margin: const EdgeInsets.only(
-                                left: 24,
-                                right: 24,
-                                bottom: 24,
-                              ),
-                              child: const Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  /*
+                      builder: (final context) =>
+                          Dialog(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Container(
+                                  margin: const EdgeInsets.all(24),
+                                  child: Text(
+                                    'O aplikaci',
+                                    style: Theme
+                                        .of(context)
+                                        .textTheme
+                                        .titleLarge,
+                                  ),
+                                ),
+                                Container(
+                                  margin: const EdgeInsets.only(
+                                    left: 24,
+                                    right: 24,
+                                    bottom: 24,
+                                  ),
+                                  child: const Column(
+                                    crossAxisAlignment: CrossAxisAlignment
+                                        .start,
+                                    children: [
+                                      /*
                                       Row(
                                         children: [
                                           Image.network(
@@ -224,15 +233,15 @@ class JayDrawer extends StatelessWidget {
                                       SizedBox(
                                         height: 12,
                                       ),*/
-                                  Text(
-                                    'Aplikace slouží k rychlému svolávání a informování jednotek JSDH v rámci systému JAY. Je určena výhradně pro hasičské jednotky integrované v tomto systému. Pro správnou funkčnost je nutné ji registrovat v systému JAY a nastavit v mobilním zařízení. Funkčnost se může lišit podle typu telefonu a operačního systému.\n\nAplikaci vyvinula společnost TELwork, s.r.o.\n\nPro technickou podporu kontaktujte:\ne-mail: info@telwork.cz\ntelefon: +420\u{00A0}773\u{00A0}319\u{00A0}297.',
+                                      Text(
+                                        'Aplikace slouží k rychlému svolávání a informování jednotek JSDH v rámci systému JAY. Je určena výhradně pro hasičské jednotky integrované v tomto systému. Pro správnou funkčnost je nutné ji registrovat v systému JAY a nastavit v mobilním zařízení. Funkčnost se může lišit podle typu telefonu a operačního systému.\n\nAplikaci vyvinula společnost TELwork, s.r.o.\n\nPro technickou podporu kontaktujte:\ne-mail: info@telwork.cz\ntelefon: +420\u{00A0}773\u{00A0}319\u{00A0}297.',
+                                      ),
+                                    ],
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
-                      ),
+                          ),
                     );
                   },
                 ),
@@ -241,27 +250,32 @@ class JayDrawer extends StatelessWidget {
                   onTap: () {
                     showDialog(
                       context: context,
-                      builder: (final context) => AlertDialog(
-                        title: Container(
-                          margin: const EdgeInsets.all(24),
-                          child: Text(
-                            'Podmínky použití',
-                            style: Theme.of(context).textTheme.titleLarge,
-                          ),
-                        ),
-                        scrollable: true,
-                        content: Column(
-                          children: [
-                            Container(
-                              margin: const EdgeInsets.only(
-                                left: 24,
-                                right: 24,
-                                bottom: 24,
+                      builder: (final context) =>
+                          AlertDialog(
+                            title: Container(
+                              margin: const EdgeInsets.all(24),
+                              child: Text(
+                                'Podmínky použití',
+                                style: Theme
+                                    .of(context)
+                                    .textTheme
+                                    .titleLarge,
                               ),
-                              child: const Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  /*
+                            ),
+                            scrollable: true,
+                            content: Column(
+                              children: [
+                                Container(
+                                  margin: const EdgeInsets.only(
+                                    left: 24,
+                                    right: 24,
+                                    bottom: 24,
+                                  ),
+                                  child: const Column(
+                                    crossAxisAlignment: CrossAxisAlignment
+                                        .start,
+                                    children: [
+                                      /*
                                       Row(
                                         children: [
                                           Image.network(
@@ -283,7 +297,7 @@ class JayDrawer extends StatelessWidget {
                                       SizedBox(
                                         height: 12,
                                       ),*/
-                                  Text('''
+                                      Text('''
             1. Použití aplikace
             Aplikace je poskytována výhradně pro účely, ke kterým byla určena. Jste povinni používat aplikaci v souladu s těmito podmínkami a platnými právními předpisy. Jakékoliv neoprávněné použití aplikace je zakázáno, včetně, ale ne omezeno na, zpětnou analýzu, dekompilaci nebo jakýkoli jiný pokus o získání zdrojového kódu aplikace.
             
@@ -311,33 +325,33 @@ class JayDrawer extends StatelessWidget {
             9. Kontaktní informace
             Pro jakékoliv dotazy nebo problémy týkající se těchto podmínek nebo aplikace nás kontaktujte na e-mailové adrese info@telwork.cz nebo na telefonním čísle +420\u{00A0}773\u{00A0}319\u{00A0}297.
                                           '''),
-                                ],
-                              ),
+                                    ],
+                                  ),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
-                      ),
+                          ),
                     );
                   },
                 ),
                 if (false)
                   ListTile(
-                    title: Text('Zpětná vazba'),
+                    title: const Text('Zpětná vazba'),
                     onTap: () {
                       Navigator.pop(context);
                       showDialog(
                         context: context,
                         builder: (final context) {
                           TextEditingController controller =
-                              TextEditingController();
+                          TextEditingController();
                           return SimpleDialog(
                             title: const Text('Odeslat zpětnou vazbu'),
                             children: [
-                              SizedBox(
+                              const SizedBox(
                                 height: 16,
                               ),
                               Container(
-                                margin: EdgeInsets.only(
+                                margin: const EdgeInsets.only(
                                   left: 20,
                                   right: 20,
                                   bottom: 0,
@@ -350,12 +364,12 @@ class JayDrawer extends StatelessWidget {
                                       decoration: InputDecoration(
                                         border: OutlineInputBorder(
                                           borderRadius:
-                                              BorderRadius.circular(10),
+                                          BorderRadius.circular(10),
                                         ),
                                         labelText: 'Text',
                                       ),
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 16,
                                     ),
                                     Row(
@@ -374,14 +388,17 @@ class JayDrawer extends StatelessWidget {
                                           onPressed: () async {
                                             Future.value(() async {
                                               final id =
-                                                  await Sentry.captureMessage(
+                                              await Sentry.captureMessage(
                                                 'Users feedback sent',
                                               );
                                               await Sentry.captureUserFeedback(
                                                 SentryUserFeedback(
                                                   eventId: id,
                                                   comments:
-                                                      '${controller.text}\n\nsubscriptionId: ${OneSignal.User.pushSubscription.id}',
+                                                  '${controller
+                                                      .text}\n\nsubscriptionId: ${OneSignal
+                                                      .User.pushSubscription
+                                                      .id}',
                                                   name: '($memberId) $name',
                                                   email: email,
                                                 ),
@@ -413,69 +430,71 @@ class JayDrawer extends StatelessWidget {
                 Builder(
                   builder: (final context) =>
                       BlocListener<LogoutCubit, LogoutState>(
-                    listener: (final context, final state) {
-                      if (state is LogoutSuccess) {
-                        context.pop();
-                        context.read<LoginCubit>().checkAuth();
-                      }
-                    },
-                    child: ListTile(
-                      title: Text(AppLocalizations.of(context)!.logout),
-                      onTap: () {
-                        final loginCubit = context.read<LoginCubit>();
+                        listener: (final context, final state) {
+                          if (state is LogoutSuccess) {
+                            context.pop();
+                            context.read<LoginCubit>().checkAuth();
+                          }
+                        },
+                        child: ListTile(
+                          title: Text(AppLocalizations.of(context)!.logout),
+                          onTap: () {
+                            final loginCubit = context.read<LoginCubit>();
 
-                        showDialog(
-                            context: context,
-                            builder: (final context) => SimpleDialog(
-                                  title: const Text('Odhlášení'),
-                                  children: [
-                                    Container(
-                                      margin: EdgeInsets.only(
-                                        left: 20,
-                                        right: 20,
-                                        bottom: 0,
-                                      ),
-                                      child: Column(
-                                        children: [
-                                          const Text(
-                                            'Opravdu chcete toto zařízení odhlásit?',
+                            showDialog(
+                                context: context,
+                                builder: (final context) =>
+                                    SimpleDialog(
+                                      title: const Text('Odhlášení'),
+                                      children: [
+                                        Container(
+                                          margin: const EdgeInsets.only(
+                                            left: 20,
+                                            right: 20,
+                                            bottom: 0,
                                           ),
-                                          SizedBox(
-                                            height: 16,
-                                          ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.end,
+                                          child: Column(
                                             children: [
-                                              TextButton(
-                                                onPressed: () {
-                                                  Navigator.of(
-                                                    context,
-                                                    rootNavigator: true,
-                                                  ).pop();
-                                                },
-                                                child: const Text('Zavřít'),
+                                              const Text(
+                                                'Opravdu chcete toto zařízení odhlásit?',
                                               ),
-                                              TextButton(
-                                                onPressed: () {
-                                                  Navigator.of(
-                                                    context,
-                                                    rootNavigator: true,
-                                                  ).pop();
-                                                  loginCubit.logout();
-                                                },
-                                                child: const Text('Odhlásit'),
+                                              const SizedBox(
+                                                height: 16,
+                                              ),
+                                              Row(
+                                                mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                                children: [
+                                                  TextButton(
+                                                    onPressed: () {
+                                                      Navigator.of(
+                                                        context,
+                                                        rootNavigator: true,
+                                                      ).pop();
+                                                    },
+                                                    child: const Text('Zavřít'),
+                                                  ),
+                                                  TextButton(
+                                                    onPressed: () {
+                                                      Navigator.of(
+                                                        context,
+                                                        rootNavigator: true,
+                                                      ).pop();
+                                                      loginCubit.logout();
+                                                    },
+                                                    child: const Text(
+                                                        'Odhlásit'),
+                                                  ),
+                                                ],
                                               ),
                                             ],
                                           ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ));
-                      },
-                    ),
-                  ),
+                                        ),
+                                      ],
+                                    ));
+                          },
+                        ),
+                      ),
                 ),
                 if (kDebugMode)
                   ListTile(
@@ -495,6 +514,24 @@ class JayDrawer extends StatelessWidget {
                       );
                     },
                   ),
+                const Spacer(),
+                BlocBuilder<AppVersionBloc, AppVersionState>(
+                  builder: (final context, final state) {
+                    if (state is AppVersionLoadSuccess) {
+                      return Padding(
+                        padding:  EdgeInsets.all(6),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                            Text("JAY "+(kDebugMode ? "DEBUG " : "")+"verze " + state.appVersion + (kDebugMode? " ("+state.buildNumber.toString()+")": ""),style: TextStyle(fontSize: 12),),
+                        ],
+                        mainAxisSize: MainAxisSize.max,
+                      ));
+                    }
+                    return const SizedBox.shrink();
+                  },
+                ),
+
               ],
             ),
           ),

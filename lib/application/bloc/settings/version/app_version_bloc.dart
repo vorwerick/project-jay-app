@@ -16,8 +16,8 @@ class AppVersionBloc extends Bloc<AppVersionEvent, AppVersionState> with L {
       final deviceInformation = await InfoPlusDeviceInformationService().createDeviceInformation();
 
       final version = deviceInformation?.version ?? '';
-
-      emit(AppVersionLoadSuccess(version));
+      final buildNumber = deviceInformation?.buildNumber ?? -1;
+      emit(AppVersionLoadSuccess(version,buildNumber));
     });
   }
 }

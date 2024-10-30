@@ -15,6 +15,7 @@ final class AlarmDto extends Equatable {
   final String floor;
   final String explanation;
   final String lastUpdate;
+  final int orderSentTimestamp;
   final List<Fleet>? otherTechnique;
   final String notifier;
   final String? num1;
@@ -25,7 +26,8 @@ final class AlarmDto extends Equatable {
 
   final List<FilePairDto> files;
 
-  const AlarmDto({
+  const AlarmDto( {
+    required this.orderSentTimestamp,
     required this.eventId,
     required this.unit,
     required this.eventType,
