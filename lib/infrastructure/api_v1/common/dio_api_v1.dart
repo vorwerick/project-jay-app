@@ -16,11 +16,14 @@ mixin DioApiV1 {
     log("HEADERS: CLIENT " + (_client != null).toString());
 
     Dio dio = Dio();
+    dio.options.validateStatus = (d) {
+      return true;
+    };
     dio.options.receiveTimeout = const Duration(seconds: 20);
     dio.options.sendTimeout = const Duration(seconds: 20);
     log("HEADERS: DIO");
     final deviceInfo =
-        await InfoPlusDeviceInformationService().createDeviceInformation();
+    await InfoPlusDeviceInformationService().createDeviceInformation();
 
     dio.options.headers['Content-Type'] = 'application/json';
     dio.options.headers['JAY-AUTH'] = deviceInfo!.firebaseToken;

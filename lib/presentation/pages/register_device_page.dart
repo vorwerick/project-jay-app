@@ -40,9 +40,10 @@ class _RegisterDevicePageState extends State<RegisterDevicePage> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Image.asset('assets/jay-logo.png',width: 96,),
-                      SizedBox(height: 64,),
+                      Image.asset('assets/jay-logo.png',width: 72,),
+                      SizedBox(height: 32,),
                       JayTextFormField(
+                        keyboardType: TextInputType.number,
                         controller: _deviceKeyController,
                         labelText: AppLocalizations.of(context)!.activationKey,
                       ),

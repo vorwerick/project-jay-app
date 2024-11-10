@@ -13,6 +13,18 @@ abstract interface class SettingRepository {
   Future<Result<SettingRepositoryState, bool>> isRegistered();
 
   Future<Result<SettingRepositoryState, void>> registered(final bool isRegistered);
+
+  Future<Result<SettingRepositoryState, String>> getNotificationSound();
+
+  Future<Result<SettingRepositoryState, void>> setNotificationSound(final String sound);
+
+  Future<Result<SettingRepositoryState, int>> getActiveAlarmDuration();
+
+  Future<Result<SettingRepositoryState, void>> setActiveAlarmDuration(final int minutes);
+
+  Future<Result<SettingRepositoryState, void>> setMaps(final String map);
+
+  Future<Result<SettingRepositoryState, String>> getMaps();
 }
 
 sealed class SettingRepositoryState {}

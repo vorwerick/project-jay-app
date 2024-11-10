@@ -49,7 +49,7 @@ final class AlarmMember {
   final bool confirmAlarm;
 
   AlarmMember(this.memberId, this.firstName, this.lastName, this.memberFunction, this.memberFunctionText,
-      this.confirmDate, this.confirmAlarm);
+      this.confirmDate, this.confirmAlarm,);
 
   factory AlarmMember.fromJson(Map<String, dynamic> json) => _$AlarmMemberFromJson(json);
 

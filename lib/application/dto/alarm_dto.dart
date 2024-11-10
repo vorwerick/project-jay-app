@@ -3,6 +3,8 @@ import 'package:app/infrastructure/api_v1/models/json/fleet.dart';
 import 'package:equatable/equatable.dart';
 
 final class AlarmDto extends Equatable {
+  final int confirmCount;
+  final int declineCount;
   final int eventId;
   final String unit;
   final String eventType;
@@ -26,7 +28,9 @@ final class AlarmDto extends Equatable {
 
   final List<FilePairDto> files;
 
-  const AlarmDto( {
+  const AlarmDto({
+    required this.confirmCount,
+    required this.declineCount,
     required this.orderSentTimestamp,
     required this.eventId,
     required this.unit,
@@ -51,11 +55,12 @@ final class AlarmDto extends Equatable {
 
   @override
   List<Object?> get props => [
+        confirmCount,
+        declineCount,
         eventId,
         unit,
         eventType,
         event,
-        technique,
         region,
         municipality,
         street,
@@ -65,7 +70,7 @@ final class AlarmDto extends Equatable {
         lastUpdate,
         otherTechnique,
         notifier,
-        otherTechnique,
+        technique,
         num1,
         num2,
         clarification,
@@ -76,5 +81,5 @@ final class AlarmDto extends Equatable {
   bool? get stringify => true;
 
   String toSpeechText() =>
-      'Vyhlášen poplach pro jednotku ${this.unit}.Typ události ${this.eventType}. Kraj ${this.region}. Město ${this.municipality}. Ulice ${this.street}. Budova ${this.object}. Podlaží ${this.floor}. Popis ${this.explanation}.';
+      'Vyhlášen poplach pro jednotku ${this.unit}.Událost ${this.event}. Kraj ${this.region}. Město ${this.municipality}. Ulice ${this.street}. Budova ${this.object}. Podlaží ${this.floor}.';
 }

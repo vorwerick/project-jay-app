@@ -4,11 +4,14 @@ import 'package:app/presentation/components/jay_floating_action_button.dart';
 import 'package:app/presentation/utils/map_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class MapScreen extends StatefulWidget {
   final AlarmDto detail;
-  const MapScreen({super.key, required this.detail});
+  final String mapSettings;
+
+  const MapScreen({super.key, required this.detail, required this.mapSettings});
 
   @override
   State<StatefulWidget> createState() => _MapScreenState();
@@ -25,7 +28,8 @@ class _MapScreenState extends State<MapScreen> {
 
   @override
   Widget build(final BuildContext context) => BlocProvider(
-        create: (final context) => AlarmGpsBloc()..add(AlarmGpsStarted(eventId: widget.detail.eventId)),
+        create: (final context) => AlarmGpsBloc()
+          ..add(AlarmGpsStarted(eventId: widget.detail.eventId)),
         child: Scaffold(
           floatingActionButton: Column(
             mainAxisSize: MainAxisSize.min,
@@ -64,33 +68,45 @@ class _MapScreenState extends State<MapScreen> {
           ),
           floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
           body: BlocListener<AlarmGpsBloc, AlarmGpsState>(
-            listener: (final context, final state) {
-              if (state is AlarmGpsLoadSuccess) {
-                _markers.clear();
+              listener: (final context, final state) {
+                if (state is AlarmGpsLoadSuccess) {
+                  _markers.clear();
 
-                final Marker marker = Marker(
-                  markerId: const MarkerId('marker_1'),
-                  position: LatLng(state.latitude, state.longitude),
-                );
-                setState(() {
-                  _position =  LatLng(state.latitude, state.longitude);
-                  _markers.add(marker);
-                });
-              }
-            },
-            child: _position != null ? GoogleMap(
-              onMapCreated: _onMapCreated,
-              initialCameraPosition: CameraPosition(
-                target: _position!,
-                zoom: 11.0,
-              ),
-              mapType: _currentMapType,
-              markers: _markers,
-              mapToolbarEnabled: false,
-            ) : Center(child: CircularProgressIndicator(),)
-          ),
+                  final Marker marker = Marker(
+                    markerId: const MarkerId('marker_1'),
+                    position: LatLng(state.latitude, state.longitude),
+                  );
+                  setState(() {
+                    _position = LatLng(state.latitude, state.longitude);
+                    _markers.add(marker);
+                  });
+                }
+              },
+              child: _position != null
+                  ? getMap()
+                  : Center(
+                      child: CircularProgressIndicator(),
+                    )),
         ),
       );
+
+  Widget getMap() {
+    if (widget.mapSettings == 'Mapy.cz') {
+
+      final s = widget.detail.municipality + " " + widget.detail.street + " " + widget.detail.num1.toString();
+      return InAppWebView(initialUrlRequest: URLRequest(url: WebUri('https://mapy.cz/turisticka?q=${s}&x=${_position!.longitude}&y=${_position!.latitude}&z=14')),);
+    }
+    return GoogleMap(
+      onMapCreated: _onMapCreated,
+      initialCameraPosition: CameraPosition(
+        target: _position!,
+        zoom: 13,
+      ),
+      mapType: _currentMapType,
+      markers: _markers,
+      mapToolbarEnabled: false,
+    );
+  }
 
   void _onMapCreated(final GoogleMapController controller) {
     setState(() {

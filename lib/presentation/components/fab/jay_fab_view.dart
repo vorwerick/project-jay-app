@@ -30,90 +30,87 @@ class _JayFabViewState extends State<JayFabView> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               if (state is AlarmControlStateSuccessRejected)
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: const BorderRadius.all(Radius.circular(16)),
-                    border: Border.all(color: JayColors.primary, width: 2),
-                  ),
-                  padding: const EdgeInsets.only(left: 16),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        'Účast odmítnuta',
-                        style: Theme.of(context).textTheme.titleLarge,
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          context
-                              .read<AlarmControlBloc>()
-                              .add(AlarmControlEdit());
-                        },
-                        icon: Icon(
-                          Icons.arrow_drop_up,
-                          size: 42,
+                Card(
+                  elevation: 16,
+                  child: Container(
+
+                    padding: const EdgeInsets.only(left: 16),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          'Účast odmítnuta',
+                          style: Theme.of(context).textTheme.titleLarge,
                         ),
-                      ),
-                    ],
+                        IconButton(
+                          onPressed: () {
+                            context
+                                .read<AlarmControlBloc>()
+                                .add(AlarmControlEdit());
+                          },
+                          icon: Icon(
+                            Icons.arrow_drop_up,
+                            size: 42,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               if (state is AlarmControlStateSuccessAccepted)
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: const BorderRadius.all(Radius.circular(16)),
-                    border: Border.all(color: JayColors.primary, width: 2),
-                  ),
-                  padding: const EdgeInsets.only(left: 16),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        'Účast potvrzena',
-                        style: Theme.of(context).textTheme.titleLarge,
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          context
-                              .read<AlarmControlBloc>()
-                              .add(AlarmControlEdit());
-                        },
-                        icon: Icon(
-                          Icons.arrow_drop_up,
-                          size: 42,
+                Card(
+                  elevation: 16,
+                  child: Container(
+
+                    padding: const EdgeInsets.only(left: 16),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          'Účast potvrzena',
+                          style: Theme.of(context).textTheme.titleLarge,
                         ),
-                      ),
-                    ],
+                        IconButton(
+                          onPressed: () {
+                            context
+                                .read<AlarmControlBloc>()
+                                .add(AlarmControlEdit());
+                          },
+                          icon: Icon(
+                            Icons.arrow_drop_up,
+                            size: 42,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               if (state is AlarmControlStateSuccessNoneMinimized)
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: const BorderRadius.all(Radius.circular(16)),
-                    border: Border.all(color: JayColors.primary, width: 2),
-                  ),
-                  padding: const EdgeInsets.only(left: 16),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        'Odpověď na výjezd?',
-                        style: Theme.of(context).textTheme.titleLarge,
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          context
-                              .read<AlarmControlBloc>()
-                              .add(AlarmControlEdit());
-                        },
-                        icon: Icon(
-                          Icons.arrow_drop_up,
-                          size: 42,
+                Card(
+                  elevation: 16,
+                  child: Container(
+
+                    padding: const EdgeInsets.only(left: 16),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          'Odpověď na výjezd?',
+                          style: Theme.of(context).textTheme.titleLarge,
                         ),
-                      ),
-                    ],
+                        IconButton(
+                          onPressed: () {
+                            context
+                                .read<AlarmControlBloc>()
+                                .add(AlarmControlEdit());
+                          },
+                          icon: Icon(
+                            Icons.arrow_drop_up,
+                            size: 42,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               if (state is AlarmControlStateSuccessNoneMaximized)
@@ -145,99 +142,96 @@ class _JayFabViewState extends State<JayFabView> {
                             .read<AlarmControlBloc>()
                             .add(AlarmControlMinimize());
                       }
-                      return Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(16)),
-                          border:
-                              Border.all(color: JayColors.primary, width: 2),
-                        ),
-                        padding: const EdgeInsets.all(8),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Text(
-                                  'Odpoveď na výjezd',
-                                  style: Theme.of(context).textTheme.titleLarge,
-                                ),
-                                IconButton(
-                                  onPressed: () {
-                                    context.read<AlarmSetControlBloc>().add(
-                                          AlarmSetControlMinimizePressed(),
-                                        );
-                                  },
-                                  icon: Icon(
-                                    Icons.arrow_drop_down,
-                                    size: 42,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Container(
-                              margin: EdgeInsets.all(4),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
+                      return Card(
+                        elevation: 16,
+                        child: Container(
+
+                          padding: const EdgeInsets.all(8),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                              
-                              
-                                  FloatingActionButton.extended(
-                                    heroTag: const Key('accept'),
+                                  Text(
+                                    'Odpoveď na výjezd',
+                                    style: Theme.of(context).textTheme.titleLarge,
+                                  ),
+                                  IconButton(
                                     onPressed: () {
                                       context.read<AlarmSetControlBloc>().add(
-                                            AlarmSetControlAcceptPressed(
-                                              eventId: widget.eventId,
-                                            ),
+                                            AlarmSetControlMinimizePressed(),
                                           );
                                     },
-                                    icon: const Icon(
-                                      Icons.directions_run,
-                                      color: Colors.white,
-                                      size: 28,
+                                    icon: Icon(
+                                      Icons.arrow_drop_down,
+                                      size: 42,
                                     ),
-                                    backgroundColor: JayColors.green,
-                                    label: const Text(
-                                      'Jdu',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 22,
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    width: 8,
-                                  ),
-                                  FloatingActionButton.extended(
-                                    heroTag: const Key('decline'),
-                                    label: const Text(
-                                      'Nejdu',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 22,
-                                      ),
-                                    ),
-                                    onPressed: () {
-                                      context.read<AlarmSetControlBloc>().add(
-                                        AlarmSetControlRejectPressed(
-                                          eventId: widget.eventId,
-                                        ),
-                                      );
-                                    },
-                                    icon: const Icon(
-                                      Icons.close,
-                                      color: Colors.white,
-                                      size: 28,
-                                    ),
-                                    backgroundColor: Colors.red,
                                   ),
                                 ],
                               ),
-                            )
-                          ],
+                              Container(
+                                margin: EdgeInsets.all(4),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                
+                                
+                                    FloatingActionButton.extended(
+                                      heroTag: const Key('accept'),
+                                      onPressed: () {
+                                        context.read<AlarmSetControlBloc>().add(
+                                              AlarmSetControlAcceptPressed(
+                                                eventId: widget.eventId,
+                                              ),
+                                            );
+                                      },
+                                      icon: const Icon(
+                                        Icons.check,
+                                        color: Colors.white,
+                                        size: 28,
+                                      ),
+                                      backgroundColor: JayColors.green,
+                                      label: const Text(
+                                        'Jdu',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 22,
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      width: 8,
+                                    ),
+                                    FloatingActionButton.extended(
+                                      heroTag: const Key('decline'),
+                                      label: const Text(
+                                        'Nejdu',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 22,
+                                        ),
+                                      ),
+                                      onPressed: () {
+                                        context.read<AlarmSetControlBloc>().add(
+                                          AlarmSetControlRejectPressed(
+                                            eventId: widget.eventId,
+                                          ),
+                                        );
+                                      },
+                                      icon: const Icon(
+                                        Icons.close,
+                                        color: Colors.white,
+                                        size: 28,
+                                      ),
+                                      backgroundColor: JayColors.red,
+                                    ),
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
                         ),
                       );
                     },

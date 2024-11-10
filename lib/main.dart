@@ -44,11 +44,6 @@ Future<void> main() async {
       const App(),
     ),
   );
-
-  OneSignal.Notifications.addForegroundWillDisplayListener((event) {
-    log('onFORE');
-    log(event.notification.title.toString());
-  });
   OneSignal.Notifications.addClickListener((final event) async {
     final prefs = await SharedPreferences.getInstance();
     StringBuffer sb = StringBuffer();

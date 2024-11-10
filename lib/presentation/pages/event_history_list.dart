@@ -7,13 +7,17 @@ import 'package:app/presentation/pages/event_page_history.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
 class EventHistoryList extends StatelessWidget {
   final int memberId;
+  final String mapSettings;
 
-  const EventHistoryList({super.key, required this.memberId});
+  const EventHistoryList({super.key, required this.memberId, required this.mapSettings});
+
+  bool _isEarlierThan(final int orderSentTimestamp, final int seconds) =>
+      orderSentTimestamp >=
+          DateTime.now().millisecondsSinceEpoch - (seconds * 1000);
 
   @override
   Widget build(final BuildContext context) => BlocProvider<AlarmHistoryBloc>(
@@ -22,10 +26,8 @@ class EventHistoryList extends StatelessWidget {
         child: BlocBuilder<AlarmHistoryBloc, AlarmHistoryState>(
           builder: (final context, final state) {
             if (state is AlarmHistoryLoadSuccess) {
-              state.events.removeWhere((e) =>
-                  DateTime.now().millisecondsSinceEpoch -
-                      e.date.millisecondsSinceEpoch <=
-                  600000);
+              state.events.removeWhere((final e) =>
+                  _isEarlierThan(e.date.millisecondsSinceEpoch, 86400));
               if (state.events.isNotEmpty) {
                 return JayContainer(
                   child: ListView.separated(
@@ -46,8 +48,7 @@ class EventHistoryList extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            DateFormat.yMd()
-                                .add_Hms()
+                            DateFormat("dd.MM.yyyy HH:mm")
                                 .format(state.events[index].date),
                           ),
                           if (DateTime.now().millisecondsSinceEpoch -
@@ -65,61 +66,72 @@ class EventHistoryList extends StatelessWidget {
                         ],
                       ),
                       onTap: () async {
-                       // Navigator.of(context, rootNavigator: true).pop();
+                        // Navigator.of(context, rootNavigator: true).pop();
                         final bloc = context.read<AlarmHistoryBloc>();
                         showModalBottomSheet(
                             enableDrag: false,
                             backgroundColor: Colors.transparent,
                             isScrollControlled: true,
                             context: context,
-                            builder: (context) => Container(
-                                decoration: new BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: new BorderRadius.only(
-                                    topLeft: const Radius.circular(25.0),
-                                    topRight: const Radius.circular(25.0),
+                            builder: (final context) => Container(
+                                  decoration: const BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(25.0),
+                                      topRight: Radius.circular(25.0),
+                                    ),
                                   ),
-                                ),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        IconButton(
-                                            padding: EdgeInsets.all(12),
-                                            onPressed: () {
-                                              Navigator.of(context,
-                                                      rootNavigator: true)
-                                                  .pop();
-                                            },
-                                            icon: Icon(
-                                              Icons.arrow_back,
-                                              size: 32,
-                                            )),
-                                        Row(mainAxisSize: MainAxisSize.min,mainAxisAlignment:MainAxisAlignment.center,children: [
-                                          Text(state.events[index].name,style: TextStyle(fontSize: 20),)
-                                        ]),
-                                      ],
-                                    ),
-                                    Container(
-                                      padding: EdgeInsets.only(top: 8),
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              0.90,
-                                      child: EventPageHistory(
-                                          eventId: state.events[index].eventId,
-                                          title: state.events[index].name,
-                                          memberId: memberId,
-                                          isActive: DateTime.now()
-                                                      .millisecondsSinceEpoch -
-                                                  state.events[index].date
-                                                      .millisecondsSinceEpoch <=
-                                              600000),
-                                    ),
-                                  ],
-                                ),
-                              ));
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          IconButton(
+                                              padding: const EdgeInsets.all(12),
+                                              onPressed: () {
+                                                Navigator.of(context,
+                                                        rootNavigator: true)
+                                                    .pop();
+                                              },
+                                              icon: const Icon(
+                                                Icons.arrow_back,
+                                                size: 32,
+                                              )),
+                                          Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Text(
+                                                  state.events[index].name,
+                                                  style: const TextStyle(
+                                                      fontSize: 20),
+                                                )
+                                              ]),
+                                        ],
+                                      ),
+                                      Container(
+                                        padding: const EdgeInsets.only(top: 8),
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.90,
+                                        child: EventPageHistory(
+                                          mapSettings: mapSettings,
+                                            eventId:
+                                                state.events[index].eventId,
+                                            title: state.events[index].name,
+                                            memberId: memberId,
+                                            isActive: DateTime.now()
+                                                        .millisecondsSinceEpoch -
+                                                    state.events[index].date
+                                                        .millisecondsSinceEpoch <=
+                                                600000),
+                                      ),
+                                    ],
+                                  ),
+                                ));
                         /*
                         Object? result = await Navigator.of(context).push(
                           MaterialPageRoute(

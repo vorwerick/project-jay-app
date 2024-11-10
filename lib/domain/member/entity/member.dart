@@ -11,12 +11,13 @@ final class Member extends Entity {
 
   final DateTime confirmTime;
 
-  Member(
-    super.id, {
-    required this.name,
-    required this.surname,
-    required this.function,
-    required this.confirmed,
-    required this.confirmTime,
-  });
+  final int memberFunctionType;
+
+  Member(super.id,
+      {required this.name,
+      required this.surname,
+      required this.function,
+      required this.confirmed,
+      required this.confirmTime,
+      required this.memberFunctionType});
 }

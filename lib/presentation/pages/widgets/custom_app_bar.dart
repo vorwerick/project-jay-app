@@ -1,46 +1,25 @@
-import 'package:app/application/bloc/alarms/active_alarm_bloc.dart';
-import 'package:app/presentation/common/jay_colors.dart';
+import 'package:app/application/dto/alarm_dto.dart';
+import 'package:app/presentation/components/custom_tab_bar.dart';
 import 'package:app/presentation/pages/widgets/app_bar_alarm.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
-  final int currentPageIndex;
+  final AlarmDto eventDetail;
+  final CustomTabBar tabBar;
+  final bool isActive;
 
-  const CustomAppBar({super.key, required this.currentPageIndex});
-
-  @override
-  Widget build(final BuildContext context) =>
-      BlocBuilder<ActiveAlarmBloc, ActiveAlarmState>(
-          builder: (final context, final state) {
-        if (state is ActiveAlarmLoadSuccess) {
-          if (state.alarms.isNotEmpty) {
-            return Column(
-              children: [
-                AppBar(
-                  toolbarHeight: 80,
-                  backgroundColor: JayColors.primary,
-                  title: AppBarAlarm(
-                    eventDetail: state.alarms[currentPageIndex],
-                  ),
-                  //bottom: TextToSpeechControlPanel(),
-                ),
-              ],
-            );
-          }
-        }
-        if ((state is ActiveAlarmLoadInProgress)) {
-          AppBar(
-            backgroundColor: JayColors.primaryLight,
-            title: Text('Načítám..'),
-          );
-        }
-        return AppBar(
-          backgroundColor: JayColors.primaryLight,
-          title: Text('Žádný aktivní poplach'),
-        );
-      });
+  const CustomAppBar({
+    super.key,
+    required this.eventDetail,
+    required this.tabBar, required this.isActive,
+  });
 
   @override
-  Size get preferredSize => Size.fromHeight(80);
+  Widget build(final BuildContext context) => AppBarAlarm(
+        eventDetail: eventDetail,
+    tabBar: tabBar,isActive: isActive
+      );
+
+  @override
+  Size get preferredSize => Size.fromHeight(132);
 }

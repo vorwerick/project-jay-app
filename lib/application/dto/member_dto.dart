@@ -11,7 +11,10 @@ final class MemberDto extends Equatable {
 
   final bool confirmed;
 
-  MemberDto({
+  final int memberFunctionType;
+
+  const MemberDto({
+    required this.memberFunctionType,
     required this.name,
     required this.surname,
     required this.dateOfAcceptation,
@@ -20,7 +23,14 @@ final class MemberDto extends Equatable {
   });
 
   @override
-  List<Object?> get props => [name, surname, dateOfAcceptation, function, confirmed];
+  List<Object?> get props => [
+        name,
+        surname,
+        dateOfAcceptation,
+        function,
+        confirmed,
+        memberFunctionType
+      ];
 
   @override
   bool? get stringify => true;

@@ -13,6 +13,8 @@ final class AlarmMapper {
   AlarmMapper(this.alarm);
 
   AlarmDto toAlarmDetail() => AlarmDto(
+        confirmCount: alarm.confirmedCount.value,
+        declineCount: alarm.declinedCount.value,
         orderSentTimestamp: alarm.orderSent.millisecondsSinceEpoch,
         eventId: alarm.eventId,
         unit: alarm.unitName,
@@ -25,8 +27,8 @@ final class AlarmMapper {
         object: alarm.object,
         floor: alarm.floor,
         explanation: alarm.explanation,
-        lastUpdate:
-            DateFormat("HH:mm:ss\ndd.MM.yyyy").format(alarm.lastUpdate.toLocal()),
+        lastUpdate: DateFormat("dd.MM.yyyy\nHH:mm:ss")
+            .format(alarm.lastUpdate.toLocal()),
         otherTechnique: alarm.otherTechnique,
         notifier: alarm.announcer,
         notifierNumber: alarm.announcerPhone,

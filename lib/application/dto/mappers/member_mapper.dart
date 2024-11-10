@@ -11,5 +11,6 @@ final class MemberMapper {
       surname: member.surname,
       function: member.function,
       dateOfAcceptation: member.confirmTime.toLocal(),
-      confirmed: member.confirmed);
+      confirmed: member.confirmed,
+      memberFunctionType: member.memberFunctionType);
 }

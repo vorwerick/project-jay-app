@@ -7,10 +7,25 @@ final class Setting extends Entity {
 
   final bool isRegistered;
 
-  Setting._(super.id, this.isTTSEnabled, this.isRegistered);
+  final String notificationSound;
 
-  // TODO(Vojjta): make id random
+  final int activeAlarmDuration;
+
+  final String map;
+
+  Setting._(
+    super.id,
+    this.isTTSEnabled,
+    this.isRegistered,
+    this.notificationSound,
+    this.activeAlarmDuration,
+    this.map,
+  );
+
   factory Setting.createNew(
+    final String notificationSound,
+    final String map,
+    final int activeAlarmDuration,
     final bool isTTSEnabled,
     final bool isRegistered,
   ) =>
@@ -18,5 +33,8 @@ final class Setting extends Entity {
         1,
         isTTSEnabled,
         isRegistered,
+        notificationSound,
+        activeAlarmDuration,
+        map,
       );
 }

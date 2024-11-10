@@ -13,5 +13,6 @@ final class AlarmMemberJsonMapper {
         function: json.memberFunctionText,
         confirmed: json.confirmAlarm,
         confirmTime: json.confirmDate,
+        memberFunctionType: json.memberFunction,
       );
 }

@@ -1,7 +1,6 @@
 import 'package:app/application/cubit/login/login_cubit.dart';
 import 'package:app/presentation/common/jay_colors.dart';
-import 'package:app/presentation/pages/event_page.dart';
-import 'package:app/presentation/pages/main_page.dart';
+import 'package:app/presentation/pages/current_overview_page.dart';
 import 'package:app/presentation/pages/register_device_page.dart';
 import 'package:app/presentation/pages/splash_page.dart';
 import 'package:flutter/material.dart';
@@ -48,7 +47,8 @@ class App extends StatelessWidget {
           child: BlocBuilder<LoginCubit, LoginState>(
               builder: (final context, final state) {
             if (state is LoggedIn) {
-              return MainPage();
+             // return MainPage();
+              return CurrentOverviewPage();
             }
             if (state is NotLogged) {
               return RegisterDevicePage();

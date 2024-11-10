@@ -21,10 +21,11 @@ class ActiveAlarmBloc extends Bloc<ActiveAlarmEvent, ActiveAlarmState> with L {
   ActiveAlarmBloc() : super(ActiveAlarmInitial()) {
     on<ActiveAlarmStarted>((final event, final emit) async {
       l.d('Load active alarm requested');
+      emit(ActiveAlarmLoadInProgress());
 
       final repository = GetIt.I<AlarmRepository>();
 
-      final result = await repository.getAnnouncedAlarms();
+      final result = await repository.getAll();
 
       if (result.isFailure) {
         emit(ActiveAlarmFailure());
@@ -50,7 +51,7 @@ class ActiveAlarmBloc extends Bloc<ActiveAlarmEvent, ActiveAlarmState> with L {
       log("Start pooling");
       final repository = GetIt.I<AlarmRepository>();
       log("TACK CO");
-      final result = await repository.getAnnouncedAlarms();
+      final result = await repository.getAll();
 
       if (result.isFailure) {
         emit(ActiveAlarmFailure());
