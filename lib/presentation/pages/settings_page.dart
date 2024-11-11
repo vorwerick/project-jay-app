@@ -120,33 +120,45 @@ class SettingsPage extends StatelessWidget {
                               ),
                             ),
                           ),
-                        BlocBuilder<SettingsBloc, SettingsState>(
-                          builder: (final context, final state) {
-                            if (state is SettingsLoadSuccess) {
-                              return Card(
-                                child: Container(
-                                  margin: const EdgeInsets.all(16),
+
+                        Card(
+                          child: Container(
+                            margin: const EdgeInsets.all(16),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Expanded(
+                                  flex: 1,
                                   child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      ListCheckbox(
-                                        AppLocalizations.of(context)!
-                                            .textToSpeech,
-                                        isChecked: state.isTttEnabled,
-                                        onChanged: (final bool value) {
-                                          context.read<SettingsBloc>().add(
-                                                SettingsEnableTTSPressed(value),
-                                              );
-                                        },
+                                      Text(
+                                        'Automatické přeříkávání',
+                                        style: TextStyle(fontSize: 16),
+                                      ),
+                                      Text(
+                                        'Volba zda se má při vyhlášení poplachu začít přeříkávat informace',
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          color: Colors.black87,
+                                        ),
                                       ),
                                     ],
                                   ),
                                 ),
-                              );
-                            }
-                            return const JayProgressIndicator(
-                              text: 'Načítám nastavení',
-                            );
-                          },
+                                Checkbox(
+                                  value: state.isTttEnabled,
+                                  onChanged: (final bool? value) {
+                                    context.read<SettingsBloc>().add(
+                                      SettingsEnableTTSPressed(value ?? false),
+                                    );
+                                  },
+                                ),
+
+                              ],
+                            ),
+                          ),
                         ),
                         // if (Platform.isAndroid)
                         if (false)
@@ -267,7 +279,7 @@ class SettingsPage extends StatelessWidget {
                                   crossAxisAlignment:
                                       CrossAxisAlignment.stretch,
                                   children: [
-                                    Text(
+                                    const Text(
                                       'Zvuk notifikace při vyhlášení poplachu',
                                       style: TextStyle(fontSize: 16),
                                     ),
@@ -276,7 +288,7 @@ class SettingsPage extends StatelessWidget {
                                         Text(
                                           soundNameMapper(
                                               state.notificationSound),
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                             fontSize: 12,
                                             color: Colors.black87,
                                           ),

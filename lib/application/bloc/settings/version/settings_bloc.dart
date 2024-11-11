@@ -46,6 +46,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> with L {
       final repository = GetIt.I<SettingRepository>();
 
       repository.enableTTS(event.enable);
+      add(SettingsStarted());
     });
     on<SettingsSetMap>((final event, final emit) async {
       l.i('Settings set map ' +

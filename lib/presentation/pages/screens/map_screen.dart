@@ -1,15 +1,22 @@
 import 'package:app/application/bloc/gps/alarm_gps_bloc.dart';
 import 'package:app/application/dto/alarm_dto.dart';
+import 'package:app/presentation/common/jay_colors.dart';
 import 'package:app/presentation/components/jay_floating_action_button.dart';
 import 'package:app/presentation/utils/map_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:flutter_map/flutter_map.dart' as FlutterMap;
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:latlong2/latlong.dart' as Ltng2;
+import 'package:url_launcher/url_launcher.dart';
 
 class MapScreen extends StatefulWidget {
   final AlarmDto detail;
   final String mapSettings;
+
+  static const String MAPY_CZ_API_KEY =
+      '9TzlyJmpebqKCk5LYUh9ezBW1-O_3B56bpzC3NKaOtQ';
 
   const MapScreen({super.key, required this.detail, required this.mapSettings});
 
@@ -40,7 +47,13 @@ class _MapScreenState extends State<MapScreen> {
                     return JayFloatingActionButton(
                       hero: 'navigate-fab',
                       onPressed: () {
-                        MapUtils.openMap(state.latitude, state.longitude);
+                        if(widget.mapSettings == 'Google Maps'){
+                          MapUtils.openMap(state.latitude, state.longitude);
+                        } else {
+                          MapUtils.openMapMapyCz(state.latitude, state.longitude);
+                        }
+
+
                       },
                       iconData: Icons.navigation,
                     );
@@ -92,9 +105,50 @@ class _MapScreenState extends State<MapScreen> {
 
   Widget getMap() {
     if (widget.mapSettings == 'Mapy.cz') {
+      return FlutterMap.FlutterMap(
+        options: FlutterMap.MapOptions(
+          initialCenter:
+              Ltng2.LatLng(_position!.latitude, _position!.longitude),
+          // Center the map over London
+          initialZoom: 13,
+        ),
+        children: [
 
-      final s = widget.detail.municipality + " " + widget.detail.street + " " + widget.detail.num1.toString();
-      return InAppWebView(initialUrlRequest: URLRequest(url: WebUri('https://mapy.cz/turisticka?q=${s}&x=${_position!.longitude}&y=${_position!.latitude}&z=14')),);
+          FlutterMap.TileLayer(
+            // Display map tiles from any source
+            urlTemplate:
+                'https://api.mapy.cz/v1/maptiles/${(_currentMapType == MapType.normal ? "basic" : "aerial")}/256/{z}/{x}/{y}?apikey=${MapScreen.MAPY_CZ_API_KEY}', // OSMF's Tile Server
+            userAgentPackageName: 'cz.telwork.jay.play',
+            // And many more recommended properties!
+          ),
+          FlutterMap.MarkerLayer(markers: [
+            FlutterMap.Marker(
+                point: Ltng2.LatLng(_position!.latitude, _position!.longitude),
+                child: Image.asset('assets/pin.png',color: JayColors.primary,)),
+          ]),
+          Align(
+            alignment: Alignment.bottomLeft,
+            child: InkWell(
+              child: SvgPicture.network('https://api.mapy.cz/img/api/logo.svg'),
+              onTap: () {
+                launchUrl(
+                  Uri.parse('http://mapy.cz/'),
+                );
+              },
+            ),
+          ),
+          FlutterMap.RichAttributionWidget(
+            // Include a stylish prebuilt attribution widget that meets all requirments
+            attributions: [
+              FlutterMap.TextSourceAttribution(
+                'Seznam.cz a.s. a další',
+                onTap: () => launchUrl(
+                    Uri.parse('https://api.mapy.cz/copyright')), // (external)
+              ),
+            ],
+          ),
+        ],
+      );
     }
     return GoogleMap(
       onMapCreated: _onMapCreated,

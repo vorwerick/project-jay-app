@@ -147,6 +147,7 @@ class _CurrentOverviewPageState extends State<CurrentOverviewPage>
           if (state is PoolingFetched) {
             if ((DateTime.now().millisecondsSinceEpoch / 1000).toInt() % 20 ==
                 0) {
+              log("REFETCH!");
               context.read<ActiveAlarmBloc>().add(ActiveAlarmSilentRefresh());
             }
             setState(() {});

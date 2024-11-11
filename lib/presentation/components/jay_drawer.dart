@@ -299,34 +299,33 @@ class JayDrawer extends StatelessWidget {
                                       SizedBox(
                                         height: 12,
                                       ),*/
-                                  Text('''
-            1. Použití aplikace
-            Aplikace je poskytována výhradně pro účely, ke kterým byla určena. Jste povinni používat aplikaci v souladu s těmito podmínkami a platnými právními předpisy. Jakékoliv neoprávněné použití aplikace je zakázáno, včetně, ale ne omezeno na, zpětnou analýzu, dekompilaci nebo jakýkoli jiný pokus o získání zdrojového kódu aplikace.
+                                  Text('''1. Použití aplikace
+Aplikace je poskytována výhradně pro účely, ke kterým byla určena. Jste povinni používat aplikaci v souladu s těmito podmínkami a platnými právními předpisy. Jakékoliv neoprávněné použití aplikace je zakázáno, včetně, ale ne omezeno na, zpětnou analýzu, dekompilaci nebo jakýkoli jiný pokus o získání zdrojového kódu aplikace.
             
-            2. Registrace a bezpečnost účtu
-            Používání aplikace může vyžadovat registraci a vytvoření uživatelského účtu. Jste zodpovědní za zajištění důvěrnosti vašich přístupových údajů a za všechny aktivity prováděné prostřednictvím vašeho účtu. Poskytovatel nenese odpovědnost za jakékoliv zneužití vašeho účtu.
+2. Registrace a bezpečnost účtu
+Používání aplikace může vyžadovat registraci a vytvoření uživatelského účtu. Jste zodpovědní za zajištění důvěrnosti vašich přístupových údajů a za všechny aktivity prováděné prostřednictvím vašeho účtu. Poskytovatel nenese odpovědnost za jakékoliv zneužití vašeho účtu.
             
-            3. Aktualizace a dostupnost
-            Poskytovatel si vyhrazuje právo aplikaci kdykoli aktualizovat nebo změnit její funkcionalitu. Takové změny mohou zahrnovat úpravy rozhraní, přidávání funkcí nebo opravy chyb. Poskytovatel nezaručuje, že aplikace bude vždy dostupná bez přerušení, chyb nebo omezení.
+3. Aktualizace a dostupnost
+Poskytovatel si vyhrazuje právo aplikaci kdykoli aktualizovat nebo změnit její funkcionalitu. Takové změny mohou zahrnovat úpravy rozhraní, přidávání funkcí nebo opravy chyb. Poskytovatel nezaručuje, že aplikace bude vždy dostupná bez přerušení, chyb nebo omezení.
             
-            4. Odpovědnost a záruky
-            Aplikace je poskytována „tak, jak je“, bez jakýchkoliv záruk, výslovných či implicitních. Poskytovatel neodpovídá za škody způsobené nesprávným použitím aplikace, technickými problémy, nekompatibilitou zařízení nebo chybami v přenosu dat.
+4. Odpovědnost a záruky
+Aplikace je poskytována „tak, jak je“, bez jakýchkoliv záruk, výslovných či implicitních. Poskytovatel neodpovídá za škody způsobené nesprávným použitím aplikace, technickými problémy, nekompatibilitou zařízení nebo chybami v přenosu dat.
             
-            5. Autorská práva
-            Aplikace a veškerý její obsah (včetně, ale ne omezeno na texty, grafiku, loga, ikony, zvuky a software) jsou chráněny autorským právem a dalšími právními předpisy o ochraně duševního vlastnictví. Jakékoliv kopírování, distribuce, úprava nebo jiná forma využití obsahu aplikace bez předchozího písemného souhlasu poskytovatele je zakázána.
+5. Autorská práva
+Aplikace a veškerý její obsah (včetně, ale ne omezeno na texty, grafiku, loga, ikony, zvuky a software) jsou chráněny autorským právem a dalšími právními předpisy o ochraně duševního vlastnictví. Jakékoliv kopírování, distribuce, úprava nebo jiná forma využití obsahu aplikace bez předchozího písemného souhlasu poskytovatele je zakázána.
             
-            6. Sběr a zpracování osobních údajů
-            Používání aplikace může vyžadovat poskytnutí osobních údajů. Poskytovatel se zavazuje zpracovávat osobní údaje v souladu s platnými právními předpisy a zásadami ochrany osobních údajů, které jsou dostupné v samostatné sekci aplikace.
+6. Sběr a zpracování osobních údajů
+Používání aplikace může vyžadovat poskytnutí osobních údajů. Poskytovatel se zavazuje zpracovávat osobní údaje v souladu s platnými právními předpisy a zásadami ochrany osobních údajů, které jsou dostupné v samostatné sekci aplikace.
             
-            7. Ukončení používání
-            Poskytovatel si vyhrazuje právo omezit nebo ukončit váš přístup k aplikaci kdykoliv a bez předchozího upozornění, zejména v případě porušení těchto podmínek.
+7. Ukončení používání
+Poskytovatel si vyhrazuje právo omezit nebo ukončit váš přístup k aplikaci kdykoliv a bez předchozího upozornění, zejména v případě porušení těchto podmínek.
             
-            8. Změny podmínek
-            Poskytovatel si vyhrazuje právo kdykoli změnit tyto podmínky použití. O jakýchkoliv změnách budete informováni prostřednictvím aplikace nebo e-mailem.
+8. Změny podmínek
+Poskytovatel si vyhrazuje právo kdykoli změnit tyto podmínky použití. O jakýchkoliv změnách budete informováni prostřednictvím aplikace nebo e-mailem.
             
-            9. Kontaktní informace
-            Pro jakékoliv dotazy nebo problémy týkající se těchto podmínek nebo aplikace nás kontaktujte na e-mailové adrese info@telwork.cz nebo na telefonním čísle +420\u{00A0}773\u{00A0}319\u{00A0}297.
-                                          '''),
+9. Kontaktní informace
+Pro jakékoliv dotazy nebo problémy týkající se těchto podmínek nebo aplikace nás kontaktujte na e-mailové adrese info@telwork.cz nebo na telefonním čísle +420\u{00A0}773\u{00A0}319\u{00A0}297.
+                                          ''',textAlign: TextAlign.start,),
                                 ],
                               ),
                             ),
@@ -530,24 +529,7 @@ class JayDrawer extends StatelessWidget {
                     ),
                   ),
                 ),
-                if (kDebugMode)
-                  ListTile(
-                    title: const Text('Debug'),
-                    onTap: () async {
-                      final prefs = await SharedPreferences.getInstance();
 
-                      String g = prefs.getString('notifications') ?? '';
-                      showAboutDialog(
-                        context: context,
-                        children: [
-                          Text(
-                            g,
-                            style: const TextStyle(fontSize: 12),
-                          ),
-                        ],
-                      );
-                    },
-                  ),
                 const Spacer(),
                 BlocBuilder<AppVersionBloc, AppVersionState>(
                   builder: (final context, final state) {
