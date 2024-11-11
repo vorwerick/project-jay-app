@@ -38,7 +38,7 @@ class ListPair extends StatelessWidget {
                 ],
               ),
             ),
-            divider ?? const SizedBox.shrink(),
+           Container(height: 1,color: Colors.black26,),
           ],
         ),
   );

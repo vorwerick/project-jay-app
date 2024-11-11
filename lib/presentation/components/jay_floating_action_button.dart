@@ -20,7 +20,7 @@ class JayFloatingActionButton extends StatelessWidget {
         backgroundColor: JayColors.primary,
         child: Icon(
           iconData,
-          color: JayColors.secondary,
+          color: Colors.white,
         ),
       );
 }

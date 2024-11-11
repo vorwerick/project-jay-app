@@ -1,15 +1,10 @@
-import 'dart:developer';
-
 import 'package:app/application/bloc/alarms/alarm_detail_bloc.dart';
-import 'package:app/application/cubit/file/file_cubit.dart';
 import 'package:app/application/cubit/phone/dial_number_cubit.dart';
 import 'package:app/application/dto/alarm_dto.dart';
 import 'package:app/presentation/common/jay_colors.dart';
 import 'package:app/presentation/components/jay_container.dart';
 import 'package:app/presentation/components/jay_progress_indicator.dart';
-import 'package:app/presentation/pages/widgets/announcer.dart';
 import 'package:app/presentation/pages/widgets/list/list_pair.dart';
-import 'package:app/presentation/utils/snack_bar_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -32,20 +27,20 @@ class EventDetailsScreen extends StatelessWidget {
       child: Scaffold(body: BlocBuilder<AlarmDetailBloc, AlarmDetailState>(
           builder: (final c, final state) {
         if (state is AlarmDetailLoadSuccess) {
-          return _content(context,state.alarm);
+          return _content(context, state.alarm);
         }
 
         return const JayProgressIndicator(text: 'Stahuji detail události');
       })));
 
-  Widget _content(final context,detail) => JayContainer(
+  Widget _content(final context, detail) => JayContainer(
         child: Column(
           children: [
             Expanded(
               child: Scrollbar(
                 thumbVisibility: true,
                 trackVisibility: true,
-                thickness: 12,
+                thickness: 6,
                 interactive: true,
                 radius: const Radius.circular(32),
                 child: ListView(
@@ -58,7 +53,7 @@ class EventDetailsScreen extends StatelessWidget {
                     ListPair(
                       title: AppLocalizations.of(context)!.eventType,
                       value: detail.eventType,
-                      background: JayColors.secondaryLightest,
+                      background: JayColors.primaryLight.withOpacity(0.15),
                     ),
                     ListPair(
                       title: AppLocalizations.of(context)!.event,
@@ -66,9 +61,9 @@ class EventDetailsScreen extends StatelessWidget {
                       background: Colors.transparent,
                     ),
                     ListPair(
-                      title: "Co se stalo",
+                      title: 'Co se stalo',
                       value: detail.explanation,
-                      background: JayColors.secondaryLightest,
+                      background: JayColors.primaryLight.withOpacity(0.15),
                     ),
                     ListPair(
                       title: 'Dopřesnění',
@@ -80,7 +75,7 @@ class EventDetailsScreen extends StatelessWidget {
                       value: detail.technique
                           ?.map((final t) => t.fleetName)
                           .join(', '),
-                      background:  JayColors.secondaryLightest,
+                      background: JayColors.primaryLight.withOpacity(0.15),
                     ),
                     ListPair(
                       title: AppLocalizations.of(context)!.region,
@@ -90,7 +85,7 @@ class EventDetailsScreen extends StatelessWidget {
                     ListPair(
                       title: AppLocalizations.of(context)!.municipality,
                       value: detail.municipality,
-                      background: JayColors.secondaryLightest,
+                      background: JayColors.primaryLight.withOpacity(0.15),
                     ),
                     ListPair(
                       title: AppLocalizations.of(context)!.street,
@@ -101,7 +96,7 @@ class EventDetailsScreen extends StatelessWidget {
                     ListPair(
                       title: AppLocalizations.of(context)!.object,
                       value: detail.object,
-                      background: JayColors.secondaryLightest,
+                      background: JayColors.primaryLight.withOpacity(0.15),
                     ),
                     ListPair(
                       title: AppLocalizations.of(context)!.floor,
@@ -111,7 +106,7 @@ class EventDetailsScreen extends StatelessWidget {
                     ListPair(
                       title: AppLocalizations.of(context)!.lastUpdate,
                       value: detail.lastUpdate,
-                      background: JayColors.secondaryLightest,
+                      background: JayColors.primaryLight.withOpacity(0.15),
                     ),
                     ListPair(
                       title: AppLocalizations.of(context)!.otherTechnique,
@@ -120,20 +115,42 @@ class EventDetailsScreen extends StatelessWidget {
                           .join(', '),
                       background: Colors.transparent,
                     ),
-                    ListPairAction(
-                      title: AppLocalizations.of(context)!.notifier,
-                      name: detail.notifier,
-                      number: '${detail.notifierNumber}',
-                      background: JayColors.secondaryLightest,
-                      icon: const Icon(
+                    _separator('Oznamovatel'),
+                    Container(
+                      margin: EdgeInsets.symmetric(horizontal: 4),
+                      child: Card(
                         color: Colors.white,
-                        Icons.phone,
+                        elevation: 2,
+                        child: ListTile(
+                            title: Text(detail.notifier,
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                )),
+                            subtitle: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  detail.notifierNumber,
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.black87,
+                                      fontWeight: FontWeight.w400),
+                                ),
+                              ],
+                            ),
+                            trailing: IconButton.filledTonal(
+                                style: ButtonStyle(
+                                    backgroundColor: WidgetStatePropertyAll(
+                                        JayColors.primary)),
+                                color: Colors.white,
+                                onPressed: () {
+                                  DialNumberCubit().dialNumber(
+                                      detail.notifierNumber, '+420');
+                                },
+                                icon: Icon(Icons.call))),
                       ),
-                      onTap: (final phoneNumber) {
-                        log("NUMBERO: " + phoneNumber);
-                        DialNumberCubit().dialNumber(phoneNumber,"+420");
-                      }
                     ),
+
                     //_documentsWidget(),
 
                     const SizedBox(
@@ -147,5 +164,15 @@ class EventDetailsScreen extends StatelessWidget {
         ),
       );
 
-
+  Widget _separator(final String title) => Container(
+        margin: const EdgeInsets.all(6),
+        child: Text(
+          title,
+          style: const TextStyle(
+            color: Colors.black54,
+            fontSize: 16,
+            fontWeight: FontWeight.w400,
+          ),
+        ),
+      );
 }

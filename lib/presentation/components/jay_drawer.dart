@@ -16,7 +16,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class JayDrawer extends StatelessWidget {
   final String name;
@@ -32,7 +31,8 @@ class JayDrawer extends StatelessWidget {
     required this.memberId,
     required this.email,
     this.functionName,
-    required this.onSettingsChanged, required this.mapSettings,
+    required this.onSettingsChanged,
+    required this.mapSettings,
   });
 
   @override
@@ -53,53 +53,61 @@ class JayDrawer extends StatelessWidget {
               mainAxisSize: MainAxisSize.max,
               children: [
                 DrawerHeader(
+
                   padding: const EdgeInsets.all(0),
                   decoration: const BoxDecoration(
-                    color: JayColors.primaryLight,
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Container(
-                        margin: const EdgeInsets.all(12),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                      color: JayColors.primaryLight,
+                      gradient: LinearGradient(colors: [
+                        JayColors.primary,
+                        JayColors.primary,
+                        JayColors.primaryLight
+                      ])),
+                  child: Stack(children: [
+                   Transform.flip(flipX: true,
+                     child: Opacity(
+                       opacity: 0.1,
+                       child: Image.asset(
+                         fit: BoxFit.fill,
+                         'assets/zasah.png',
+                       ),
+                     ),
+                   ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(top: 16, left: 12),
+                        ),
+                        Row(
                           children: [
-                            Row(
-                              children: [
-                                CircleAvatar(
-                                  radius: 22,
-                                  child: SvgPicture.asset(
-                                    'assets/firefighter-avatar.svg',
-                                    semanticsLabel: 'Firefighter avatar',
+                            Container(
+                              margin: EdgeInsets.only(bottom: 12, left: 8),
+                              child: Column(
+                                children: [
+                                  Text(
+                                    style: const TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.white),
+                                    name,
                                   ),
-                                ),
-                                const SizedBox(
-                                  width: 8,
-                                ),
-                                Column(
-                                  children: [
+                                  if (functionName != null)
                                     Text(
                                       style: const TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                      name,
+                                          fontSize: 16,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w500),
+                                      functionName!,
                                     ),
-                                    if (functionName != null)
-                                      Text(
-                                        style: const TextStyle(fontSize: 16),
-                                        functionName!,
-                                      ),
-                                  ],
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ],
                         ),
-                      ),
-                    ],
-                  ),
+                      ],
+                    ),
+                  ]),
                 ),
                 ListTile(
                   title: Text(AppLocalizations.of(context)!.eventHistory),
@@ -299,7 +307,8 @@ class JayDrawer extends StatelessWidget {
                                       SizedBox(
                                         height: 12,
                                       ),*/
-                                  Text('''1. Použití aplikace
+                                  Text(
+                                    '''1. Použití aplikace
 Aplikace je poskytována výhradně pro účely, ke kterým byla určena. Jste povinni používat aplikaci v souladu s těmito podmínkami a platnými právními předpisy. Jakékoliv neoprávněné použití aplikace je zakázáno, včetně, ale ne omezeno na, zpětnou analýzu, dekompilaci nebo jakýkoli jiný pokus o získání zdrojového kódu aplikace.
             
 2. Registrace a bezpečnost účtu
@@ -325,7 +334,9 @@ Poskytovatel si vyhrazuje právo kdykoli změnit tyto podmínky použití. O jak
             
 9. Kontaktní informace
 Pro jakékoliv dotazy nebo problémy týkající se těchto podmínek nebo aplikace nás kontaktujte na e-mailové adrese info@telwork.cz nebo na telefonním čísle +420\u{00A0}773\u{00A0}319\u{00A0}297.
-                                          ''',textAlign: TextAlign.start,),
+                                          ''',
+                                    textAlign: TextAlign.start,
+                                  ),
                                 ],
                               ),
                             ),
@@ -529,7 +540,6 @@ Pro jakékoliv dotazy nebo problémy týkající se těchto podmínek nebo aplik
                     ),
                   ),
                 ),
-
                 const Spacer(),
                 BlocBuilder<AppVersionBloc, AppVersionState>(
                   builder: (final context, final state) {
