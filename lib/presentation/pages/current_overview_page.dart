@@ -16,6 +16,7 @@ import 'package:app/presentation/pages/user_not_found_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 
@@ -234,7 +235,7 @@ class _CurrentOverviewPageState extends State<CurrentOverviewPage>
                             ),
                           ),
                         if (activeAlarms.isEmpty)
-                          const Column(
+                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
@@ -243,7 +244,7 @@ class _CurrentOverviewPageState extends State<CurrentOverviewPage>
                                   fontStyle: FontStyle.italic,
                                   fontWeight: FontWeight.w500,
                                   fontSize: 16,
-                                  color: Colors.black,
+                                  color: Colors.black87,
                                 ),
                                 textAlign: TextAlign.center,
                               ),
@@ -270,7 +271,7 @@ class _CurrentOverviewPageState extends State<CurrentOverviewPage>
                               fontStyle: FontStyle.italic,
                               fontWeight: FontWeight.w500,
                               fontSize: 16,
-                              color: Colors.black,
+                              color: Colors.black87,
                             ),
                             textAlign: TextAlign.center,
                           ),
@@ -325,7 +326,7 @@ class _CurrentOverviewPageState extends State<CurrentOverviewPage>
                 if (state is ActiveAlarmLoadInProgress) {
                   return const Center(
                     child: JayProgressIndicator(
-                      text: 'Stahuji data',
+                      text: 'Stahuji aktuální události',
                     ),
                   );
                 }
@@ -380,7 +381,7 @@ class _CurrentOverviewPageState extends State<CurrentOverviewPage>
           final VoidCallback callback) =>
       Card(
         color: Colors.white,
-        elevation: 6,
+        elevation: 2,
         margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
         child: InkWell(
           onTap: callback,

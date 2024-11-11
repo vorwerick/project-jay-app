@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:app/presentation/components/jay_container.dart';
+import 'package:app/presentation/components/jay_progress_indicator.dart';
 import 'package:app/presentation/components/jay_white_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -23,7 +24,7 @@ final class PdfPage extends StatelessWidget {
           if (snapshot.hasData) {
             return PDFView(filePath: snapshot.data!.path);
           }
-          return Center(child: CircularProgressIndicator(),);
+          return JayProgressIndicator(text: "Načítám soubor");
         },
         future: _copyAssetToLocal(),
       ));

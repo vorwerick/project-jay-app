@@ -24,7 +24,18 @@ class _JayFabViewState extends State<JayFabView> {
       BlocBuilder<AlarmControlBloc, AlarmControlState>(
         builder: (final context, final AlarmControlState state) {
           if (state is AlarmControlStateLoading) {
-            return const CircularProgressIndicator();
+            return  Card(
+                elevation: 16,
+                child: Container(
+                  margin: const EdgeInsets.all(16),
+                  child: CircularProgressIndicator(
+                    backgroundColor: JayColors.primaryLight.withOpacity(0.3),
+                    color: JayColors.primary,
+                    strokeCap: StrokeCap.round,
+                    strokeAlign: 3,
+                    strokeWidth: 3,
+                  ),
+                ));
           }
           return Column(
             mainAxisAlignment: MainAxisAlignment.end,
@@ -33,7 +44,6 @@ class _JayFabViewState extends State<JayFabView> {
                 Card(
                   elevation: 16,
                   child: Container(
-
                     padding: const EdgeInsets.only(left: 16),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
@@ -61,7 +71,6 @@ class _JayFabViewState extends State<JayFabView> {
                 Card(
                   elevation: 16,
                   child: Container(
-
                     padding: const EdgeInsets.only(left: 16),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
@@ -89,7 +98,6 @@ class _JayFabViewState extends State<JayFabView> {
                 Card(
                   elevation: 16,
                   child: Container(
-
                     padding: const EdgeInsets.only(left: 16),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
@@ -126,7 +134,18 @@ class _JayFabViewState extends State<JayFabView> {
                         );
                       }
                       if (state is AlarmSetControlProcessing) {
-                        return CircularProgressIndicator();
+                        return  Card(
+                            elevation: 16,
+                            child: Container(
+                              margin: const EdgeInsets.all(16),
+                              child: CircularProgressIndicator(
+                                backgroundColor: JayColors.primaryLight.withOpacity(0.3),
+                                color: JayColors.primary,
+                                strokeCap: StrokeCap.round,
+                                strokeAlign: 3,
+                                strokeWidth: 3,
+                              ),
+                            ));
                       }
                       if (state is AlarmSetControlSuccess) {
                         context.read<AlarmControlBloc>().add(
@@ -135,7 +154,18 @@ class _JayFabViewState extends State<JayFabView> {
                                 memberId: widget.memberId,
                               ),
                             );
-                        return CircularProgressIndicator();
+                        return  Card(
+                            elevation: 16,
+                            child: Container(
+                              margin: const EdgeInsets.all(16),
+                              child: CircularProgressIndicator(
+                                backgroundColor: JayColors.primaryLight.withOpacity(0.3),
+                                color: JayColors.primary,
+                                strokeCap: StrokeCap.round,
+                                strokeAlign: 3,
+                                strokeWidth: 3,
+                              ),
+                            ));
                       }
                       if (state is AlarmSetControlSkip) {
                         context
@@ -145,7 +175,6 @@ class _JayFabViewState extends State<JayFabView> {
                       return Card(
                         elevation: 16,
                         child: Container(
-
                           padding: const EdgeInsets.all(8),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.end,
@@ -155,7 +184,8 @@ class _JayFabViewState extends State<JayFabView> {
                                 children: [
                                   Text(
                                     'Odpoveď na výjezd',
-                                    style: Theme.of(context).textTheme.titleLarge,
+                                    style:
+                                        Theme.of(context).textTheme.titleLarge,
                                   ),
                                   IconButton(
                                     onPressed: () {
@@ -176,8 +206,6 @@ class _JayFabViewState extends State<JayFabView> {
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                
-                                
                                     FloatingActionButton.extended(
                                       heroTag: const Key('accept'),
                                       onPressed: () {
@@ -215,10 +243,10 @@ class _JayFabViewState extends State<JayFabView> {
                                       ),
                                       onPressed: () {
                                         context.read<AlarmSetControlBloc>().add(
-                                          AlarmSetControlRejectPressed(
-                                            eventId: widget.eventId,
-                                          ),
-                                        );
+                                              AlarmSetControlRejectPressed(
+                                                eventId: widget.eventId,
+                                              ),
+                                            );
                                       },
                                       icon: const Icon(
                                         Icons.close,

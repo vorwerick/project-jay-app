@@ -32,7 +32,7 @@ class SettingsPage extends StatelessWidget {
           child: BlocBuilder<SettingsBloc, SettingsState>(
             builder: (final context, final state) {
               if (state is SettingsLoadInProgress) {
-                return const CircularProgressIndicator();
+                return const JayProgressIndicator(text: "Načítám nastavení");
               }
               if (state is SettingsLoadSuccess) {
                 return JayContainer(
@@ -86,6 +86,7 @@ class SettingsPage extends StatelessWidget {
                               }
                             },
                             child: Card(
+                              color: Colors.white,
                               child: Container(
                                 width: double.infinity,
                                 margin: const EdgeInsets.all(16),
@@ -122,6 +123,7 @@ class SettingsPage extends StatelessWidget {
                           ),
 
                         Card(
+                          color: Colors.white,
                           child: Container(
                             margin: const EdgeInsets.all(16),
                             child: Row(
@@ -273,6 +275,7 @@ class SettingsPage extends StatelessWidget {
                               );
                             },
                             child: Card(
+                              color: Colors.white,
                               child: Container(
                                 margin: const EdgeInsets.all(16),
                                 child: Column(
@@ -376,6 +379,7 @@ class SettingsPage extends StatelessWidget {
                             );
                           },
                           child: Card(
+                            color: Colors.white,
                             child: Container(
                               margin: const EdgeInsets.all(16),
                               child: Column(
@@ -460,6 +464,7 @@ class SettingsPage extends StatelessWidget {
                             );
                           },
                           child: Card(
+                            color: Colors.white,
                             child: Container(
                               margin: const EdgeInsets.all(16),
                               child: Column(

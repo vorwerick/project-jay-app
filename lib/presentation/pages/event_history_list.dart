@@ -34,15 +34,6 @@ class EventHistoryList extends StatelessWidget {
                     itemCount: state.events.length,
                     itemBuilder: (final context, final index) => ListTile(
                       minVerticalPadding: 0,
-                      leading: DateTime.now().millisecondsSinceEpoch -
-                                  state.events[index].date
-                                      .millisecondsSinceEpoch >=
-                              600000
-                          ? const Icon(Icons.history)
-                          : const Icon(
-                              Icons.local_fire_department,
-                              color: JayColors.primary,
-                            ),
                       title: Text(state.events[index].name),
                       subtitle: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,

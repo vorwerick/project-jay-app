@@ -2,6 +2,7 @@ import 'package:app/application/bloc/gps/alarm_gps_bloc.dart';
 import 'package:app/application/dto/alarm_dto.dart';
 import 'package:app/presentation/common/jay_colors.dart';
 import 'package:app/presentation/components/jay_floating_action_button.dart';
+import 'package:app/presentation/components/jay_progress_indicator.dart';
 import 'package:app/presentation/utils/map_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -98,7 +99,7 @@ class _MapScreenState extends State<MapScreen> {
               child: _position != null
                   ? getMap()
                   : Center(
-                      child: CircularProgressIndicator(),
+                      child: JayProgressIndicator(text: "Načítám mapu"),
                     )),
         ),
       );

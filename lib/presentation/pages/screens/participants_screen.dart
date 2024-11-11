@@ -5,6 +5,7 @@ import 'package:app/application/bloc/members/members_bloc.dart';
 import 'package:app/application/cubit/pooling/pooling_cubit.dart';
 import 'package:app/application/dto/alarm_dto.dart';
 import 'package:app/presentation/common/jay_colors.dart';
+import 'package:app/presentation/components/jay_progress_indicator.dart';
 import 'package:app/presentation/pages/widgets/list/list_pariticipant_pair.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -73,9 +74,7 @@ class _ParticipantsScreenState extends State<ParticipantsScreen> {
           child: BlocBuilder<MembersBloc, MembersState>(
             builder: (final context, final state) {
               if (state is MembersLoadInProgress) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
+                return JayProgressIndicator(text: "Stahuji účast");
               }
               if (state is MembersLoadSuccess) {
                 final acceptedMembers = state.members
