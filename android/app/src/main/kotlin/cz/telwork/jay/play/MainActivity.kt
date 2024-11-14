@@ -5,6 +5,7 @@ import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
+import android.content.Intent
 import android.media.AudioAttributes
 import android.net.Uri
 import android.os.Build
@@ -36,6 +37,16 @@ class MainActivity : FlutterActivity() {
                 removeNotificationChannel()
                 createNotificationChannel()
                 result.success(true);
+            } else if (call.method == "dialNumber") {
+                val hashMap = call.arguments as HashMap<*, *> //Get the arguments as a HashMap
+                val number = hashMap["number"] //Get the ar
+                val intent = Intent()
+                intent.action = Intent.ACTION_DIAL // Action for what intent called for
+                intent.data =
+                    Uri.parse("tel: $number") // Data with intent respective action on intent
+                startActivity(intent)
+
+                result.success(true);
             } else {
                 result.notImplemented()
             }
@@ -46,9 +57,9 @@ class MainActivity : FlutterActivity() {
     private fun removeNotificationChannel() {
         val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.getNotificationChannel("jay-alert-channel").apply {
-                setSound(null, null)
-                name = "old"
-            }
+            setSound(null, null)
+            name = "old"
+        }
         notificationManager.deleteNotificationChannel("jay-alert-channel");
     }
 
