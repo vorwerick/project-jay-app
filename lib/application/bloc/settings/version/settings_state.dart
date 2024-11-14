@@ -12,17 +12,24 @@ class SettingsLoadSuccess extends SettingsState with EquatableMixin {
   final String notificationSound;
   final String map;
   final int activeAlarmDuration;
+  final int? gameTimeResult;
 
   SettingsLoadSuccess(
     this.isTttEnabled,
     this.notificationSound,
     this.activeAlarmDuration,
     this.map,
+    this.gameTimeResult,
   );
 
   @override
-  List<Object?> get props =>
-      [isTttEnabled, notificationSound, activeAlarmDuration,map];
+  List<Object?> get props => [
+        isTttEnabled,
+        notificationSound,
+        activeAlarmDuration,
+        map,
+        gameTimeResult
+      ];
 
   @override
   bool? get stringify => true;

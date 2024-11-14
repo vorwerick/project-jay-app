@@ -27,7 +27,8 @@ class MapScreen extends StatefulWidget {
 
 class _MapScreenState extends State<MapScreen> {
   GoogleMapController? _mapController;
-
+  final FlutterMap.MapController? _flutterMapController =
+      FlutterMap.MapController();
   MapType _currentMapType = MapType.normal;
 
   final Set<Marker> _markers = {};
@@ -48,13 +49,12 @@ class _MapScreenState extends State<MapScreen> {
                     return JayFloatingActionButton(
                       hero: 'navigate-fab',
                       onPressed: () {
-                        if(widget.mapSettings == 'Google Maps'){
+                        if (widget.mapSettings == 'Google Maps') {
                           MapUtils.openMap(state.latitude, state.longitude);
                         } else {
-                          MapUtils.openMapMapyCz(state.latitude, state.longitude);
+                          MapUtils.openMapMapyCz(
+                              state.latitude, state.longitude);
                         }
-
-
                       },
                       iconData: Icons.navigation,
                     );
@@ -75,7 +75,7 @@ class _MapScreenState extends State<MapScreen> {
                 },
                 iconData: Icons.layers,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 56,
               )
             ],
@@ -98,7 +98,7 @@ class _MapScreenState extends State<MapScreen> {
               },
               child: _position != null
                   ? getMap()
-                  : Center(
+                  : const Center(
                       child: JayProgressIndicator(text: "Načítám mapu"),
                     )),
         ),
@@ -107,14 +107,14 @@ class _MapScreenState extends State<MapScreen> {
   Widget getMap() {
     if (widget.mapSettings == 'Mapy.cz') {
       return FlutterMap.FlutterMap(
+        mapController: _flutterMapController,
         options: FlutterMap.MapOptions(
           initialCenter:
               Ltng2.LatLng(_position!.latitude, _position!.longitude),
           // Center the map over London
-          initialZoom: 13,
+          initialZoom: 14,
         ),
         children: [
-
           FlutterMap.TileLayer(
             // Display map tiles from any source
             urlTemplate:
@@ -125,7 +125,10 @@ class _MapScreenState extends State<MapScreen> {
           FlutterMap.MarkerLayer(markers: [
             FlutterMap.Marker(
                 point: Ltng2.LatLng(_position!.latitude, _position!.longitude),
-                child: Image.asset('assets/pin.png',color: JayColors.primary,)),
+                child: Image.asset(
+                  'assets/pin.png',
+                  color: Colors.red,
+                )),
           ]),
           Align(
             alignment: Alignment.bottomLeft,
@@ -148,6 +151,53 @@ class _MapScreenState extends State<MapScreen> {
               ),
             ],
           ),
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              children: [
+                FloatingActionButton(
+                  onPressed: () {
+                    setState(() {
+                      final currentZoom = _flutterMapController?.camera.zoom;
+                      if (currentZoom != null) {
+                        _flutterMapController?.move(
+                            Ltng2.LatLng(
+                                _position!.latitude, _position!.longitude),
+                            currentZoom + 1);
+                      }
+                    });
+                  },
+                  heroTag: "map_zoom_add",
+                  mini: true,
+                  backgroundColor: JayColors.primary,
+                  child: const Icon(
+                    Icons.add,
+                    color: Colors.white,
+                  ),
+                ),
+                FloatingActionButton(
+                  onPressed: () {
+                    setState(() {
+                      final currentZoom = _flutterMapController?.camera.zoom;
+                      if (currentZoom != null) {
+                        _flutterMapController?.move(
+                            Ltng2.LatLng(
+                                _position!.latitude, _position!.longitude),
+                            currentZoom - 1);
+                      }
+                    });
+                  },
+                  heroTag: "map_zoom_remove",
+                  mini: true,
+                  backgroundColor: JayColors.primary,
+                  child: const Icon(
+                    Icons.remove,
+                    color: Colors.white,
+                  ),
+                ),
+              ],
+            ),
+          ),
         ],
       );
     }
@@ -155,7 +205,7 @@ class _MapScreenState extends State<MapScreen> {
       onMapCreated: _onMapCreated,
       initialCameraPosition: CameraPosition(
         target: _position!,
-        zoom: 13,
+        zoom: 14,
       ),
       mapType: _currentMapType,
       markers: _markers,

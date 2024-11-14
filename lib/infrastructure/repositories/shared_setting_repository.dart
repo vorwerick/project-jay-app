@@ -14,6 +14,7 @@ final class SharedSettingRepository
   static const String _notificationSoundKey = 'notificationSound';
   static const String _mapKey = 'map';
   static const String _activeAlarmDuration = 'alarmDuration';
+  static const String _gameTimeResult = 'gameTimeResult';
 
   @override
   Future<Result<SettingRepositoryState, void>> enableTTS(
@@ -85,6 +86,7 @@ final class SharedSettingRepository
       prefs.getInt(_activeAlarmDuration) ?? 10,
       prefs.getBool(_isTTSEnabledKey) ?? false,
       prefs.getBool(_isRegisteredKey) ?? false,
+      prefs.getInt(_gameTimeResult),
     );
     log('GLOGOG');
     return set;
@@ -134,6 +136,15 @@ final class SharedSettingRepository
   Future<Result<SettingRepositoryState, void>> setMaps(final String map) async {
     final prefs = await SharedPreferences.getInstance();
     prefs.setString(_mapKey, map);
+    _notify();
+    return Result.success(null);
+  }
+
+  @override
+  Future<Result<SettingRepositoryState, void>> setGameTimeResult(
+      int time) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setInt(_gameTimeResult, time);
     _notify();
     return Result.success(null);
   }

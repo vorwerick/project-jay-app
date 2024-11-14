@@ -26,9 +26,9 @@ class ListParticipantPair extends StatelessWidget {
   Widget build(final BuildContext context) => Column(
     children: [
       ListTile(
-
+          isThreeLine: false,
           title: Text(title,
-              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w400)),
           subtitle: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -52,16 +52,17 @@ class ListParticipantPair extends StatelessWidget {
                 child: Icon(
                   icon,
                   weight: 12,
-                  size: 20,
+                  size: 22,
                   color: Colors.white,
                 ),
               ),
               SizedBox(
-                height: 8,
+                height: 4,
               ),
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
+                  /*
                   Icon(
                     Icons.send,
                     size: 12,
@@ -69,6 +70,8 @@ class ListParticipantPair extends StatelessWidget {
                   SizedBox(
                     width: 2,
                   ),
+
+                   */
                   Text(
                     DateFormat('HH:mm').format(trailingTime),
                     style: Theme.of(context).textTheme.labelMedium,
@@ -78,7 +81,7 @@ class ListParticipantPair extends StatelessWidget {
             ],
           )),
       if(!isLast)
-        Divider()
+        Divider(height: 1,)
     ],
   );
 

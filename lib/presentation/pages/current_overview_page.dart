@@ -129,7 +129,7 @@ class _CurrentOverviewPageState extends State<CurrentOverviewPage>
                     context,
                     userState,
                     getSettings(settingsState)?.activeAlarmDuration ?? 10,
-                    getSettings(settingsState)?.map ?? "Google Maps");
+                    getSettings(settingsState)?.map ?? 'Google Maps');
               }
               return const SizedBox.shrink();
             },
@@ -148,7 +148,7 @@ class _CurrentOverviewPageState extends State<CurrentOverviewPage>
           if (state is PoolingFetched) {
             if ((DateTime.now().millisecondsSinceEpoch / 1000).toInt() % 20 ==
                 0) {
-              log("REFETCH!");
+              log('REFETCH!');
               context.read<ActiveAlarmBloc>().add(ActiveAlarmSilentRefresh());
             }
             setState(() {});
@@ -165,7 +165,7 @@ class _CurrentOverviewPageState extends State<CurrentOverviewPage>
               if (state is ActiveAlarmLoadSuccess) {
                 if (PendingNavigation.pendingEventId != null) {
                   try {
-                    log("SAMUROS");
+                    log('SAMUROS');
                     final event = state.alarms.firstWhere(
                       (final e) =>
                           e.eventId == PendingNavigation.pendingEventId,
@@ -185,7 +185,7 @@ class _CurrentOverviewPageState extends State<CurrentOverviewPage>
                       ),
                     );
                   } on Exception {
-                    log("NONOSSOS ");
+                    log('NONOSSOS ');
                   }
                 }
               }
@@ -235,13 +235,12 @@ class _CurrentOverviewPageState extends State<CurrentOverviewPage>
                             ),
                           ),
                         if (activeAlarms.isEmpty)
-                           Row(
+                          Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
                                 'Žádný aktivní poplach',
                                 style: TextStyle(
-                                  fontStyle: FontStyle.italic,
                                   fontWeight: FontWeight.w500,
                                   fontSize: 16,
                                   color: Colors.black87,
@@ -268,7 +267,6 @@ class _CurrentOverviewPageState extends State<CurrentOverviewPage>
                           Text(
                             'Žádný poplach starší $activeAlarmDuration minut',
                             style: const TextStyle(
-                              fontStyle: FontStyle.italic,
                               fontWeight: FontWeight.w500,
                               fontSize: 16,
                               color: Colors.black87,
@@ -278,6 +276,9 @@ class _CurrentOverviewPageState extends State<CurrentOverviewPage>
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            Card(
+                              color: Colors.white,
+                            ),
                             _separator(
                               'Záznamy starší 24h naleznete v historii',
                             ),

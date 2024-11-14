@@ -25,6 +25,8 @@ abstract interface class SettingRepository {
   Future<Result<SettingRepositoryState, void>> setMaps(final String map);
 
   Future<Result<SettingRepositoryState, String>> getMaps();
+
+  Future<Result<SettingRepositoryState, void>> setGameTimeResult(final int time);
 }
 
 sealed class SettingRepositoryState {}

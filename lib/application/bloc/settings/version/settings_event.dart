@@ -28,3 +28,9 @@ final class SettingsSetActiveAlarmDuration extends SettingsEvent {
 
   SettingsSetActiveAlarmDuration({required this.minutes});
 }
+
+final class SettingsSetGameTimeResult extends SettingsEvent {
+  final int time;
+
+  SettingsSetGameTimeResult({required this.time});
+}

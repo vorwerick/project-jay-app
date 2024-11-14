@@ -13,6 +13,8 @@ final class Setting extends Entity {
 
   final String map;
 
+  final int? gameTimeResult;
+
   Setting._(
     super.id,
     this.isTTSEnabled,
@@ -20,6 +22,7 @@ final class Setting extends Entity {
     this.notificationSound,
     this.activeAlarmDuration,
     this.map,
+    this.gameTimeResult,
   );
 
   factory Setting.createNew(
@@ -28,6 +31,7 @@ final class Setting extends Entity {
     final int activeAlarmDuration,
     final bool isTTSEnabled,
     final bool isRegistered,
+    final int? gameTimeResult,
   ) =>
       Setting._(
         1,
@@ -36,5 +40,6 @@ final class Setting extends Entity {
         notificationSound,
         activeAlarmDuration,
         map,
+        gameTimeResult,
       );
 }

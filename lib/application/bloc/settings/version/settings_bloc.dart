@@ -31,6 +31,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> with L {
             settingResult.success.notificationSound,
             settingResult.success.activeAlarmDuration,
             settingResult.success.map,
+            settingResult.success.gameTimeResult
           ),
         );
       }
@@ -81,6 +82,14 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> with L {
       } on PlatformException catch (e) {
         l.e('Failed to create new channel: ${e.message}');
       }
+      add(SettingsStarted());
+    });
+    on<SettingsSetGameTimeResult>((final event, final emit) async {
+      l.i('Settings set game time result ${event.time}');
+
+      final repository = GetIt.I<SettingRepository>();
+
+      repository.setGameTimeResult(event.time);
       add(SettingsStarted());
     });
   }

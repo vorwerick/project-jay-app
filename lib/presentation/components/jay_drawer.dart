@@ -6,6 +6,8 @@ import 'package:app/application/bloc/settings/version/app_version_bloc.dart';
 import 'package:app/application/cubit/login/login_cubit.dart';
 import 'package:app/application/cubit/logout/logout_cubit.dart';
 import 'package:app/presentation/common/jay_colors.dart';
+import 'package:app/presentation/components/feedback_dialog.dart';
+import 'package:app/presentation/pages/bonus_page.dart';
 import 'package:app/presentation/pages/event_history_list.dart';
 import 'package:app/presentation/pages/settings_page.dart';
 import 'package:app/presentation/utils/snack_bar_utils.dart';
@@ -13,9 +15,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 class JayDrawer extends StatelessWidget {
   final String name;
@@ -50,10 +50,8 @@ class JayDrawer extends StatelessWidget {
         child: SafeArea(
           child: Drawer(
             child: Column(
-              mainAxisSize: MainAxisSize.max,
               children: [
                 DrawerHeader(
-
                   padding: const EdgeInsets.all(0),
                   decoration: const BoxDecoration(
                       color: JayColors.primaryLight,
@@ -63,26 +61,28 @@ class JayDrawer extends StatelessWidget {
                         JayColors.primaryLight
                       ])),
                   child: Stack(children: [
-                   Transform.flip(flipX: true,
-                     child: Opacity(
-                       opacity: 0.1,
-                       child: Image.asset(
-                         fit: BoxFit.fill,
-                         'assets/zasah.png',
-                       ),
-                     ),
-                   ),
+                    Transform.flip(
+                      flipX: true,
+                      child: Opacity(
+                        opacity: 0.13,
+                        child: Image.asset(
+                          fit: BoxFit.fill,
+                          'assets/zasah.png',
+                        ),
+                      ),
+                    ),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
-                          margin: EdgeInsets.only(top: 16, left: 12),
+                          margin: const EdgeInsets.only(top: 16, left: 12),
                         ),
                         Row(
                           children: [
                             Container(
-                              margin: EdgeInsets.only(bottom: 12, left: 8),
+                              margin:
+                                  const EdgeInsets.only(bottom: 12, left: 8),
                               child: Column(
                                 children: [
                                   Text(
@@ -106,6 +106,23 @@ class JayDrawer extends StatelessWidget {
                           ],
                         ),
                       ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(12),
+                      child: InkWell(
+                        onTap: () {
+                          log("NOW");
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (final c) => EasterEggPage(),
+                          ));
+                        },
+                        child: CircleAvatar(
+                          maxRadius: 24,
+                          child: Padding(
+                              padding: const EdgeInsets.all(4),
+                              child: Image.asset("assets/jay-logo.png")),
+                        ),
+                      ),
                     ),
                   ]),
                 ),
@@ -146,14 +163,14 @@ class JayDrawer extends StatelessWidget {
                                     size: 32,
                                   ),
                                 ),
-                                Column(
+                                const Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    const Text(
+                                    Text(
                                       'Historie událostí',
                                       style: TextStyle(fontSize: 20),
                                     ),
-                                    const Text(
+                                    Text(
                                       'Starší než 24 hodin',
                                       style: TextStyle(
                                         fontSize: 14,
@@ -354,121 +371,42 @@ Pro jakékoliv dotazy nebo problémy týkající se těchto podmínek nebo aplik
                     showDialog(
                       context: context,
                       builder: (final context) {
-                        TextEditingController controller =
-                            TextEditingController();
                         final feedbackBloc = FeedbackBloc();
                         return BlocProvider(
                           create: (final BuildContext context) => feedbackBloc,
                           child: BlocListener<FeedbackBloc, FeedbackState>(
-                            listener: (final BuildContext context,
-                                final FeedbackState state) {
-                              log('FAJLOZA: ');
-                              if (state is FeedbackSentSuccess) {
-                                SnackBarUtils.show(
-                                  context,
-                                  'Děkujeme za zpětnou vazbu!',
-                                  Colors.blueAccent,
-                                );
+                              listener: (final BuildContext context,
+                                  final FeedbackState state) {
+                                log('FAJLOZA: ');
+                                if (state is FeedbackSentSuccess) {
+                                  SnackBarUtils.show(
+                                    context,
+                                    'Děkujeme Vám za zpětnou vazbu!',
+                                    Colors.blueAccent,
+                                  );
 
-                                Navigator.of(
-                                  context,
-                                  rootNavigator: true,
-                                ).pop();
-                              }
-                              if (state is FeedbackSentFailed) {
-                                log('FAJLOZA: ' + state.statusCode);
-                                SnackBarUtils.show(
-                                  context,
-                                  'Odeslání zpětné vazby se nezdařilo.',
-                                  Colors.red,
-                                );
+                                  Navigator.of(
+                                    context,
+                                    rootNavigator: true,
+                                  ).pop();
+                                }
+                                if (state is FeedbackSentFailed) {
+                                  log('FAJLOZA: ' + state.statusCode);
+                                  SnackBarUtils.show(
+                                    context,
+                                    'Odeslání zpětné vazby se nezdařilo.',
+                                    Colors.red,
+                                  );
 
-                                Navigator.of(
-                                  context,
-                                  rootNavigator: true,
-                                ).pop();
-                              }
-                            },
-                            child: BlocBuilder<FeedbackBloc, FeedbackState>(
-                              builder: (context, state) => SimpleDialog(
-                                title: const Text('Odeslat zpětnou vazbu'),
-                                children: [
-                                  const SizedBox(
-                                    height: 16,
-                                  ),
-                                  Container(
-                                    margin: const EdgeInsets.only(
-                                      left: 20,
-                                      right: 20,
-                                      bottom: 0,
-                                    ),
-                                    child: Column(
-                                      children: [
-                                        TextFormField(
-                                          controller: controller,
-                                          maxLines: 5,
-                                          decoration: InputDecoration(
-                                            border: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                            ),
-                                            labelText: 'Text',
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                          height: 16,
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.end,
-                                          children: [
-                                            TextButton(
-                                              onPressed: () {
-                                                Navigator.of(
-                                                  context,
-                                                  rootNavigator: true,
-                                                ).pop();
-                                              },
-                                              child: const Text('Zavřít'),
-                                            ),
-                                            if (state is FeedbackSentInProgress)
-                                              CircularProgressIndicator(),
-                                            if (state is FeedbackInitial)
-                                              TextButton(
-                                                onPressed: () {
-                                                  final text = controller.text
-                                                      .toString();
-                                                  final noWhitespacesText =
-                                                      text.replaceAll(' ', '');
-                                                  if (noWhitespacesText.length <
-                                                      10) {
-                                                    SnackBarUtils.show(
-                                                      context,
-                                                      'Zpráva musí mít alespoň 10 znaků.',
-                                                      Colors.red,
-                                                    );
-                                                  } else {
-                                                    feedbackBloc.add(
-                                                      SendFeedback(
-                                                        email: email,
-                                                        type: 0,
-                                                        message:
-                                                            '${controller.text}\n\nsubscriptionId: ${OneSignal.User.pushSubscription.id}\nid: $memberId $name',
-                                                      ),
-                                                    );
-                                                  }
-                                                },
-                                                child: const Text('Odeslat'),
-                                              ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
+                                  Navigator.of(
+                                    context,
+                                    rootNavigator: true,
+                                  ).pop();
+                                }
+                              },
+                              child: FeedbackDialog(
+                                userEmail: email,
+                              )),
                         );
                       },
                     );
@@ -496,7 +434,6 @@ Pro jakékoliv dotazy nebo problémy týkající se těchto podmínek nebo aplik
                                 margin: const EdgeInsets.only(
                                   left: 20,
                                   right: 20,
-                                  bottom: 0,
                                 ),
                                 child: Column(
                                   children: [
@@ -545,7 +482,7 @@ Pro jakékoliv dotazy nebo problémy týkající se těchto podmínek nebo aplik
                   builder: (final context, final state) {
                     if (state is AppVersionLoadSuccess) {
                       return Padding(
-                        padding: EdgeInsets.all(6),
+                        padding: const EdgeInsets.all(6),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -559,10 +496,9 @@ Pro jakékoliv dotazy nebo problémy týkající se těchto podmínek nebo aplik
                                           state.buildNumber.toString() +
                                           ')'
                                       : ''),
-                              style: TextStyle(fontSize: 12),
+                              style: const TextStyle(fontSize: 12),
                             ),
                           ],
-                          mainAxisSize: MainAxisSize.max,
                         ),
                       );
                     }
