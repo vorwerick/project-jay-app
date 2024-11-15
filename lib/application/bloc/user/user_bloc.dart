@@ -42,6 +42,7 @@ class UserBloc extends Bloc<UserEvent, UserState> with L {
             emit(UserLoadFailure(resp.exception.toString()));
           }
         }
+        emit(UserLoadFailure("HTTP_STATUS_"));
       }
     });
   }

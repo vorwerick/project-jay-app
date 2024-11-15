@@ -16,9 +16,8 @@ mixin DioApiV1 {
     log("HEADERS: CLIENT " + (_client != null).toString());
 
     Dio dio = Dio();
-    dio.options.validateStatus = (d) {
-      return true;
-    };
+    //dio.options.validateStatus = (d) => true;
+    dio.options.connectTimeout = const Duration(seconds: 20);
     dio.options.receiveTimeout = const Duration(seconds: 20);
     dio.options.sendTimeout = const Duration(seconds: 20);
     log("HEADERS: DIO");
