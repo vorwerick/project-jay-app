@@ -34,8 +34,8 @@ class MainActivity : FlutterActivity() {
             // This method is invoked on the main thread.
                 call, result ->
             if (call.method == "createNotificationChannel") {
-                removeNotificationChannel()
-                createNotificationChannel()
+                //removeNotificationChannel()
+                //createNotificationChannel()
                 result.success(true);
             } else if (call.method == "dialNumber") {
                 val hashMap = call.arguments as HashMap<*, *> //Get the arguments as a HashMap
@@ -53,16 +53,6 @@ class MainActivity : FlutterActivity() {
         }
     }
 
-    @SuppressLint("NewApi")
-    private fun removeNotificationChannel() {
-        val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-        notificationManager.getNotificationChannel("jay-alert-channel").apply {
-            setSound(null, null)
-            name = "old"
-        }
-        notificationManager.deleteNotificationChannel("jay-alert-channel");
-    }
-
     override fun onFlutterUiDisplayed() {
         if (Build.VERSION.SDK_INT >= 100) { //I gave 100 just to confirm , it shoud be android ver 10
             reportFullyDrawn();
@@ -71,23 +61,29 @@ class MainActivity : FlutterActivity() {
 
     override fun onResume() {
         super.onResume()
-        removeNotificationChannel()
         createNotificationChannel()
     }
 
     private fun createNotificationChannel() {
-        val sharedPref =
-            context.getSharedPreferences("FlutterSharedPreferences", Context.MODE_PRIVATE)
-                ?: return
+        /*
+  val sharedPref =
+      context.getSharedPreferences("FlutterSharedPreferences", Context.MODE_PRIVATE)
+          ?: return
 
-        val sound = sharedPref.getString("flutter.notificationSound", "fire_siren")
-        val resource = when (sound) {
-            "bit" -> cz.telwork.jay.play.R.raw.bit
-            "alarm" -> cz.telwork.jay.play.R.raw.alarm
-            "siren" -> cz.telwork.jay.play.R.raw.siren
-            "fire_siren" -> cz.telwork.jay.play.R.raw.fire_siren
-            else -> 0
-        }
+
+  val sound = sharedPref.getString("flutter.notificationSound", "fire_siren")
+  val resource = when (sound) {
+      "bit" -> cz.telwork.jay.play.R.raw.bit
+      "alarm" -> cz.telwork.jay.play.R.raw.alarm
+      "siren" -> cz.telwork.jay.play.R.raw.siren
+      "fire_siren" -> cz.telwork.jay.play.R.raw.fire_siren
+      else -> 0
+  }
+
+   */
+
+        val resource = cz.telwork.jay.play.R.raw.fire_siren
+
 
         // Kontrola, zda verze Androidu je Oreo (API 26) nebo vyšší
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -100,10 +96,6 @@ class MainActivity : FlutterActivity() {
             // Důležitost kanálu nastavená na vysokou prioritu
             val importance = NotificationManager.IMPORTANCE_HIGH
 
-
-
-
-            println(sound + " " + resource.toString())
 
             // Vytvoření objektu NotificationChannel
             val channel = NotificationChannel(channelId, name, importance).apply {

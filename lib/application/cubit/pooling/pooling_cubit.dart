@@ -11,8 +11,10 @@ class PoolingCubit extends Cubit<PoolingState> with L {
   PoolingCubit() : super(PoolingStarted());
 
   Timer? timer;
+  bool isDisposed = false;
 
   void start(final Duration duration) async {
+    if (isDisposed) return;
     timer = Timer.periodic(duration, (final count) {
       log("refetch");
       emit(PoolingFetched());
@@ -22,5 +24,6 @@ class PoolingCubit extends Cubit<PoolingState> with L {
   void dispose() {
     timer?.cancel();
     timer = null;
+    isDisposed = true;
   }
 }

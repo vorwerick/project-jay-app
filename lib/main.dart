@@ -1,10 +1,8 @@
 import 'dart:developer';
-import 'dart:io';
 
 import 'package:app/app.dart';
 import 'package:app/configuration/di/app_dependency_configuration.dart';
 import 'package:app/domain/alarm/repository/confirmation_repository.dart';
-import 'package:disable_battery_optimization/disable_battery_optimization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -14,6 +12,10 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 const ONE_SIGNAL_APP_ID = 'c1742112-083d-469c-adf1-6614fa33d5f6';
+
+class Main {
+  static String? pushSubscriptionId;
+}
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,6 +28,16 @@ Future<void> main() async {
   if (kDebugMode) {
     OneSignal.Debug.setLogLevel(OSLogLevel.verbose);
   }
+
+  OneSignal.User.pushSubscription.addObserver((final state) {
+    log("ON OBSERVED");
+    if (state.current.id != null) {
+      Main.pushSubscriptionId = state.current.id!;
+    }
+    if(state.current.id != state.previous.id){
+      //todo send subscription ID when is changed
+    }
+  });
 
   AppDependencyConfiguration.init();
 

@@ -35,14 +35,20 @@ class DeviceRegistrationBloc extends Bloc<DeviceRegistrationEvent, DeviceRegistr
           }
         }
 
-        if (result.failure is DeviceRegistrationFailed) {
-          final ex = (result.failure as DeviceRegistrationFailed).exception;
-          log('Error during registration', error: ex, name: 'DeviceRegistrationBloc');
-        } else {
-          log('Unknown error during registration', name: 'DeviceRegistrationBloc');
+        if(result.isFailure){
+          if (result.failure is DeviceRegistrationFailed) {
+            final ex = (result.failure as DeviceRegistrationFailed).exception;
+            emit(DeviceRegistrationFailure());
+            log('Error during registration', error: ex, name: 'DeviceRegistrationBloc');
+
+          } else {
+            log('Unknown error during registration', name: 'DeviceRegistrationBloc');
+            emit(DeviceRegistrationFailure());
+          }
         }
 
-        emit(DeviceRegistrationFailure());
+
+
       } on InvalidValueException catch (e) {
         log('Invalid input', error: e, name: 'DeviceRegistrationBloc');
         emit(DeviceRegistrationInvalid());
