@@ -14,13 +14,25 @@ class GroupComplete extends StatefulWidget {
 class _GroupCompleteState extends State<GroupComplete> {
   @override
   Widget build(final BuildContext context) {
-    final atLeastOneCommander =
-        widget.acceptedMember.any((final e) => e.memberFunctionType == 1);
-    final atLeastOneTechnic =
-        widget.acceptedMember.any((final e) => e.memberFunctionType == 2);
-    final firefightersCount = widget.acceptedMember
-        .where((final e) => e.memberFunctionType == 3)
-        .length;
+    final members = widget.acceptedMember.toList();
+    var hasCommander = false;
+    for (var e in members) {
+      if (e.memberFunctionType == 1) {
+        hasCommander = true;
+        members.remove(e);
+        break;
+      }
+    }
+    var hasTechnician = false;
+    for (var e in members) {
+      if (e.memberFunctionType == 1 || e.memberFunctionType == 2) {
+        hasTechnician = true;
+        members.remove(e);
+        break;
+      }
+    }
+
+    var firefighterCount = members.length;
 
     return Row(
       children: [
@@ -31,14 +43,14 @@ class _GroupCompleteState extends State<GroupComplete> {
               borderRadius: BorderRadius.all(Radius.circular(4)),
               border: Border.all(
                 width: 2,
-                color: atLeastOneCommander ? JayColors.green : Colors.transparent,
+                color: hasCommander ? JayColors.green : Colors.transparent,
               ),
             ),
             child: Text(
               "V",
               style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  color: atLeastOneCommander ? JayColors.green : Colors.black38,
+                  color: hasCommander ? JayColors.green : Colors.black38,
                   fontSize: 16),
             )),
         Container(
@@ -47,7 +59,7 @@ class _GroupCompleteState extends State<GroupComplete> {
             decoration: BoxDecoration(
               border: Border.all(
                 width: 2,
-                color: atLeastOneTechnic ? JayColors.green :  Colors.transparent,
+                color: hasTechnician ? JayColors.green : Colors.transparent,
               ),
               borderRadius: BorderRadius.all(Radius.circular(4)),
             ),
@@ -55,7 +67,7 @@ class _GroupCompleteState extends State<GroupComplete> {
               "S",
               style: TextStyle(
                   fontSize: 16,
-                  color: atLeastOneTechnic ? JayColors.green : Colors.black38,
+                  color: hasTechnician ? JayColors.green : Colors.black38,
                   fontWeight: FontWeight.w900),
             )),
         Container(
@@ -64,8 +76,9 @@ class _GroupCompleteState extends State<GroupComplete> {
             decoration: BoxDecoration(
               border: Border.all(
                 width: 2,
-                color:
-                    firefightersCount >= 1 ? JayColors.green : Colors.transparent,
+                color: firefighterCount >= 1
+                    ? JayColors.green
+                    : Colors.transparent,
               ),
               borderRadius: BorderRadius.all(Radius.circular(4)),
             ),
@@ -73,7 +86,8 @@ class _GroupCompleteState extends State<GroupComplete> {
               "H",
               style: TextStyle(
                   fontSize: 16,
-                  color:  firefightersCount >= 1  ? JayColors.green : Colors.black38,
+                  color:
+                      firefighterCount >= 1 ? JayColors.green : Colors.black38,
                   fontWeight: FontWeight.bold),
             )),
         Container(
@@ -82,8 +96,9 @@ class _GroupCompleteState extends State<GroupComplete> {
             decoration: BoxDecoration(
               border: Border.all(
                 width: 2,
-                color:
-                    firefightersCount >= 2 ? JayColors.green :  Colors.transparent,
+                color: firefighterCount >= 2
+                    ? JayColors.green
+                    : Colors.transparent,
               ),
               borderRadius: BorderRadius.all(Radius.circular(4)),
             ),
@@ -91,7 +106,8 @@ class _GroupCompleteState extends State<GroupComplete> {
               "H",
               style: TextStyle(
                   fontSize: 16,
-                  color: firefightersCount >= 2  ? JayColors.green : Colors.black38,
+                  color:
+                      firefighterCount >= 2 ? JayColors.green : Colors.black38,
                   fontWeight: FontWeight.bold),
             )),
       ],

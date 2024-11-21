@@ -104,10 +104,9 @@ class EventHistoryList extends StatelessWidget {
                                         ],
                                       ),
                                       Container(
-                                        padding: const EdgeInsets.only(top: 8),
                                         height:
                                             MediaQuery.of(context).size.height *
-                                                0.90,
+                                                0.85,
                                         child: EventPageHistory(
                                           mapSettings: mapSettings,
                                             eventId:

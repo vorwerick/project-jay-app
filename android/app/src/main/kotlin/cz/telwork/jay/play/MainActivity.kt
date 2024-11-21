@@ -82,7 +82,7 @@ class MainActivity : FlutterActivity() {
 
    */
 
-        val resource = cz.telwork.jay.play.R.raw.fire_siren
+
 
 
         // Kontrola, zda verze Androidu je Oreo (API 26) nebo vyšší
@@ -96,6 +96,7 @@ class MainActivity : FlutterActivity() {
             // Důležitost kanálu nastavená na vysokou prioritu
             val importance = NotificationManager.IMPORTANCE_HIGH
 
+            val resource = cz.telwork.jay.play.R.raw.fire_siren
 
             // Vytvoření objektu NotificationChannel
             val channel = NotificationChannel(channelId, name, importance).apply {
