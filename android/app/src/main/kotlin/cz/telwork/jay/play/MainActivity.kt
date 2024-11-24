@@ -1,6 +1,5 @@
 package cz.telwork.jay.play
 
-import android.annotation.SuppressLint
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -22,7 +21,7 @@ class MainActivity : FlutterActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
         super.onCreate(savedInstanceState, persistentState)
-        //createNotificationChannel()
+
 
 
     }
@@ -61,29 +60,24 @@ class MainActivity : FlutterActivity() {
 
     override fun onResume() {
         super.onResume()
+        //removeNotificationChannel()
         createNotificationChannel()
+
     }
 
     private fun createNotificationChannel() {
-        /*
-  val sharedPref =
-      context.getSharedPreferences("FlutterSharedPreferences", Context.MODE_PRIVATE)
-          ?: return
+        val sharedPref =
+            context.getSharedPreferences("FlutterSharedPreferences", Context.MODE_PRIVATE)
+                ?: return
 
-
-  val sound = sharedPref.getString("flutter.notificationSound", "fire_siren")
-  val resource = when (sound) {
-      "bit" -> cz.telwork.jay.play.R.raw.bit
-      "alarm" -> cz.telwork.jay.play.R.raw.alarm
-      "siren" -> cz.telwork.jay.play.R.raw.siren
-      "fire_siren" -> cz.telwork.jay.play.R.raw.fire_siren
-      else -> 0
-  }
-
-   */
-
-
-
+        val sound = "fire_siren"
+        val resource = when (sound) {
+            "bit" -> cz.telwork.jay.play.R.raw.bit
+            "alarm" -> cz.telwork.jay.play.R.raw.alarm
+            "siren" -> cz.telwork.jay.play.R.raw.siren
+            "fire_siren" -> cz.telwork.jay.play.R.raw.fire_siren
+            else -> 0
+        }
 
         // Kontrola, zda verze Androidu je Oreo (API 26) nebo vyšší
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -96,7 +90,10 @@ class MainActivity : FlutterActivity() {
             // Důležitost kanálu nastavená na vysokou prioritu
             val importance = NotificationManager.IMPORTANCE_HIGH
 
-            val resource = cz.telwork.jay.play.R.raw.fire_siren
+
+
+
+            println(sound + " " + resource.toString())
 
             // Vytvoření objektu NotificationChannel
             val channel = NotificationChannel(channelId, name, importance).apply {
@@ -122,5 +119,20 @@ class MainActivity : FlutterActivity() {
             val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)
         }
+
     }
+
+
+    private fun removeNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.getNotificationChannel("jay-alert-channel").apply {
+                setSound(null, null)
+                name = "old"
+            }
+            notificationManager.deleteNotificationChannel("jay-alert-channel");
+        }
+    }
+
+
 }
